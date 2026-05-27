@@ -1,0 +1,53 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Builds
+dist/
+build/
+frontend/dist/
+backend/dist/
+
+# Variables de entorno (NUNCA subir)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+
+# Python venv del backend monitor
+backend/monitorsol/venv/
+**/venv/
+**/__pycache__/
+*.pyc
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor / IDE / AI tooling
+.vscode/
+.idea/
+.claude/
+*.swp
+*.swo
+
+# Cache de tools
+.cache/
+.parcel-cache/
+.turbo/
+.vite/
+
+# Coverage
+coverage/
+*.lcov
+
+# OS / temp
+*.tmp
+~$*
