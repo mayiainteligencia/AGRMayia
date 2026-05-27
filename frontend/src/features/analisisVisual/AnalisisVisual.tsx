@@ -527,7 +527,7 @@ export const AnalisisVisual: React.FC = () => {
           whiteSpace: 'nowrap',
         }}
       >
-        <span style={{ fontSize: isMobile ? 12 : 13 }}>👆</span>
+        <span style={{ fontSize: isMobile ? 12 : 13 }}></span>
         <span style={{ fontSize: isMobile ? 10.5 : 11.5, color: 'rgba(255,255,255,0.65)', fontWeight: 400 }}>
           {isMobile ? 'Toca un punto para el diagnóstico' : 'Pasa el cursor o toca un punto para el diagnóstico'}
         </span>
