@@ -14,7 +14,6 @@ import type { AlertaAgro, EtapaFenologicaItem } from '../../types/agro.types';
 const EtapaCard: React.FC<{ etapa: EtapaFenologicaItem }> = ({ etapa }) => (
   <div
     style={{
-      flex: 1,
       padding: '14px 16px',
       borderRadius: 10,
       border: etapa.activa
@@ -114,7 +113,7 @@ export const Fenologia: React.FC = () => (
           </div>
         }
       />
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+      <div style={{ display: 'grid', gap: 8, gridTemplateColumns: 'repeat(auto-fit, minmax(110px, 1fr))' }}>
         {etapasFenologicas.map(e => <EtapaCard key={e.id} etapa={e} />)}
       </div>
     </Card>
