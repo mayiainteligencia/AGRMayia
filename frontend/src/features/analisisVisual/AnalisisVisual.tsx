@@ -98,9 +98,6 @@ const POINTS: DiagnosticPoint[] = [
   },
 ];
 
-/* ─── White palette (everything is white) ───────────────── */
-const W = 'rgba(255,255,255,';
-
 /* ─── Component ──────────────────────────────────────────── */
 export const AnalisisVisual: React.FC = () => {
   const [visibleId, setVisibleId] = useState<string | null>(null);
