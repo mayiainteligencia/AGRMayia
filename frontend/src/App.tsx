@@ -1,32 +1,63 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Sidebar } from './components/layout/Sidebar';
 import { Header } from './components/Header';
-import { Resumen } from './features/resumen/Resumen';
+import { Placeholder } from './components/ui/Placeholder';
+import { NAV_ITEMS_BY_ID, NAV_ITEMS_FLAT } from './config/navigation';
+
+// Features reales (las únicas que se conservan del set original)
 import { Packing } from './features/packing/Packing';
-import { Proyeccion } from './features/proyeccion/Proyeccion';
-import { Fenologia } from './features/fenologia/Fenologia';
-import { Biometria } from './features/biometria/Biometria';
-import { Riego } from './features/riego/Riego';
 import { AnalisisVisual } from './features/analisisVisual/AnalisisVisual';
 
-type Section = 'resumen' | 'packing' | 'proyeccion' | 'fenologia' | 'biometria' | 'riego' | 'analisisVisual';
+// Features nuevas
+import { PanelPrincipal } from './features/panelPrincipal/PanelPrincipal';
+import { ReglasOperativas } from './features/reglasOperativas/ReglasOperativas';
+import { Inventario } from './features/inventario/Inventario';
+import { AnaliticaReportes } from './features/analiticaReportes/AnaliticaReportes';
+import { PanelLaboratorio } from './features/panelLaboratorio/PanelLaboratorio';
+import { AnalisisAlimentos } from './features/analisisAlimentos/AnalisisAlimentos';
+import { RegistroEntradaTurno } from './features/registroEntradaTurno/RegistroEntradaTurno';
+import { PanelMeteorologico } from './features/panelMeteorologico/PanelMeteorologico';
+import { TermometroBarometro } from './features/termometroBarometro/TermometroBarometro';
+import { HistorialClimatico } from './features/historialClimatico/HistorialClimatico';
 
-const PAGES: Record<Section, React.ReactNode> = {
-  resumen:        <Resumen />,
-  fenologia:      <Fenologia />,
-  riego:          <Riego />,
-  biometria:      <Biometria />,
-  packing:        <Packing />,
-  proyeccion:     <Proyeccion />,
-  analisisVisual: <AnalisisVisual />,
+/**
+ * Mapa de overrides: id → componente real.
+ * Lo NO listado aquí cae al Placeholder con la metadata del NavItem.
+ *
+ * Conforme se vayan implementando las features CONFIRMADAS / INFERIDAS,
+ * se agrega su entrada aquí.
+ */
+const PAGE_OVERRIDES: Record<string, React.ReactNode> = {
+  'panel-principal':    <PanelPrincipal />,
+  'cooler-empaque':     <Packing />,
+  'analisis-visual':    <AnalisisVisual />,
+  'reglas-operativas':  <ReglasOperativas />,
+  'inventario':         <Inventario />,
+  'analitica-reportes': <AnaliticaReportes />,
+  'panel-laboratorio':       <PanelLaboratorio />,
+  'analisis-alimentos':      <AnalisisAlimentos />,
+  'registro-entrada-turno':  <RegistroEntradaTurno />,
+  'panel-meteorologico':     <PanelMeteorologico />,
+  'termometro-barometro':    <TermometroBarometro />,
+  'historial-climatico':     <HistorialClimatico />,
 };
 
+const DEFAULT_SECTION = 'panel-principal';
+
 function App() {
-  const [activeSection, setActiveSection] = useState<Section>('resumen');
+  const [activeSection, setActiveSection] = useState<string>(DEFAULT_SECTION);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const activeItem = NAV_ITEMS_BY_ID[activeSection] ?? NAV_ITEMS_FLAT[0];
+
+  const page = useMemo(() => {
+    const override = PAGE_OVERRIDES[activeSection];
+    if (override) return override;
+    return <Placeholder title={activeItem.label} description={activeItem.description} />;
+  }, [activeSection, activeItem]);
+
   const handleSectionChange = (s: string) => {
-    setActiveSection(s as Section);
+    setActiveSection(s);
     setSidebarOpen(false);
   };
 
@@ -43,10 +74,10 @@ function App() {
       />
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', minWidth: 0 }}>
-        <Header title={activeSection} onMenuToggle={() => setSidebarOpen(o => !o)} />
+        <Header title={activeItem.label} onMenuToggle={() => setSidebarOpen(o => !o)} />
 
         <main className="main-content" style={{ flex: 1, overflowY: 'auto', padding: '28px 32px' }}>
-          {PAGES[activeSection]}
+          {page}
         </main>
       </div>
     </div>

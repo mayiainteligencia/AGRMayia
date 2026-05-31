@@ -1,0 +1,58 @@
+import type { ReglaOperativa } from '../../../types/agro.types';
+
+export const reglasOperativas: ReglaOperativa[] = [
+  {
+    id: 'OP-001',
+    modulo: 'Campo',
+    descripcion: 'Alerta temprana por helada en campo abierto',
+    condicion: 'Temp. mínima pronosticada ≤ 2 °C en próximas 12 h',
+    accion: 'Notificar a campo · Activar protocolo de protección antihelada · Generar alerta meteorológica',
+    prioridad: 'alta',
+    estado: 'activa',
+  },
+  {
+    id: 'OP-002',
+    modulo: 'Empaque',
+    descripcion: 'Desvío de temperatura en cooler',
+    condicion: 'Temp. de cooler fuera del rango [-0.5 °C, +0.5 °C] por más de 10 min',
+    accion: 'Avisar a Empaque y Calidad · Marcar lote para revisión · Registrar incidente',
+    prioridad: 'alta',
+    estado: 'activa',
+  },
+  {
+    id: 'OP-003',
+    modulo: 'Inventario',
+    descripcion: 'Reposición automática de insumos',
+    condicion: 'Cantidad en stock ≤ mínimo definido por artículo',
+    accion: 'Generar OC sugerida al proveedor preferente · Notificar a Compras',
+    prioridad: 'media',
+    estado: 'activa',
+  },
+  {
+    id: 'OP-004',
+    modulo: 'Laboratorio',
+    descripcion: 'Análisis con resultado No Conforme',
+    condicion: 'Resultado de análisis fuera de LMP o de norma aplicable',
+    accion: 'Bloquear lote · Notificar a Inocuidad · Disparar investigación de causa raíz',
+    prioridad: 'alta',
+    estado: 'activa',
+  },
+  {
+    id: 'OP-005',
+    modulo: 'Certificaciones',
+    descripcion: 'Vencimiento próximo de certificación',
+    condicion: 'Certificación con vigencia restante < 30 días',
+    accion: 'Avisar a Cumplimiento · Generar tarea de renovación · Registrar en alertas del sistema',
+    prioridad: 'media',
+    estado: 'activa',
+  },
+  {
+    id: 'OP-006',
+    modulo: 'Plagas',
+    descripcion: 'Detección de Botrytis cinerea',
+    condicion: 'Severidad ≥ 2 o detección en racimo confirmado por Análisis Visual',
+    accion: 'Activar protocolo de control biológico · Aislar zona · Notificar a Agronomía',
+    prioridad: 'alta',
+    estado: 'activa',
+  },
+];

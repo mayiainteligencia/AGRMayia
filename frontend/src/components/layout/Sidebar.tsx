@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import {
-  LayoutDashboard, Package, TrendingUp,
-  Leaf, Activity, Droplet, ScanEye,
-} from 'lucide-react';
+import { Leaf } from 'lucide-react';
+import { NAV_GROUPS, NAV_ITEMS_BY_ID } from '../../config/navigation';
 
 interface SidebarProps {
   activeSection: string;
@@ -10,33 +8,13 @@ interface SidebarProps {
   isOpen: boolean;
 }
 
-const NAV_ITEMS = [
-  { id: 'resumen',        label: 'Resumen',           icon: LayoutDashboard },
-  { id: 'fenologia',      label: 'Fenología',         icon: Leaf },
-  { id: 'riego',          label: 'Riego y Nutrición', icon: Droplet },
-  { id: 'biometria',      label: 'Biometría',         icon: Activity },
-  { id: 'packing',        label: 'Packing',           icon: Package },
-  { id: 'proyeccion',     label: 'Proyección',        icon: TrendingUp },
-  { id: 'analisisVisual', label: 'Análisis Visual',   icon: ScanEye },
-];
-
-const SECTION_LABELS: Record<string, string> = {
-  resumen: 'Panel principal',
-  fenologia: 'Desarrollo vegetativo',
-  riego: 'Gestión hídrica',
-  biometria: 'Medición de planta',
-  packing: 'Empaque y calidad',
-  proyeccion: 'Estimación de cosecha',
-  analisisVisual: 'Diagnóstico IA',
-};
-
 export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange, isOpen }) => {
   const [hovered, setHovered] = useState<string | null>(null);
+  const activeItem = NAV_ITEMS_BY_ID[activeSection];
 
   return (
     <>
       <style>{`
-        /* Sidebar scrollbar */
         .sb-nav::-webkit-scrollbar { width: 3px; }
         .sb-nav::-webkit-scrollbar-track { background: transparent; }
         .sb-nav::-webkit-scrollbar-thumb { background: rgba(82,183,136,0.25); border-radius: 4px; }
@@ -52,7 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           display: flex;
           align-items: center;
           gap: 11px;
-          padding: 9px 14px 9px 16px;
+          padding: 8px 14px 8px 16px;
           border-radius: 10px;
           margin-bottom: 2px;
           border: 1px solid transparent;
@@ -76,12 +54,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
         }
 
         .sb-nav-btn.is-active::before { transform: translateY(-50%) scaleY(1); }
+
+        .sb-group-header {
+          padding: 14px 18px 6px;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.28);
+        }
       `}</style>
 
       <aside
         className={`sidebar-drawer ${isOpen ? 'is-open' : 'is-closed'}`}
         style={{
-          width: 236,
+          width: 252,
           height: '100vh',
           background: 'linear-gradient(180deg, #0E2318 0%, #152D1F 35%, #1A3C2E 100%)',
           display: 'flex',
@@ -91,7 +78,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           boxShadow: '4px 0 24px rgba(0,0,0,0.18)',
         }}
       >
-
         {/* ── Logo / Brand ── */}
         <div style={{
           padding: '22px 18px 18px',
@@ -99,7 +85,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           flexShrink: 0,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 11 }}>
-            {/* Icon mark */}
             <div style={{
               width: 38, height: 38, borderRadius: 10, flexShrink: 0,
               background: 'linear-gradient(135deg, #52B788 0%, #2D6A4F 100%)',
@@ -109,7 +94,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
               <Leaf size={18} color="#fff" strokeWidth={2.2} />
             </div>
 
-            {/* Name + tagline */}
             <div style={{ minWidth: 0 }}>
               <div style={{
                 fontSize: 15, fontWeight: 700, color: '#FFFFFF',
@@ -125,7 +109,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
               </div>
             </div>
 
-            {/* Live badge */}
             <div style={{
               marginLeft: 'auto', flexShrink: 0,
               display: 'flex', alignItems: 'center', gap: 4,
@@ -146,104 +129,91 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
           </div>
         </div>
 
-        {/* ── Section label ── */}
-        <div style={{ padding: '18px 18px 6px', flexShrink: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-            <span style={{
-              fontSize: 9, fontWeight: 700, letterSpacing: '0.12em',
-              color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase',
-              whiteSpace: 'nowrap',
-            }}>
-              Módulos
-            </span>
-            <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.06)' }} />
-          </div>
-        </div>
-
-        {/* ── Nav Items ── */}
+        {/* ── Nav Groups ── */}
         <nav
           className="sb-nav"
           style={{
-            flex: 1, padding: '4px 10px', overflowY: 'auto', minHeight: 0,
+            flex: 1, padding: '4px 10px 10px', overflowY: 'auto', minHeight: 0,
           }}
         >
-          {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
-            const isActive  = activeSection === id;
-            const isHovered = hovered === id;
+          {NAV_GROUPS.map(group => (
+            <div key={group.id}>
+              <div className="sb-group-header">{group.label}</div>
+              {group.items.map(({ id, label, icon: Icon }) => {
+                const isActive  = activeSection === id;
+                const isHovered = hovered === id;
 
-            return (
-              <button
-                key={id}
-                className={`sb-nav-btn ${isActive ? 'is-active' : ''}`}
-                onClick={() => onSectionChange(id)}
-                onMouseEnter={() => setHovered(id)}
-                onMouseLeave={() => setHovered(null)}
-                style={{
-                  background: isActive
-                    ? 'linear-gradient(90deg, rgba(82,183,136,0.18) 0%, rgba(82,183,136,0.06) 100%)'
-                    : isHovered
-                    ? 'rgba(255,255,255,0.05)'
-                    : 'transparent',
-                  border: `1px solid ${isActive
-                    ? 'rgba(82,183,136,0.22)'
-                    : 'transparent'}`,
-                  color: isActive
-                    ? '#7ECBA9'
-                    : isHovered
-                    ? 'rgba(255,255,255,0.8)'
-                    : 'rgba(255,255,255,0.42)',
-                }}
-              >
-                {/* Icon */}
-                <span style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  width: 28, height: 28, borderRadius: 7, flexShrink: 0,
-                  background: isActive
-                    ? 'rgba(82,183,136,0.2)'
-                    : isHovered
-                    ? 'rgba(255,255,255,0.06)'
-                    : 'transparent',
-                  transition: 'background 0.18s',
-                }}>
-                  <Icon
-                    size={15}
-                    strokeWidth={isActive ? 2.5 : 1.8}
-                    color={isActive ? '#7ECBA9' : isHovered ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.38)'}
-                  />
-                </span>
+                return (
+                  <button
+                    key={id}
+                    className={`sb-nav-btn ${isActive ? 'is-active' : ''}`}
+                    onClick={() => onSectionChange(id)}
+                    onMouseEnter={() => setHovered(id)}
+                    onMouseLeave={() => setHovered(null)}
+                    style={{
+                      background: isActive
+                        ? 'linear-gradient(90deg, rgba(82,183,136,0.18) 0%, rgba(82,183,136,0.06) 100%)'
+                        : isHovered
+                        ? 'rgba(255,255,255,0.05)'
+                        : 'transparent',
+                      border: `1px solid ${isActive
+                        ? 'rgba(82,183,136,0.22)'
+                        : 'transparent'}`,
+                      color: isActive
+                        ? '#7ECBA9'
+                        : isHovered
+                        ? 'rgba(255,255,255,0.8)'
+                        : 'rgba(255,255,255,0.42)',
+                    }}
+                  >
+                    <span style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      width: 26, height: 26, borderRadius: 7, flexShrink: 0,
+                      background: isActive
+                        ? 'rgba(82,183,136,0.2)'
+                        : isHovered
+                        ? 'rgba(255,255,255,0.06)'
+                        : 'transparent',
+                      transition: 'background 0.18s',
+                    }}>
+                      <Icon
+                        size={14}
+                        strokeWidth={isActive ? 2.5 : 1.8}
+                        color={isActive ? '#7ECBA9' : isHovered ? 'rgba(255,255,255,0.7)' : 'rgba(255,255,255,0.38)'}
+                      />
+                    </span>
 
-                {/* Label */}
-                <span style={{
-                  fontSize: 13.5, fontWeight: isActive ? 600 : 400,
-                  letterSpacing: '-0.1px', flex: 1,
-                  transition: 'color 0.18s',
-                }}>
-                  {label}
-                </span>
+                    <span style={{
+                      fontSize: 12.5, fontWeight: isActive ? 600 : 400,
+                      letterSpacing: '-0.1px', flex: 1,
+                      transition: 'color 0.18s',
+                      lineHeight: 1.25,
+                    }}>
+                      {label}
+                    </span>
 
-                {/* Active dot */}
-                {isActive && (
-                  <span style={{
-                    width: 6, height: 6, borderRadius: '50%',
-                    background: '#52B788',
-                    boxShadow: '0 0 8px rgba(82,183,136,0.7)',
-                    flexShrink: 0,
-                  }} />
-                )}
-              </button>
-            );
-          })}
+                    {isActive && (
+                      <span style={{
+                        width: 6, height: 6, borderRadius: '50%',
+                        background: '#52B788',
+                        boxShadow: '0 0 8px rgba(82,183,136,0.7)',
+                        flexShrink: 0,
+                      }} />
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
-        {/* ── Footer — User mini-card ── */}
+        {/* ── Footer — Active section + user ── */}
         <div style={{
           padding: '12px 14px',
           borderTop: '1px solid rgba(255,255,255,0.06)',
           flexShrink: 0,
         }}>
-          {/* Active section info */}
-          {activeSection && (
+          {activeItem && (
             <div style={{
               marginBottom: 10,
               padding: '8px 10px',
@@ -255,14 +225,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                 Vista activa
               </p>
               <p style={{ fontSize: 11.5, color: 'rgba(255,255,255,0.65)', margin: 0, fontWeight: 500 }}>
-                {SECTION_LABELS[activeSection] ?? activeSection}
+                {activeItem.label}
               </p>
             </div>
           )}
 
-          {/* User row */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            {/* Avatar */}
             <div style={{
               width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
               background: 'linear-gradient(135deg, #52B788 0%, #1A3C2E 100%)',
@@ -272,8 +240,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
             }}>
               M
             </div>
-
-            {/* Name & role */}
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)', margin: 0, lineHeight: 1.3 }}>
                 Martín Cortés
@@ -282,8 +248,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                 Administrador
               </p>
             </div>
-
-            {/* Online indicator */}
             <div style={{
               width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
               background: '#52B788',
