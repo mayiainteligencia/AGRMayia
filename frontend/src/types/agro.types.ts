@@ -222,8 +222,8 @@ export type IdoneidadMes = 'optimo' | 'bueno' | 'marginal' | 'no-recomendado';
 
 export interface CultivoCalendario {
   cultivo: string;
-  /** 12 entradas, ene → dic */
-  meses: IdoneidadMes[];
+  /** 12 entradas, ene → dic · cada una es el % de idoneidad (0–100). */
+  meses: number[];
 }
 
 export interface ZonaClimatica {

@@ -38,13 +38,13 @@ export const zonasClimaticas: ZonaClimatica[] = [
     id: 'mx-sierra',
     nombre: 'México Sierra (Puebla, Oaxaca, Michoacán)',
     descripcion: 'Altitud 1,800–2,500 m · clima templado subhúmedo',
-    cultivos: CULTIVOS_BASE.map((c, i) => ({ cultivo: c, meses: MX_SIERRA[i].map(v => v as never) })),
+    cultivos: CULTIVOS_BASE.map((c, i) => ({ cultivo: c, meses: MX_SIERRA[i] })),
   },
   {
     id: 'mx-golfo',
     nombre: 'México Golfo (Veracruz, Tabasco)',
     descripcion: 'Costa baja · clima cálido húmedo',
-    cultivos: CULTIVOS_BASE.map((c, i) => ({ cultivo: c, meses: MX_GOLFO[i].map(v => v as never) })),
+    cultivos: CULTIVOS_BASE.map((c, i) => ({ cultivo: c, meses: MX_GOLFO[i] })),
   },
 ];
 

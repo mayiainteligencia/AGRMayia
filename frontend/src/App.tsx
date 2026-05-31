@@ -19,6 +19,13 @@ import { RegistroEntradaTurno } from './features/registroEntradaTurno/RegistroEn
 import { PanelMeteorologico } from './features/panelMeteorologico/PanelMeteorologico';
 import { TermometroBarometro } from './features/termometroBarometro/TermometroBarometro';
 import { HistorialClimatico } from './features/historialClimatico/HistorialClimatico';
+import { CalendarioSiembra } from './features/calendarioSiembra/CalendarioSiembra';
+import { MotorProbabilidad } from './features/motorProbabilidad/MotorProbabilidad';
+import { PlanificacionIntegral } from './features/planificacionIntegral/PlanificacionIntegral';
+import { SoilBioVision } from './features/soilBioVision/SoilBioVision';
+import { MedicionAgua } from './features/medicionAgua/MedicionAgua';
+import { InstrumentosAmbientales } from './features/instrumentosAmbientales/InstrumentosAmbientales';
+import { BioAcousticSentinel } from './features/bioAcousticSentinel/BioAcousticSentinel';
 
 /**
  * Mapa de overrides: id → componente real.
@@ -40,6 +47,13 @@ const PAGE_OVERRIDES: Record<string, React.ReactNode> = {
   'panel-meteorologico':     <PanelMeteorologico />,
   'termometro-barometro':    <TermometroBarometro />,
   'historial-climatico':     <HistorialClimatico />,
+  'calendario-siembra':      <CalendarioSiembra />,
+  'motor-probabilidad':      <MotorProbabilidad />,
+  'planificacion-cosecha':   <PlanificacionIntegral />,
+  'soil-bio-vision':         <SoilBioVision />,
+  'medicion-agua':           <MedicionAgua />,
+  'instrumentos-ambientales': <InstrumentosAmbientales />,
+  'bio-acoustic-sentinel':   <BioAcousticSentinel />,
 };
 
 const DEFAULT_SECTION = 'panel-principal';
