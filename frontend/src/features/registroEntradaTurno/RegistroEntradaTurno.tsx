@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {
   Shield, ScanFace, KeyRound, Download, ChevronDown,
-  CheckCircle, Delete, User2,
+  CheckCircle, Delete, User2, Camera, Loader2,
 } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { SectionHeader } from '../../components/ui/SectionHeader';
@@ -114,6 +114,44 @@ export const RegistroEntradaTurno: React.FC = () => {
   const [pin, setPin] = useState<string>('');
   const [facialOk, setFacialOk] = useState<boolean>(false);
 
+  // Cámara / reconocimiento facial (solo visual)
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const [camActiva, setCamActiva] = useState(false);
+  const [escaneando, setEscaneando] = useState(false);
+  const [camError, setCamError] = useState<string>('');
+
+  const detenerCamara = () => {
+    streamRef.current?.getTracks().forEach(t => t.stop());
+    streamRef.current = null;
+    setCamActiva(false);
+  };
+
+  // Apaga la cámara al desmontar
+  useEffect(() => detenerCamara, []);
+
+  const iniciarReconocimiento = async () => {
+    setCamError('');
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+      streamRef.current = stream;
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+      }
+      setCamActiva(true);
+      setEscaneando(true);
+      // Escaneo simulado: a los 2.8s "coincide" y apaga la cámara
+      window.setTimeout(() => {
+        setEscaneando(false);
+        setFacialOk(true);
+        detenerCamara();
+      }, 2800);
+    } catch {
+      setCamError('No se pudo acceder a la cámara. Revisa los permisos del navegador.');
+    }
+  };
+
   const paso: Paso = !colaboradorId ? 1 : !facialOk ? 2 : 3;
 
   const colaboradoresFiltrados = useMemo(
@@ -174,7 +212,7 @@ export const RegistroEntradaTurno: React.FC = () => {
               <div style={{ position: 'relative' }}>
                 <select
                   value={campo}
-                  onChange={e => { setCampo(e.target.value); setColaboradorId(''); setFacialOk(false); setPin(''); }}
+                  onChange={e => { setCampo(e.target.value); setColaboradorId(''); setFacialOk(false); setPin(''); detenerCamara(); }}
                   style={{
                     width: '100%', padding: '10px 36px 10px 12px',
                     borderRadius: 10, border: `1px solid ${colores.borde}`,
@@ -196,7 +234,7 @@ export const RegistroEntradaTurno: React.FC = () => {
               <div style={{ position: 'relative' }}>
                 <select
                   value={colaboradorId}
-                  onChange={e => { setColaboradorId(e.target.value); setFacialOk(false); setPin(''); }}
+                  onChange={e => { setColaboradorId(e.target.value); setFacialOk(false); setPin(''); detenerCamara(); }}
                   style={{
                     width: '100%', padding: '10px 36px 10px 12px',
                     borderRadius: 10, border: `1px solid ${colores.borde}`,
@@ -234,7 +272,7 @@ export const RegistroEntradaTurno: React.FC = () => {
                 width: '100%',
                 aspectRatio: '4 / 3',
                 borderRadius: 12,
-                border: `2px dashed ${facialOk ? colores.exito : colores.borde}`,
+                border: `2px ${camActiva ? 'solid' : 'dashed'} ${facialOk ? colores.exito : escaneando ? colores.primario : colores.borde}`,
                 background: facialOk ? `${colores.exito}11` : '#0E2318',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 color: facialOk ? colores.exito : 'rgba(255,255,255,0.4)',
@@ -242,10 +280,50 @@ export const RegistroEntradaTurno: React.FC = () => {
                 overflow: 'hidden',
               }}
             >
-              <ScanFace size={64} strokeWidth={1.2} />
-              {!colaboradorSel && (
+              {/* Video real de la webcam */}
+              <video
+                ref={videoRef}
+                muted
+                playsInline
+                style={{
+                  position: 'absolute', inset: 0, width: '100%', height: '100%',
+                  objectFit: 'cover', transform: 'scaleX(-1)',
+                  display: camActiva ? 'block' : 'none',
+                }}
+              />
+
+              {/* Marco facial + línea de escaneo */}
+              {camActiva && (
+                <>
+                  <div style={{
+                    position: 'absolute', top: '14%', left: '50%', transform: 'translateX(-50%)',
+                    width: '52%', height: '72%', borderRadius: '50% / 42%',
+                    border: `2px solid ${escaneando ? colores.primario : colores.exito}`,
+                    boxShadow: `0 0 24px ${escaneando ? colores.primario : colores.exito}66`,
+                    pointerEvents: 'none',
+                  }} />
+                  {escaneando && (
+                    <div className="facial-scanline" style={{
+                      position: 'absolute', left: 0, width: '100%', height: 2,
+                      background: `linear-gradient(90deg, transparent, ${colores.primario}, transparent)`,
+                      boxShadow: `0 0 12px ${colores.primario}`,
+                      pointerEvents: 'none',
+                    }} />
+                  )}
+                </>
+              )}
+
+              {/* Placeholder cuando la cámara está apagada */}
+              {!camActiva && <ScanFace size={64} strokeWidth={1.2} />}
+
+              {!colaboradorSel && !camActiva && (
                 <div style={{ position: 'absolute', bottom: 12, fontSize: 11, color: 'rgba(255,255,255,0.5)' }}>
                   Selecciona un colaborador para continuar
+                </div>
+              )}
+              {escaneando && (
+                <div style={{ position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)', display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 11, fontWeight: 700, color: '#fff', background: 'rgba(0,0,0,0.45)', padding: '4px 10px', borderRadius: 999 }}>
+                  <Loader2 size={13} className="facial-spin" /> Escaneando rostro…
                 </div>
               )}
               {facialOk && (
@@ -254,19 +332,30 @@ export const RegistroEntradaTurno: React.FC = () => {
                 </div>
               )}
             </div>
+
+            {camError && (
+              <span style={{ fontSize: 11, color: colores.peligro, fontWeight: 600 }}>{camError}</span>
+            )}
+
             <button
               type="button"
-              disabled={!colaboradorSel || facialOk}
-              onClick={() => setFacialOk(true)}
+              disabled={!colaboradorSel || facialOk || escaneando}
+              onClick={iniciarReconocimiento}
               style={{
-                padding: '10px 16px', borderRadius: 10, border: 'none', cursor: colaboradorSel && !facialOk ? 'pointer' : 'not-allowed',
+                padding: '10px 16px', borderRadius: 10, border: 'none',
+                cursor: colaboradorSel && !facialOk && !escaneando ? 'pointer' : 'not-allowed',
                 background: facialOk ? colores.exito : colaboradorSel ? colores.gradientePrimario : colores.borde,
                 color: colores.textoEnOscuro, fontSize: 13, fontWeight: 600,
                 width: '100%',
                 opacity: colaboradorSel ? 1 : 0.6,
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 8,
               }}
             >
-              {facialOk ? 'Verificación facial OK' : 'Iniciar reconocimiento'}
+              {facialOk
+                ? <><CheckCircle size={14} /> Verificación facial OK</>
+                : escaneando
+                  ? <><Loader2 size={14} className="facial-spin" /> Escaneando…</>
+                  : <><Camera size={14} /> Iniciar reconocimiento</>}
             </button>
           </div>
         </Card>

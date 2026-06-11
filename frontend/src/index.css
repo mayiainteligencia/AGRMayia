@@ -148,3 +148,18 @@ button {
     opacity: 1;
   }
 }
+
+/* Reconocimiento facial — línea de escaneo y spinner */
+@keyframes facial-scan {
+  0%   { top: 12%; }
+  100% { top: 86%; }
+}
+.facial-scanline {
+  animation: facial-scan 1.4s ease-in-out infinite alternate;
+}
+@keyframes facial-spin {
+  to { transform: rotate(360deg); }
+}
+.facial-spin {
+  animation: facial-spin 0.9s linear infinite;
+}
