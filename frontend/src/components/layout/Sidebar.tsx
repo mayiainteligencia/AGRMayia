@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Leaf } from 'lucide-react';
 import { NAV_GROUPS, NAV_ITEMS_BY_ID } from '../../config/navigation';
+import { IMPLEMENTED_IDS } from '../../config/pages';
 
 interface SidebarProps {
   activeSection: string;
@@ -142,6 +143,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
               {group.items.map(({ id, label, icon: Icon }) => {
                 const isActive  = activeSection === id;
                 const isHovered = hovered === id;
+                const hasContent = IMPLEMENTED_IDS.has(id);
 
                 return (
                   <button
@@ -192,14 +194,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                       {label}
                     </span>
 
-                    {isActive && (
-                      <span style={{
-                        width: 6, height: 6, borderRadius: '50%',
-                        background: '#52B788',
-                        boxShadow: '0 0 8px rgba(82,183,136,0.7)',
-                        flexShrink: 0,
-                      }} />
-                    )}
+                    <span style={{
+                      width: 6, height: 6, borderRadius: '50%', flexShrink: 0,
+                      background: hasContent ? '#52B788' : '#E5484D',
+                      boxShadow: hasContent
+                        ? '0 0 8px rgba(82,183,136,0.7)'
+                        : '0 0 8px rgba(229,72,77,0.6)',
+                    }} />
                   </button>
                 );
               })}
