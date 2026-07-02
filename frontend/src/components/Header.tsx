@@ -25,11 +25,11 @@ interface Notification {
 }
 
 const notificacionesEstaticas: Notification[] = [
-  { id: 1, tipo: 'alerta',  titulo: 'Mal comentario en red social',  mensaje: 'Se detectaron malos comentarios en Facebook',                    tiempo: 'Hace 5 min',   leida: false },
-  { id: 2, tipo: 'urgente', titulo: 'Desabasto de modelo 34-12aw',   mensaje: 'En la sucursal 12 hay un desabasto del modelo 34-12aw',          tiempo: 'Hace 15 min',  leida: false },
-  { id: 3, tipo: 'exito',   titulo: '50 personas activas',           mensaje: 'Realizar intervención humana en el selector',                    tiempo: 'Hace 1 hora',  leida: true  },
-  { id: 4, tipo: 'info',    titulo: 'Lumel: Nueva Sesión',           mensaje: 'Un empleado solicitó apoyo psicológico',                         tiempo: 'Hace 2 horas', leida: true  },
-  { id: 5, tipo: 'exito',   titulo: 'Ventas: Meta Alcanzada',        mensaje: 'El equipo de ventas superó la meta mensual en un 15%',           tiempo: 'Hace 3 horas', leida: true  },
+  { id: 1, tipo: 'urgente', titulo: 'Cadena de frío fuera de rango',  mensaje: 'CEDIS Frontera: cámara 3 a 1.6 °C, reubicar lote',                tiempo: 'Hace 5 min',   leida: false },
+  { id: 2, tipo: 'alerta',  titulo: 'Plaga detectada en Bloque A',    mensaje: 'Dron Scout A identificó posible foco, requiere validación',      tiempo: 'Hace 15 min',  leida: false },
+  { id: 3, tipo: 'exito',   titulo: 'Paquete despachado',             mensaje: 'BF-4821 salió rumbo a Driscoll’s Norte — 1,850 kg',              tiempo: 'Hace 1 hora',  leida: true  },
+  { id: 4, tipo: 'info',    titulo: 'Nuevo pedido registrado',        mensaje: 'Walmart México solicita 12 t para la próxima semana',            tiempo: 'Hace 2 horas', leida: true  },
+  { id: 5, tipo: 'exito',   titulo: 'Cosecha del día',               mensaje: 'Se acopiaron 640 kg en Rancho El Roble, calidad Grado A',        tiempo: 'Hace 3 horas', leida: true  },
 ];
 
 /* ── section display names ── */

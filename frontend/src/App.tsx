@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { Placeholder } from './components/ui/Placeholder';
 import { NAV_ITEMS_BY_ID, NAV_ITEMS_FLAT } from './config/navigation';
 import { PAGE_OVERRIDES } from './config/pages';
+import { LiveToasts } from './components/command/LiveToasts';
 
 const DEFAULT_SECTION = 'panel-principal';
 
@@ -43,6 +44,8 @@ function App() {
           {page}
         </main>
       </div>
+
+      <LiveToasts onNavigate={handleSectionChange} />
     </div>
   );
 }

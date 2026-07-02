@@ -23,6 +23,16 @@ import { MedicionAgua } from '../features/medicionAgua/MedicionAgua';
 import { InstrumentosAmbientales } from '../features/instrumentosAmbientales/InstrumentosAmbientales';
 import { BioAcousticSentinel } from '../features/bioAcousticSentinel/BioAcousticSentinel';
 
+// Centro de comando — secciones nuevas
+import { Clientes } from '../features/clientes/Clientes';
+import { Cedis } from '../features/cedis/Cedis';
+import { AgricultoresMenores } from '../features/agricultoresMenores/AgricultoresMenores';
+import { Ciberseguridad } from '../features/ciberseguridad/Ciberseguridad';
+import { Noc } from '../features/noc/Noc';
+import { MonitoreoAplicacion } from '../features/monitoreoApp/MonitoreoAplicacion';
+import { RoboticsIot } from '../features/roboticsIot/RoboticsIot';
+import { InteligenciaEtapa2 } from '../features/inteligenciaEtapa2/InteligenciaEtapa2';
+
 /**
  * Mapa de overrides: id → componente real.
  * Lo NO listado aquí cae al Placeholder (sección en construcción).
@@ -48,6 +58,15 @@ export const PAGE_OVERRIDES: Record<string, ReactNode> = {
   'medicion-agua':           <MedicionAgua />,
   'instrumentos-ambientales': <InstrumentosAmbientales />,
   'bio-acoustic-sentinel':   <BioAcousticSentinel />,
+
+  'clientes':               <Clientes />,
+  'cedis':                  <Cedis />,
+  'agricultores-menores':   <AgricultoresMenores />,
+  'ciberseguridad':         <Ciberseguridad />,
+  'noc':                    <Noc />,
+  'monitoreo-aplicacion':   <MonitoreoAplicacion />,
+  'robotics-iot':           <RoboticsIot />,
+  'inteligencia-etapa-2':   <InteligenciaEtapa2 />,
 };
 
 /** Set de ids que sí tienen contenido implementado. */

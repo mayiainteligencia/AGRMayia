@@ -17,6 +17,7 @@ import {
   Layers, Calculator, Droplets, Gauge,
   CalendarDays, Percent, Network,
   Radio, ScanEye,
+  Warehouse, HeartHandshake, ShieldAlert, Server, MonitorSmartphone, Bot,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -59,6 +60,14 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: 'logistica-envios', label: 'Logística y Envíos', icon: Truck,         description: 'Envíos, rutas y estado' },
       { id: 'pedidos',          label: 'Pedidos',            icon: ClipboardList, description: 'Pedidos de cliente' },
       { id: 'clientes',         label: 'Clientes',           icon: Users,         description: 'Directorio de compradores' },
+    ],
+  },
+  {
+    id: 'cadena-valor',
+    label: 'Cadena de Valor',
+    items: [
+      { id: 'cedis',                 label: 'Cedís',                icon: Warehouse,      description: 'Centros de distribución, cadena de frío y costo logístico' },
+      { id: 'agricultores-menores',  label: 'Agricultores Menores', icon: HeartHandshake, description: 'Red de productores, acopio, anticipos y pagos' },
     ],
   },
   {
@@ -138,6 +147,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: 'brain-meteorologia', label: 'BRAIN™ #W — Meteorología',  icon: CloudLightning, description: 'IA de clima y pronóstico' },
       { id: 'brain-alimentos',    label: 'BRAIN™ #F — Alimentos',     icon: Salad,          description: 'IA de inocuidad y normas' },
       { id: 'brain-ingenieria',   label: 'BRAIN™ #E — Ingeniería',    icon: Cpu,            description: 'IA de riego y topografía' },
+      { id: 'inteligencia-etapa-2', label: 'Inteligencia · Etapa 2',  icon: Sparkles,       description: 'Próxima generación de agentes: autonomía y gemelo digital' },
     ],
   },
   {
@@ -173,6 +183,22 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: 'protocolos',             label: 'Protocolos',            icon: BookOpen,      description: 'Protocolos documentados' },
       { id: 'monitoreo-general',      label: 'Monitoreo General',     icon: Activity,      description: 'Monitoreo global del sistema' },
       { id: 'exportacion-auditorias', label: 'Exportación de Auditorías', icon: Download,  description: 'Exportación de logs de auditoría' },
+    ],
+  },
+  {
+    id: 'operaciones-ti',
+    label: 'Centro de Operaciones TI',
+    items: [
+      { id: 'ciberseguridad',        label: 'Ciberseguridad',        icon: ShieldAlert,       description: 'Postura de seguridad, amenazas e incidentes (SOC)' },
+      { id: 'noc',                   label: 'NOC',                   icon: Server,            description: 'Centro de operaciones de red — nodos y enlaces' },
+      { id: 'monitoreo-aplicacion',  label: 'Monitoreo de Aplicación', icon: MonitorSmartphone, description: 'Disponibilidad, latencia y errores (APM)' },
+    ],
+  },
+  {
+    id: 'robotica-iot',
+    label: 'Robótica e IoT',
+    items: [
+      { id: 'robotics-iot', label: 'Robótica e IoT', icon: Bot, description: 'Flota de robots y drones — video en vivo y alertas' },
     ],
   },
   {
