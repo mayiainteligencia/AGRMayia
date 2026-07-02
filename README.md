@@ -130,3 +130,50 @@ Tipografía Moderna: Implementación de la fuente DM Sans de Google Fonts para m
 Diseño Responsive Completo: Adaptación fluida a móvil, tablet y desktop con drawer sidebar, grids adaptativos y header compacto.
 Interactividad Pulida: Transiciones dinámicas en botones y tarjetas en hover, dropdowns accesibles con cierre inteligente al clickear fuera, y micro-animaciones en la barra lateral.
 Tipado Estricto: Definiciones completas de tipos e interfaces en agro.types.ts garantizan la prevención de errores en tiempo de desarrollo.
+
+🛰️ Centro de Comando "Vivo" (Command Center)
+El dashboard se transformó en un centro de mando tipo Jarvis: agentes IA visibles en cada sección, notificaciones en tiempo real simuladas, sugerencias accionables y diseño premium verde.
+
+Kit reutilizable (src/components/command/CommandKit.tsx)
+Un solo módulo provee todos los bloques para mantener el mismo contexto visual en cada sección:
+- AgentStrip: barra del agente IA de la sección (nombre BRAIN™, rol, estado y tarea que rota) con efecto scanline verde.
+- useLiveFeed + LiveFeed: feed de eventos que se auto-actualiza cada 4s (telemetría "en vivo").
+- AlertStack: panel de alertas con severidad (ok / info / warn / crit).
+- Sugerencia: cada acción sugerida es un botón; al pulsarlo pide confirmación "¿Estás seguro?" (Sí, aplicar / Cancelar) y muestra "Sugerencia aplicada".
+- FinancialLevers: panel de palancas financieras con recomendaciones de MAYIA.
+- VideoGrid: grilla de cámaras/drones; los slots con URL fija se reproducen solos (muted, loop, sin controles, no se pausan ni se quitan) con badge "EN VIVO"; los slots vacíos aceptan pegar una URL.
+- PageTitle, LiveDot: título de página y punto pulsante reutilizables.
+
+Notificaciones emergentes globales (src/components/command/LiveToasts.tsx)
+Montado en App.tsx, visible en cualquier sección (abajo-derecha). Emite un toast a los 3s y luego cada 30s con mensajes de operación (registro de entrada, salida de paquete, venta, cosecha, pago, pedido, empaque). Barra de progreso y auto-cierre a los 7s. Acciones:
+- "Ver …→": navega a la sección relacionada (venta→Clientes, salida→Cedís, pago→Agricultores Menores, entrada→Registro de Turno, empaque→Cooler y Empaque, cosecha→Analítica).
+- Aceptar / Declinar: en los toasts de nuevo pedido, con confirmación en línea.
+También se reemplazaron las notificaciones del Header por temática de cosecha (cadena de frío, plaga, despacho, pedido, cosecha).
+
+Layout de secciones financieras
+Las secciones con dinero (Clientes, Cedís, Agricultores Menores) respetan el orden: cuadros KPI arriba → alertas → palancas financieras. Las palancas cubren:
+- Deuda / Capital (apalancamiento financiero): usar deuda externa para elevar el ROE mientras su costo sea menor al rendimiento.
+- Costo de capital (WACC): optimizar la mezcla deuda/capital para minimizar el WACC.
+- Apalancamiento operativo: relación costo fijo/variable que amplifica el efecto de las ventas sobre la utilidad.
+- ROA / ROE: la deuda crea valor cuando ROE > ROA (costo de la deuda < rendimiento generado).
+
+🧭 Nuevas secciones del Sidebar
+Grupo Cadena de Valor:
+- Cedís: centros de distribución, cadena de frío y costo logístico (con palancas financieras).
+- Agricultores Menores: red de productores, acopio, anticipos y dispersión de pagos (con palancas financieras).
+
+Grupo Distribución (existente):
+- Clientes: directorio de compradores, cartera y cobranza (con palancas financieras).
+
+Grupo Centro de Operaciones TI:
+- Ciberseguridad: postura de seguridad, amenazas e incidentes (SOC).
+- NOC: centro de operaciones de red — nodos, enlaces y sensores de campo.
+- Monitoreo de Aplicación: disponibilidad, latencia y errores (APM).
+
+Grupo Robótica e IoT:
+- Robótica e IoT: flota de robots y drones con 6 cámaras en vivo (videos en public/assets/extrasAgro/Iot) y alertas sobrepuestas.
+
+Grupo The Brain™ (existente):
+- Inteligencia · Etapa 2: próxima generación de agentes (autonomía, orquestación y gemelo digital) con roadmap por fases.
+
+Nota: los datos de estas secciones son de demostración (mock en el propio componente); el feed y los toasts se simulan en el frontend y están listos para conectarse al backend.
