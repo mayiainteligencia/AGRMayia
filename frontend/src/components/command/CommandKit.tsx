@@ -129,7 +129,7 @@ export const LiveFeed: React.FC<{ items: FeedEvent[]; titulo?: string }> = ({ it
 );
 
 /* ── Sugerencia con confirmación ("¿estás seguro?") ────── */
-const Sugerencia: React.FC<{ accion: string }> = ({ accion }) => {
+export const Sugerencia: React.FC<{ accion: string }> = ({ accion }) => {
   const [estado, setEstado] = useState<'idle' | 'confirmar' | 'aplicada'>('idle');
   const btn: React.CSSProperties = { display: 'inline-flex', alignItems: 'center', gap: 5, padding: '5px 11px', borderRadius: 8, border: 'none', cursor: 'pointer', fontSize: 11, fontWeight: 700 };
 

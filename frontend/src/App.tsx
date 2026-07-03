@@ -5,6 +5,7 @@ import { Placeholder } from './components/ui/Placeholder';
 import { NAV_ITEMS_BY_ID, NAV_ITEMS_FLAT } from './config/navigation';
 import { PAGE_OVERRIDES } from './config/pages';
 import { LiveToasts } from './components/command/LiveToasts';
+import { NavContext } from './config/navContext';
 
 const DEFAULT_SECTION = 'panel-principal';
 
@@ -26,6 +27,7 @@ function App() {
   };
 
   return (
+    <NavContext.Provider value={handleSectionChange}>
     <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#F7F9F8' }}>
       {sidebarOpen && (
         <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
@@ -47,6 +49,7 @@ function App() {
 
       <LiveToasts onNavigate={handleSectionChange} />
     </div>
+    </NavContext.Provider>
   );
 }
 

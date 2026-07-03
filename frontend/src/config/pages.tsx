@@ -32,6 +32,7 @@ import { Noc } from '../features/noc/Noc';
 import { MonitoreoAplicacion } from '../features/monitoreoApp/MonitoreoAplicacion';
 import { RoboticsIot } from '../features/roboticsIot/RoboticsIot';
 import { InteligenciaEtapa2 } from '../features/inteligenciaEtapa2/InteligenciaEtapa2';
+import { ControlDecisiones } from '../features/controlDecisiones/ControlDecisiones';
 
 /**
  * Mapa de overrides: id → componente real.
@@ -67,6 +68,7 @@ export const PAGE_OVERRIDES: Record<string, ReactNode> = {
   'monitoreo-aplicacion':   <MonitoreoAplicacion />,
   'robotics-iot':           <RoboticsIot />,
   'inteligencia-etapa-2':   <InteligenciaEtapa2 />,
+  'control-decisiones':     <ControlDecisiones />,
 };
 
 /** Set de ids que sí tienen contenido implementado. */

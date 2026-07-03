@@ -40,6 +40,7 @@ export const NAV_GROUPS: NavGroup[] = [
     label: 'Principal',
     items: [
       { id: 'panel-principal', label: 'Panel Principal', icon: LayoutDashboard, description: 'Vista global de operación' },
+      { id: 'control-decisiones', label: 'Control Inteligente de Decisiones', icon: Cpu, description: 'Centro de mando: decisiones rápidas por sección con IA' },
     ],
   },
   {
