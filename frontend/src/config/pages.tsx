@@ -33,6 +33,7 @@ import { MonitoreoAplicacion } from '../features/monitoreoApp/MonitoreoAplicacio
 import { RoboticsIot } from '../features/roboticsIot/RoboticsIot';
 import { InteligenciaEtapa2 } from '../features/inteligenciaEtapa2/InteligenciaEtapa2';
 import { ControlDecisiones } from '../features/controlDecisiones/ControlDecisiones';
+import { ComandoCentral } from '../features/comandoCentral/ComandoCentral';
 
 /**
  * Mapa de overrides: id → componente real.
@@ -69,6 +70,7 @@ export const PAGE_OVERRIDES: Record<string, ReactNode> = {
   'robotics-iot':           <RoboticsIot />,
   'inteligencia-etapa-2':   <InteligenciaEtapa2 />,
   'control-decisiones':     <ControlDecisiones />,
+  'comando-central':        <ComandoCentral />,
 };
 
 /** Set de ids que sí tienen contenido implementado. */

@@ -18,6 +18,7 @@ import {
   CalendarDays, Percent, Network,
   Radio, ScanEye,
   Warehouse, HeartHandshake, ShieldAlert, Server, MonitorSmartphone, Bot,
+  Atom,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -41,6 +42,7 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { id: 'panel-principal', label: 'Panel Principal', icon: LayoutDashboard, description: 'Vista global de operación' },
       { id: 'control-decisiones', label: 'Control Inteligente de Decisiones', icon: Cpu, description: 'Centro de mando: decisiones rápidas por sección con IA' },
+      { id: 'comando-central', label: 'Comando Central', icon: Atom, description: 'Núcleo IA en 3D — orquestación viva de todas las secciones' },
     ],
   },
   {
