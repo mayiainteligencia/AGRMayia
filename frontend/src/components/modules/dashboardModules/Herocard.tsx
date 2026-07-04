@@ -378,7 +378,7 @@ export const HeroCard: React.FC = () => {
               letterSpacing: '-0.5px',
             }}
           >
-            Plataforma Inteligente Para {empresa.nombre}
+            Centro de Control para {empresa.nombre}
           </h2>
 
           {/* Texto de instrucción */}

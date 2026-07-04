@@ -177,3 +177,91 @@ Grupo The Brain™ (existente):
 - Inteligencia · Etapa 2: próxima generación de agentes (autonomía, orquestación y gemelo digital) con roadmap por fases.
 
 Nota: los datos de estas secciones son de demostración (mock en el propio componente); el feed y los toasts se simulan en el frontend y están listos para conectarse al backend.
+
+---
+
+# 🗂️ Catálogo de Secciones
+
+Referencia de cada sección del sidebar. En la barra lateral cada ítem muestra un LED:
+🟢 **verde = habilitada** (tiene vista real) · 🔴 **rojo = en desarrollo** (cae a Placeholder).
+
+## ✅ Secciones habilitadas (LED verde)
+
+### Principal
+- **Panel Principal** — Vista global de la operación: KPIs del rancho, resumen del estado general y accesos rápidos.
+- **Control Inteligente de Decisiones** — Centro de mando tipo Jarvis. Por cada sección un módulo con información, alertas emergentes que rotan y una palanca financiera del tema; agente IA visible, sugerencias con confirmación y barra de automatización activable. Header con reloj vivo, KPIs y ticker EN VIVO.
+- **Comando Central** — Núcleo IA en 3D (canvas) que gira y pulsa, con flujo de datos entre las tarjetas laterales y el átomo. Al tocar el núcleo da lecturas/sugerencias de MAYIA y navega a la sección relacionada. Tarjetas laterales por sección (glass 3D) que se ocultan/llaman.
+
+### Cadena de Valor
+- **Cedís** — Centros de distribución: ocupación, cadena de frío, costo logístico y merma en tránsito. Contiene KPIs, alertas y palancas financieras (WACC, apalancamiento operativo) con recomendaciones de decisión.
+- **Agricultores Menores** — Red de productores: acopio, calidad por zona, anticipos y dispersión de pagos. Tabla de liquidación, alertas y palancas financieras (deuda/capital, ROE vs ROA).
+
+### Distribución
+- **Cooler y Empaque** — Empaque, control de calidad y cadena de frío: distribución de causas de rechazo, monitoreo de temperatura e historial de lotes/clamshells.
+- **Clientes** — Cartera de compradores: ingresos, recompra, cuentas por cobrar y estado de cobranza. Alertas de cartera y palancas financieras (ROE/ROA).
+
+### Inventario
+- **Inventario** — Artículos, stock, mínimos y órdenes de compra sugeridas; alertas de faltantes.
+
+### Recursos Humanos
+- **Registro de Entrada — Turno** — Suite de Seguridad™ Capa 02: control de acceso facial + PIN y asistencia por turno.
+
+### Finanzas
+- **Analítica y Reportes** — Tendencias operativas y financieras: gasto por categoría, kg cosechados por campo, estado de envíos y gráficas.
+
+### Estación Meteorológica
+- **Panel Meteorológico** — Condiciones actuales, pronóstico 7 días, VPD y alertas BRAIN™ #W con plan de acción.
+- **Termómetro / Barómetro** — Instrumentos ambientales: termómetro, barómetro, altímetro y anemómetro.
+- **Historial Climático** — Diario de clima cruzado (temp, humedad, VPD), GDD acumulados y riesgos.
+
+### Laboratorio
+- **Panel Laboratorio** — KPIs del laboratorio, tasa de aprobación de calidad y análisis recientes.
+- **Análisis de Alimentos** — Inocuidad y cumplimiento normativo (COFEPRIS, NOM-251, FDA) — BRAIN™ #F.
+
+### The Brain™
+- **Inteligencia · Etapa 2** — Agentes de próxima generación (predicción de rendimiento, riego autónomo, mercado/precios, gemelo digital) con barras de despliegue y roadmap por fases.
+
+### Centro de Operaciones TI
+- **Ciberseguridad** — Postura de seguridad, amenazas bloqueadas e incidentes (SOC): eventos recientes, telemetría en vivo y acciones sugeridas.
+- **NOC** — Centro de operaciones de red: nodos, enlaces y sensores de campo, con uptime, latencia y failover.
+- **Monitoreo de Aplicación** — APM: disponibilidad, latencia p95, tasa de error y rendimiento por endpoint.
+
+### Robótica e IoT
+- **Robótica e IoT** — Vista de los robots y drones y su POV (6 cámaras en vivo), estado de la flota (batería, tarea), alertas sobrepuestas y recomendaciones para toma de decisiones. Los slots vacíos aceptan pegar la URL de nuevas cámaras.
+
+### Seguridad y Cumplimiento
+- **Reglas Operativas** — Reglas condición → acción que disparan alertas y sugerencias operativas.
+
+### Agronomía Avanzada
+- **Soil-Bio-Vision™** — Jar test 24h y triángulo textural USDA para análisis de suelo.
+- **Medición de Agua** — Aforo, lluvia y ETo; consumo vs plan.
+- **Instrumentos Ambientales** — Captura manual de instrumentos con interpretación IA.
+
+### Planificación de Campo
+- **Calendario de Siembra** — Idoneidad de cultivo × mes por zona.
+- **Motor de Probabilidad™** — Probabilidad de siembra por mes y retorno esperado.
+- **Planificación Integral de Cosecha** — Gantt de cosecha, proyección y excedente.
+
+### Sensores de Campo
+- **Bio-Acoustic Sentinel™** — Audio del campo para detección temprana de plagas.
+- **Análisis Visual** — Diagnóstico visual con IA (foto → detección).
+
+## 🚧 Inhabilitados por ahora, ya que están en desarrollo (LED rojo)
+
+Estas secciones ya existen en el menú pero muestran un Placeholder mientras se construyen:
+
+- **Campo:** Cosecha y Siembra · Campos / Ranchos · Plagas y Enfermedades · Listas de Preparación
+- **Distribución:** Logística y Envíos · Pedidos
+- **Inventario:** Proveedores · Órdenes de Compra · Registro de Merma
+- **Recursos Humanos:** Personal · Turnos y Horarios · Capacitación · Nómina · Evaluación de Staff
+- **Cumplimiento:** Certificaciones · Registros de Sanidad · Alertas del Sistema
+- **Finanzas:** Gastos Operativos
+- **Equipo:** Directorio del Equipo · Predicción IA Cosecha
+- **Estación Meteorológica:** Alertas Meteorológicas
+- **Laboratorio:** Suelo y Aguas · Microbiología · Ingeniería y Agronomía · Informes y Certificados
+- **The Brain™:** BRAIN™ Central (Maestro) · BRAIN™ #W Meteorología · BRAIN™ #F Alimentos · BRAIN™ #E Ingeniería
+- **Informes y Exportación:** Informes Generales · Control de Exportación · Registros de Exportación · Residencia de Datos · Datos Sintéticos
+- **Laboratorio Avanzado:** Ensayos de Laboratorio · Análisis Generales · VCF Uploader (Alimentos) · VCF Uploader (Suelo/Tierra) · Laboratorio API
+- **Seguridad y Cumplimiento:** Suite de Seguridad™ · Seguridad · Incidentes · Protocolos · Monitoreo General · Exportación de Auditorías
+- **Administración del Sistema:** Administración · Usuarios · Roles · Configuración
+- **Agronomía Avanzada:** Calculadora de Fertilizantes
