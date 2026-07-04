@@ -169,15 +169,15 @@ const BrainCanvas = forwardRef<BrainHandle, { onPulse: () => void }>(({ onPulse 
         const cpx = (a.ax + cx) / 2;
         const cpy = cy + (a.ay - cy) * 0.12;
         const lg = ctx.createLinearGradient(a.ax, a.ay, cx, cy);
-        lg.addColorStop(0, 'rgba(82,183,136,0.28)');
-        lg.addColorStop(1, 'rgba(45,106,79,0.95)');
+        lg.addColorStop(0, 'rgba(82,183,136,0.14)');
+        lg.addColorStop(1, 'rgba(82,183,136,0.65)');
         ctx.beginPath();
         ctx.moveTo(a.ax, a.ay);
         ctx.quadraticCurveTo(cpx, cpy, cx, cy);
         ctx.strokeStyle = lg;
-        ctx.lineWidth = 2.4;
-        ctx.shadowColor = 'rgba(82,183,136,0.9)';
-        ctx.shadowBlur = 12;
+        ctx.lineWidth = 1.8;
+        ctx.shadowColor = 'rgba(82,183,136,0.7)';
+        ctx.shadowBlur = 8;
         ctx.stroke();
         ctx.shadowBlur = 0;
         for (let k = 0; k < 4; k++) {
