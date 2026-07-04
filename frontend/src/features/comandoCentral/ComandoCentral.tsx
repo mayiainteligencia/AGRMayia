@@ -120,42 +120,80 @@ const BrainCanvas = forwardRef<BrainHandle, { onPulse: () => void }>(({ onPulse 
       }
       ctx.shadowBlur = 0;
 
-      // Núcleo pulsante
-      const cr = R * 0.26 * (1 + Math.sin(t * 3) * 0.13);
+      // Núcleo — halo + orbe + destello rotatorio + rim
+      const cr = R * 0.27 * (1 + Math.sin(t * 3) * 0.13);
+      const halo2 = ctx.createRadialGradient(cx, cy, 0, cx, cy, cr * 2.4);
+      halo2.addColorStop(0, 'rgba(82,183,136,0.30)');
+      halo2.addColorStop(1, 'rgba(82,183,136,0)');
+      ctx.fillStyle = halo2;
+      ctx.beginPath(); ctx.arc(cx, cy, cr * 2.4, 0, Math.PI * 2); ctx.fill();
+
       const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, cr);
       g.addColorStop(0, 'rgba(255,255,255,0.98)');
-      g.addColorStop(0.3, 'rgba(124,203,169,0.95)');
-      g.addColorStop(0.6, 'rgba(82,183,136,0.7)');
-      g.addColorStop(1, 'rgba(82,183,136,0)');
+      g.addColorStop(0.28, 'rgba(170,235,205,0.95)');
+      g.addColorStop(0.6, 'rgba(82,183,136,0.82)');
+      g.addColorStop(1, 'rgba(45,106,79,0)');
       ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(cx, cy, cr, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.beginPath(); ctx.arc(cx, cy, cr, 0, Math.PI * 2); ctx.fill();
 
-      // Flujo de datos entre paneles laterales y núcleo
-      const chans = [
-        { x: w * 0.20, y: cy - h * 0.20 }, { x: w * 0.20, y: cy - h * 0.02 }, { x: w * 0.20, y: cy + h * 0.17 },
-        { x: w * 0.80, y: cy - h * 0.17 }, { x: w * 0.80, y: cy + h * 0.02 }, { x: w * 0.80, y: cy + h * 0.20 },
-      ];
-      chans.forEach((c, i) => {
+      const hx = cx + Math.cos(t * 1.4) * cr * 0.32;
+      const hy = cy + Math.sin(t * 1.4) * cr * 0.32;
+      const hg = ctx.createRadialGradient(hx, hy, 0, hx, hy, cr * 0.6);
+      hg.addColorStop(0, 'rgba(255,255,255,0.9)');
+      hg.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = hg;
+      ctx.beginPath(); ctx.arc(hx, hy, cr * 0.6, 0, Math.PI * 2); ctx.fill();
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(82,183,136,0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.shadowColor = 'rgba(82,183,136,0.8)';
+      ctx.shadowBlur = 12;
+      ctx.arc(cx, cy, R, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Flujo de datos — módulos → núcleo (curvas + streams)
+      const bez = (x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, u: number) => {
+        const m = 1 - u;
+        return { x: m * m * x0 + 2 * m * u * x1 + u * u * x2, y: m * m * y0 + 2 * m * u * y1 + u * u * y2 };
+      };
+      const spreadY = Math.min(h * 0.40, R * 2.4);
+      const rels = [-0.5, -0.25, 0, 0.25, 0.5];
+      const anchors: { ax: number; ay: number; incoming: boolean; seed: number }[] = [];
+      rels.forEach((ry, i) => {
+        anchors.push({ ax: w * 0.19, ay: cy + ry * spreadY, incoming: true, seed: i });
+        anchors.push({ ax: w * 0.81, ay: cy + ry * spreadY, incoming: i % 3 !== 0, seed: i + 5 });
+      });
+      anchors.forEach(a => {
+        const cpx = (a.ax + cx) / 2;
+        const cpy = cy + (a.ay - cy) * 0.12;
+        const lg = ctx.createLinearGradient(a.ax, a.ay, cx, cy);
+        lg.addColorStop(0, 'rgba(82,183,136,0.28)');
+        lg.addColorStop(1, 'rgba(45,106,79,0.95)');
         ctx.beginPath();
-        ctx.moveTo(c.x, c.y);
-        ctx.lineTo(cx, cy);
-        ctx.strokeStyle = 'rgba(82,183,136,0.10)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-        const incoming = i % 2 === 0;
-        const raw = (t * 0.22 + i * 0.31) % 1;
-        const pp = incoming ? raw : 1 - raw;
-        const px = c.x + (cx - c.x) * pp;
-        const py = c.y + (cy - c.y) * pp;
-        const fade = Math.sin(pp * Math.PI);
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(124,203,169,${0.85 * fade})`;
-        ctx.shadowColor = 'rgba(82,183,136,1)';
+        ctx.moveTo(a.ax, a.ay);
+        ctx.quadraticCurveTo(cpx, cpy, cx, cy);
+        ctx.strokeStyle = lg;
+        ctx.lineWidth = 2.4;
+        ctx.shadowColor = 'rgba(82,183,136,0.9)';
         ctx.shadowBlur = 12;
-        ctx.arc(px, py, 2.6, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        for (let k = 0; k < 4; k++) {
+          const raw = (t * 0.16 + a.seed * 0.21 + k * 0.25) % 1;
+          const u = a.incoming ? raw : 1 - raw;
+          const p = bez(a.ax, a.ay, cpx, cpy, cx, cy, u);
+          const fade = Math.sin(raw * Math.PI);
+          const size = (2.6 - k * 0.5) * fade;
+          if (size <= 0.3) continue;
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(${k === 0 ? '124,203,169' : '82,183,136'},${(k === 0 ? 0.95 : 0.55) * fade})`;
+          ctx.shadowColor = 'rgba(82,183,136,1)';
+          ctx.shadowBlur = 10 * fade;
+          ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+          ctx.fill();
+        }
       });
       ctx.shadowBlur = 0;
 
