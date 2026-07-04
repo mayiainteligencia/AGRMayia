@@ -40,9 +40,9 @@ export const NAV_GROUPS: NavGroup[] = [
     id: 'principal',
     label: 'Principal',
     items: [
-      { id: 'panel-principal', label: 'Panel Principal', icon: LayoutDashboard, description: 'Vista global de operación' },
-      { id: 'control-decisiones', label: 'Control Inteligente de Decisiones', icon: Cpu, description: 'Centro de mando: decisiones rápidas por sección con IA' },
       { id: 'comando-central', label: 'Comando Central', icon: Atom, description: 'Núcleo IA en 3D — orquestación viva de todas las secciones' },
+      { id: 'control-decisiones', label: 'Control Inteligente de Decisiones', icon: Cpu, description: 'Centro de mando: decisiones rápidas por sección con IA' },
+      { id: 'panel-principal', label: 'Panel Principal', icon: LayoutDashboard, description: 'Vista global de operación' },
     ],
   },
   {

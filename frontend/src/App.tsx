@@ -7,7 +7,7 @@ import { PAGE_OVERRIDES } from './config/pages';
 import { LiveToasts } from './components/command/LiveToasts';
 import { NavContext } from './config/navContext';
 
-const DEFAULT_SECTION = 'panel-principal';
+const DEFAULT_SECTION = 'comando-central';
 
 function App() {
   const [activeSection, setActiveSection] = useState<string>(DEFAULT_SECTION);

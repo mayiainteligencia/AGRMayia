@@ -7,8 +7,10 @@ import {
   CheckCircle,
   Info,
   Menu,
+  Atom,
 } from 'lucide-react';
 import { brandingConfig } from '../config/branding';
+import { useNav } from '../config/navContext';
 
 interface HeaderProps {
   title: string;
@@ -53,6 +55,7 @@ const NOTIF_CONFIG = {
 
 export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
   const { colores, empresa } = brandingConfig;
+  const nav = useNav();
   const [notifOpen,    setNotifOpen]    = useState(false);
   const [notificaciones, setNotificaciones] = useState<Notification[]>(notificacionesEstaticas);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -113,6 +116,8 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
         }
         .hdr-notif-item:hover { background: ${colores.fondoTerciario}; }
         .hdr-notif-item:last-child { border-bottom: none; }
+
+        @media (max-width: 640px) { .hdr-cc-label { display: none; } }
       `}</style>
 
       <header
@@ -196,6 +201,23 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
 
         {/* ── RIGHT: Notifications + Avatar ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, justifyContent: 'flex-end' }}>
+
+          {/* Comando Central */}
+          <button
+            onClick={() => nav('comando-central')}
+            title="Ir a Comando Central"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 7, padding: '7px 13px', borderRadius: 10,
+              border: `1px solid ${colores.acento}55`, cursor: 'pointer', fontFamily: 'inherit',
+              background: `${colores.acento}12`, color: colores.secundario, fontSize: 12.5, fontWeight: 700,
+              transition: 'all 0.18s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.background = `${colores.acento}22`; }}
+            onMouseLeave={e => { e.currentTarget.style.background = `${colores.acento}12`; }}
+          >
+            <Atom size={16} color={colores.secundario} />
+            <span className="hdr-cc-label">Comando Central</span>
+          </button>
 
           {/* Notifications */}
           <div ref={dropdownRef} style={{ position: 'relative' }}>
