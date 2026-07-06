@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                 fontSize: 15, fontWeight: 700, color: '#FFFFFF',
                 letterSpacing: '-0.3px', lineHeight: 1.2,
               }}>
-                AgroMayia
+                AgroTech IA
               </div>
               <div style={{
                 fontSize: 9.5, color: 'rgba(255,255,255,0.32)',

@@ -1,8 +1,8 @@
 export const brandingConfig = {
   empresa: {
-    nombre: "AgroMayia",
+    nombre: "AgroTech IA",
     eslogan: "Inteligencia para el campo",
-    logo: "/assets/logosNativos/agroMayia.png",
+    logo: "/assets/logosNativos/agroTechAIBlack.png",
   },
 
   colores: {

@@ -170,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
               fontSize: 13, color: colores.textoOscuro,
               fontWeight: 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
             }}>
-              AgroMayia
+              AgroTech IA
             </span>
             <ChevronDown size={12} color={colores.textoOscuro} style={{ transform: 'rotate(-90deg)', flexShrink: 0 }} />
             <span style={{

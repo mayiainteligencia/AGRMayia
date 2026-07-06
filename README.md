@@ -1,6 +1,101 @@
 Análisis del Proyecto Frontend AgroMayia
 Este documento presenta una radiografía detallada del frontend del sistema AgroMayia, una plataforma de inteligencia agrícola diseñada para optimizar la toma de decisiones en el campo (especialmente adaptada para el cultivo de arándanos Biloxi en la temporada 2026).
 
+# 🏗️ Arquitectura, Organización y Flujo de Datos
+
+## Stack
+**Monorepo** con dos aplicaciones independientes:
+
+| App | Tecnologías | Rol |
+|-----|-------------|-----|
+| `frontend/` | React 19 · TypeScript · Vite · Tailwind v4 · Recharts · lucide-react | Dashboard / centro de mando |
+| `backend/`  | Node · Express · MySQL (`mysql2`) · Google Gemini (`@google/generative-ai`) | API del asistente IA MAYIA |
+
+## Organización del repositorio
+```
+agroMayia/
+├── frontend/            App de React (todo lo visual)
+│   ├── public/assets/   Imágenes, logos y videos (cámaras IoT en extrasAgro/Iot)
+│   └── src/
+│       ├── config/      branding · navigation · pages · navContext
+│       ├── components/  ui · command · layout · charts · modules
+│       ├── features/    una carpeta por sección (opcional data/*.dummy.ts)
+│       ├── types/       agro.types.ts
+│       └── lib/         utils
+└── backend/             API Express
+    ├── routes/          chatRoutes · departamentosRoutes · mayiaRoutes
+    ├── controllers/     chatController · departamentosController · mayiaController
+    ├── services/        geminiService · dbService
+    ├── config/          database (pool MySQL) · gemini · empresaConfig
+    └── database/        migrate.js · data/demo-data.sql
+```
+
+## Cómo se conecta una sección (wiring)
+La navegación es **data-driven**; agregar una sección son 3 pasos:
+
+1. **`config/navigation.ts`** — se declara el ítem dentro de un `NAV_GROUP` (`id`, `label`, `icon`, `description`). Esto lo dibuja el `Sidebar`.
+2. **`config/pages.tsx`** — se mapea `id → componente` en `PAGE_OVERRIDES`. Lo que **no** está en el mapa cae a `Placeholder` (sección "en desarrollo"). `IMPLEMENTED_IDS` (las llaves de ese mapa) es lo que enciende el **LED verde/rojo** del sidebar.
+3. **`features/<seccion>/<Seccion>.tsx`** — el componente de la vista.
+
+`App.tsx` guarda `activeSection` en estado y resuelve el componente. La navegación entre secciones desde cualquier parte se hace con **`useNav()`** (contexto `config/navContext.ts`) — lo usan el botón del Header, los toasts, las tarjetas de Comando Central y los módulos de Control de Decisiones.
+
+## ¿De dónde salen los datos? (importante)
+Hoy los datos viven en **tres capas**:
+
+1. **Mock estático (la mayoría)** — cada feature trae su propia data:
+   - Secciones antiguas: `features/<x>/data/<x>.dummy.ts`.
+   - Secciones nuevas (cedis, clientes, ciberseguridad, noc, etc.): data **inline** dentro del propio `.tsx`.
+   - Nada de esto toca el backend; es contenido de demostración.
+
+2. **Simulación "viva" en el frontend** (sensación de tiempo real, sin servidor):
+   - `components/command/LiveToasts.tsx` → notificaciones emergentes globales cada 30 s (montado en `App.tsx`).
+   - `useLiveFeed` (en `CommandKit.tsx`) → feeds que se autoactualizan cada 4 s.
+   - `AgentStrip`, el `tick` de **Control de Decisiones** y el canvas + insights de **Comando Central**.
+   - Todo esto se genera con timers/`Math.random` en el cliente y está listo para reemplazarse por datos reales.
+
+3. **Backend real (solo el chat de MAYIA)** — es la única integración viva hoy:
+   ```
+   HeroCard (voz/texto)
+     → POST /api/chat/message   { mensaje, departamento }
+       → chatController.enviarMensaje
+         → dbService.buscarContextoEnDB   (consulta MySQL → contexto)
+         → geminiService.generarRespuestaIA (prompt + Gemini 2.5 Flash)
+       ← { respuesta, contexto, timestamp }
+     ← se pinta en el modal del HeroCard
+   ```
+   El backend también expone `/api/departamentos` y un `/health`. La conexión a MySQL se inicializa en `config/database.js` y Gemini en `config/gemini.js` al arrancar (`index.js`).
+
+> Nota: la capa de IA/BD del backend (`geminiService`, `dbService`) todavía arrastra contenido de un proyecto previo y está **pendiente de alinearse al dominio agrícola**; el frontend ya está listo para consumir endpoints agro cuando existan.
+
+## Flujo de datos (vista general)
+```
+[ features / command kit ]  ──mock / timers──►  UI (Recharts, canvas, HUD)
+        │
+        └── HeroCard ──HTTP──► Express ──► MySQL (contexto)
+                                     └──► Gemini (respuesta) ──► UI
+```
+
+## Bloques reutilizables del "centro de mando"
+- **`components/command/CommandKit.tsx`** — `AgentStrip`, `LiveFeed`/`useLiveFeed`, `AlertStack`, `Sugerencia` (con confirmación), `FinancialLevers`, `VideoGrid`, `PageTitle`, `LiveDot`.
+- **`components/command/LiveToasts.tsx`** — toasts globales con acciones (ir a sección / aceptar-declinar).
+- **`config/navContext.ts`** — `useNav()` para navegar sin prop-drilling.
+
+## Variables de entorno (backend)
+`backend/.env` (ver `.env.example`): `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT`, `GEMINI_API_KEY`, `PORT`.
+
+## Cómo correr
+```bash
+# Frontend
+cd frontend && npm install && npm run dev      # http://localhost:5173
+npm run build                                  # tsc -b + vite build
+
+# Backend
+cd backend && npm install && npm run dev       # http://localhost:3001 (nodemon)
+npm run migrate                                # carga database/data/demo-data.sql
+```
+
+---
+
 📂 Estructura General del Código
 El proyecto está construido sobre React (v19), TypeScript y Vite, utilizando Tailwind CSS (v4) junto con componentes estilizados de forma modular.
 

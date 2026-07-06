@@ -12,6 +12,14 @@ dist
 dist-ssr
 *.local
 
+# Datalab (Python) — datos del cliente y entorno virtual, NUNCA a Git
+datalab/uploads/
+datalab/reportes/
+datalab/venv/
+datalab/.venv/
+__pycache__/
+*.pyc
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
