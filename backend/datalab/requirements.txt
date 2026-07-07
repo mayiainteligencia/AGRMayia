@@ -1,0 +1,8 @@
+# Librerias de Python para el laboratorio de datos (datalab)
+# Instalar una sola vez con:  pip install -r requirements.txt
+#
+# pandas   -> leer y analizar tablas de Excel (el "cerebro" del perfilado)
+# openpyxl -> abrir .xlsx a bajo nivel: ver graficas y celdas combinadas
+
+pandas>=2.0
+openpyxl>=3.1

@@ -1,0 +1,16 @@
+# Datos reales del cliente — NUNCA a Git (PII: correos, nómina)
+uploads/*
+!uploads/.gitkeep
+
+# Reportes generados: pueden contener ejemplos con PII (correos, casing)
+reportes/*
+!reportes/.gitkeep
+
+# Bitácora personal — no versionar
+/README.md
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
