@@ -4,7 +4,7 @@ import {
   Cpu, FlaskConical, Sprout, Droplets, Bug, Bell,
   BarChart3, Package, Truck, DollarSign, Globe,
   HeartHandshake, GraduationCap, Brain,
-  Check, Zap, Lock, Layers, ChevronRight as ChevRight,
+  Check, Zap, Lock, ChevronRight as ChevRight,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { brandingConfig } from '../../config/branding';
