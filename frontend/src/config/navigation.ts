@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Sprout, MapPin, Bug, ListChecks,
   Snowflake, Truck, ClipboardList, Users,
   Boxes, Building2, FileText, Trash2,
-  User, Calendar, LogIn, GraduationCap, DollarSign, UserCheck,
+  User, Calendar, LogIn, DollarSign, UserCheck,
   BadgeCheck, ShieldCheck, Bell,
   Receipt, BarChart3,
   Contact, Brain,
@@ -18,7 +18,7 @@ import {
   CalendarDays, Percent, Network,
   Radio, ScanEye,
   Warehouse, HeartHandshake, ShieldAlert, Server, MonitorSmartphone, Bot,
-  Atom,
+  Atom, Store, GraduationCap as GradCapIcon, Globe2,
 } from 'lucide-react';
 
 export interface NavItem {
@@ -41,6 +41,7 @@ export const NAV_GROUPS: NavGroup[] = [
     label: 'Principal',
     items: [
       { id: 'comando-central', label: 'Comando Central', icon: Atom, description: 'Núcleo IA en 3D — orquestación viva de todas las secciones' },
+      { id: 'modulos-dashboard', label: 'Módulos Comerciales', icon: Store, description: '14 departamentos · 8 paquetes — vista comercial de la plataforma' },
       { id: 'control-decisiones', label: 'Control Inteligente de Decisiones', icon: Cpu, description: 'Centro de mando: decisiones rápidas por sección con IA' },
       { id: 'panel-principal', label: 'Panel Principal', icon: LayoutDashboard, description: 'Vista global de operación' },
     ],
@@ -63,6 +64,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: 'logistica-envios', label: 'Logística y Envíos', icon: Truck,         description: 'Envíos, rutas y estado' },
       { id: 'pedidos',          label: 'Pedidos',            icon: ClipboardList, description: 'Pedidos de cliente' },
       { id: 'clientes',         label: 'Clientes',           icon: Users,         description: 'Directorio de compradores' },
+      { id: 'portal-clientes-b2b', label: 'Portal B2B Internacional', icon: Globe2,  description: 'Acceso para compradores de USA y Canadá' },
     ],
   },
   {
@@ -90,7 +92,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { id: 'personal',                label: 'Personal',                  icon: User,           description: 'Directorio de colaboradores' },
       { id: 'turnos-horarios',         label: 'Turnos y Horarios',         icon: Calendar,       description: 'Programación por campo y turno' },
       { id: 'registro-entrada-turno',  label: 'Registro de Entrada — Turno', icon: LogIn,        description: 'Suite de Seguridad™ Capa 02 — facial + PIN' },
-      { id: 'capacitacion',            label: 'Capacitación',              icon: GraduationCap,  description: 'Cursos y estatus' },
+      { id: 'academia-capacitacion',   label: 'Academia y Capacitación',   icon: GradCapIcon,    description: 'AgroTech Academy™ — cursos por rol, certificaciones y biblioteca agrícola' },
       { id: 'nomina',                  label: 'Nómina',                    icon: DollarSign,     description: 'Cálculo de pago (integra destajo por QR)' },
       { id: 'evaluacion-staff',        label: 'Evaluación de Staff',       icon: UserCheck,      description: 'Evaluaciones de desempeño' },
     ],

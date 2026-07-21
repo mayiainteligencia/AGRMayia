@@ -35,6 +35,14 @@ import { InteligenciaEtapa2 } from '../features/inteligenciaEtapa2/InteligenciaE
 import { ControlDecisiones } from '../features/controlDecisiones/ControlDecisiones';
 import { ComandoCentral } from '../features/comandoCentral/ComandoCentral';
 
+// Nuevos módulos — segmentación comercial
+import { ModulosDashboard } from '../features/modulosDashboard/ModulosDashboard';
+import { PortalClientesB2B } from '../features/portalClientes/PortalClientesB2B';
+import { AcademiaCapacitacion } from '../features/academia/AcademiaCapacitacion';
+import { CosechaSiembra } from '../features/cosechaSiembra/CosechaSiembra';
+import { PlagasEnfermedades } from '../features/plagasEnfermedades/PlagasEnfermedades';
+import { CamposRanchos } from '../features/camposRanchos/CamposRanchos';
+
 /**
  * Mapa de overrides: id → componente real.
  * Lo NO listado aquí cae al Placeholder (sección en construcción).
@@ -71,6 +79,14 @@ export const PAGE_OVERRIDES: Record<string, ReactNode> = {
   'inteligencia-etapa-2':   <InteligenciaEtapa2 />,
   'control-decisiones':     <ControlDecisiones />,
   'comando-central':        <ComandoCentral />,
+
+  // Nuevos módulos — segmentación comercial
+  'modulos-dashboard':      <ModulosDashboard />,
+  'portal-clientes-b2b':    <PortalClientesB2B />,
+  'academia-capacitacion':  <AcademiaCapacitacion />,
+  'cosecha-siembra':        <CosechaSiembra />,
+  'plagas-enfermedades':    <PlagasEnfermedades />,
+  'campos-ranchos':         <CamposRanchos />,
 };
 
 /** Set de ids que sí tienen contenido implementado. */

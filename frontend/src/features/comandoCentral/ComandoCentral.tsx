@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
-import type { LucideIcon } from 'lucide-react';
 import {
-  Atom, Sparkles, ArrowRight, ChevronLeft, ChevronRight, EyeOff,
-  BarChart3, Warehouse, Boxes, HeartHandshake, Cloud,
-  FlaskConical, ShieldAlert, Server, Bot, Users,
+  Atom, Sparkles, ArrowRight,
+  Cpu, FlaskConical, Sprout, Droplets, Bug, Bell,
+  BarChart3, Package, Truck, DollarSign, Globe,
+  HeartHandshake, GraduationCap, Brain,
+  Check, Zap, Lock, Layers, ChevronRight as ChevRight,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { brandingConfig } from '../../config/branding';
 import { useNav } from '../../config/navContext';
 
@@ -236,81 +238,166 @@ const INSIGHTS: { texto: string; seccion: string; label: string }[] = [
   { texto: 'Nodo repeater-campo-7 caído; 6 sensores sin reporte. Ejecuté failover al enlace redundante.', seccion: 'noc', label: 'NOC' },
 ];
 
-/* ── Resúmenes laterales (HUD) ─────────────────────────── */
-type Sev = 'ok' | 'warn' | 'crit';
-interface Resumen { id: string; nombre: string; metrica: string; sev: Sev; icon: LucideIcon; bars: number[]; }
-const SEV: Record<Sev, string> = { ok: colores.exito, warn: colores.advertencia, crit: colores.peligro };
+/* ── DEPARTAMENTOS COMERCIALES ─────────────────────────── */
+type DeptStatus = 'activo' | 'disponible' | 'proximamente';
+interface Dept {
+  id: number; nombre: string; descripcion: string;
+  icon: LucideIcon; status: DeptStatus; paquete: number;
+  color: string; subModulos: string[]; navTarget: string;
+}
 
-const IZQ: Resumen[] = [
-  { id: 'analitica-reportes', nombre: 'Finanzas y Analítica', metrica: '+40.3% crecimiento', sev: 'ok', icon: BarChart3, bars: [40, 55, 48, 70, 62, 88] },
-  { id: 'cedis', nombre: 'Cedís', metrica: '86% ocupación', sev: 'warn', icon: Warehouse, bars: [60, 72, 68, 80, 86, 84] },
-  { id: 'inventario', nombre: 'Inventario', metrica: '7 SKUs bajo mínimo', sev: 'warn', icon: Boxes, bars: [30, 45, 38, 28, 20, 15] },
-  { id: 'agricultores-menores', nombre: 'Agricultores Menores', metrica: '96 t acopiadas', sev: 'ok', icon: HeartHandshake, bars: [50, 58, 65, 72, 84, 96] },
-  { id: 'panel-meteorologico', nombre: 'Panel Meteorológico', metrica: 'Helada probable', sev: 'crit', icon: Cloud, bars: [70, 60, 45, 30, 22, 12] },
+const STATUS_CFG: Record<DeptStatus, { label: string; bg: string; border: string; color: string; icon: LucideIcon }> = {
+  activo:       { label: 'ACTIVO',       bg: 'rgba(82,183,136,0.12)',  border: 'rgba(82,183,136,0.3)',  color: '#52B788', icon: Check },
+  disponible:   { label: 'DISPONIBLE',   bg: 'rgba(59,130,246,0.10)',  border: 'rgba(59,130,246,0.25)', color: '#3B82F6', icon: Zap },
+  proximamente: { label: 'PRÓXIMAMENTE', bg: 'rgba(156,163,175,0.10)', border: 'rgba(156,163,175,0.25)', color: '#9CA3AF', icon: Lock },
+};
+
+const PAQUETES_NAMES: Record<number, string> = {
+  1: 'Plataforma Base', 2: 'Producción Agrícola', 3: 'Cosecha y Calidad',
+  4: 'Operación y Logística', 5: 'Comercial y Finanzas', 6: 'Clientes Internacionales',
+  7: 'Cooperativas y Productores', 8: 'IA Avanzada',
+};
+
+const DEPARTAMENTOS: Dept[] = [
+  { id:1,  nombre:'Cerebro Tecnológico',                   descripcion:'Base obligatoria de la plataforma. Usuarios, seguridad, APIs, motor de alertas, IA y arquitectura cloud.',                     icon:Cpu,            status:'activo',       paquete:1, color:'#52B788', subModulos:['Comando Central','Control de Decisiones','Panel Principal','Ciberseguridad','NOC','Monitoreo App','Reglas Operativas'],      navTarget:'panel-principal' },
+  { id:2,  nombre:'Laboratorio e Inteligencia Agronómica',  descripcion:'Análisis foliar, agua, biometría, calidad de fruto, Brix, blush y relación fenológica.',                                     icon:FlaskConical,   status:'activo',       paquete:2, color:'#3B82F6', subModulos:['Panel Laboratorio','Análisis de Alimentos','Suelo y Aguas','Microbiología','Informes y Certificados','Análisis Visual'],        navTarget:'panel-laboratorio' },
+  { id:3,  nombre:'Campo y Monitoreo Agrícola',             descripcion:'Registro de recorridos, muestreo por lote, fenología, incidencias y evidencia fotográfica.',                                 icon:Sprout,         status:'disponible',   paquete:2, color:'#10B981', subModulos:['Cosecha y Siembra','Campos / Ranchos','Plagas y Enfermedades','Listas de Preparación'],                                          navTarget:'cosecha-siembra' },
+  { id:4,  nombre:'Riego, Nutrición y Variables Críticas',  descripcion:'pH, EC/PPM, humedad, VPD, PPFD, DLI, horas de frío, programa de nutrición.',                                                icon:Droplets,       status:'activo',       paquete:2, color:'#06B6D4', subModulos:['Medición de Agua','Instrumentos Ambientales','Soil-Bio-Vision™','Calculadora de Fertilizantes'],                                   navTarget:'medicion-agua' },
+  { id:5,  nombre:'Control Biológico, Plagas y Enfermedades',descripcion:'Monitoreo preventivo y correctivo de agentes biológicos con protocolos y evidencia.',                                      icon:Bug,            status:'disponible',   paquete:2, color:'#F59E0B', subModulos:['Bio-Acoustic Sentinel™','Plagas y Enfermedades','Protocolos Preventivos','Protocolos Correctivos'],                           navTarget:'bio-acoustic-sentinel' },
+  { id:6,  nombre:'Alertas e Inteligencia Operativa',       descripcion:'Alertas informativas, preventivas, críticas y ejecutivas de toda la operación.',                                            icon:Bell,           status:'activo',       paquete:1, color:'#EF4444', subModulos:['Reglas Operativas','Alertas del Sistema','Alertas Meteorológicas','Motor de Alertas'],                                           navTarget:'reglas-operativas' },
+  { id:7,  nombre:'Cosecha y Predicción de Producción',     descripcion:'Estimación de volumen, ventana de corte, rendimiento por planta y programación.',                                          icon:BarChart3,      status:'activo',       paquete:3, color:'#8B5CF6', subModulos:['Motor de Probabilidad™','Planificación Integral','Calendario de Siembra','Predicción IA'],                                       navTarget:'motor-probabilidad' },
+  { id:8,  nombre:'Empaque, Calidad y Trazabilidad',        descripcion:'Recepción de fruta, clasificación, empaque, trazabilidad, certificaciones.',                                                icon:Package,        status:'activo',       paquete:3, color:'#EC4899', subModulos:['Cooler y Empaque','Calidad','Trazabilidad','Certificaciones'],                                                                  navTarget:'cooler-empaque' },
+  { id:9,  nombre:'Logística, Inventarios y CEDIS',         descripcion:'Inventarios, insumos, almacén, CEDIS, embarques, rutas y cadena fría.',                                                    icon:Truck,          status:'activo',       paquete:4, color:'#F97316', subModulos:['CEDIS','Inventario','Logística y Envíos','Pedidos','Proveedores'],                                                             navTarget:'cedis' },
+  { id:10, nombre:'Ventas, Finanzas y Precios Predictivos', descripcion:'Precios históricos, proyectados, órdenes de compra, márgenes y rentabilidad.',                                             icon:DollarSign,     status:'activo',       paquete:5, color:'#14B8A6', subModulos:['Analítica y Reportes','Gastos Operativos','Clientes','Precios Predictivos'],                                                  navTarget:'analitica-reportes' },
+  { id:11, nombre:'Portal Clientes Internacionales',        descripcion:'Acceso B2B para compradores de USA y Canadá. Disponibilidad, precios, órdenes.',                                          icon:Globe,          status:'proximamente', paquete:6, color:'#6366F1', subModulos:['Portal B2B','Disponibilidad de Cosecha','Órdenes de Compra','Trazabilidad','Documentación'],                                navTarget:'portal-clientes-b2b' },
+  { id:12, nombre:'Cooperativas y Pequeños Productores',    descripcion:'Registro de productores, capacitación, certificaciones, financiamiento.',                                                  icon:HeartHandshake, status:'activo',       paquete:7, color:'#D946EF', subModulos:['Agricultores Menores','Certificaciones','Financiamiento','Oportunidades Comerciales'],                                        navTarget:'agricultores-menores' },
+  { id:13, nombre:'Capacitación y Adopción',                descripcion:'Cursos, manuales, certificaciones internas, rutas de aprendizaje por rol.',                                                icon:GraduationCap,  status:'proximamente', paquete:7, color:'#0EA5E9', subModulos:['Academia','Cursos por Rol','Certificaciones Internas','Biblioteca Agrícola'],                                             navTarget:'academia-capacitacion' },
+  { id:14, nombre:'Inteligencia Artificial y Agentes',      descripcion:'Agentes especializados: agronómico, riego, laboratorio, plagas, cosecha, comercial.',                                     icon:Brain,          status:'activo',       paquete:8, color:'#A855F7', subModulos:['BRAIN™ Central','Agente Agronómico','Agente de Riego','Agente Comercial','Inteligencia Etapa 2'],                            navTarget:'inteligencia-etapa-2' },
 ];
-const DER: Resumen[] = [
-  { id: 'panel-laboratorio', nombre: 'Panel Laboratorio', metrica: '96% aprobación', sev: 'ok', icon: FlaskConical, bars: [88, 90, 92, 91, 95, 96] },
-  { id: 'ciberseguridad', nombre: 'Ciberseguridad', metrica: '1,284 amenazas bloq.', sev: 'warn', icon: ShieldAlert, bars: [40, 62, 55, 78, 70, 92] },
-  { id: 'noc', nombre: 'NOC', metrica: '99.97% uptime', sev: 'ok', icon: Server, bars: [96, 98, 97, 99, 98, 99] },
-  { id: 'robotics-iot', nombre: 'Robótica e IoT', metrica: '6/8 robots activos', sev: 'warn', icon: Bot, bars: [80, 75, 70, 65, 72, 60] },
-  { id: 'clientes', nombre: 'Clientes', metrica: '$4.82M ingreso', sev: 'ok', icon: Users, bars: [55, 60, 58, 68, 74, 82] },
-];
 
-const MiniBars: React.FC<{ bars: number[]; color: string }> = ({ bars, color }) => (
-  <div style={{ display: 'flex', alignItems: 'flex-end', gap: 2, height: 22, flexShrink: 0 }}>
-    {bars.map((b, i) => (
-      <span key={i} style={{ width: 3, height: `${b}%`, background: i === bars.length - 1 ? color : `${color}66`, borderRadius: 1 }} />
-    ))}
-  </div>
-);
-
+/* Corners decorative element */
 const Corners: React.FC<{ color: string }> = ({ color }) => {
-  const base: React.CSSProperties = { position: 'absolute', width: 10, height: 10, borderColor: color, pointerEvents: 'none' };
+  const base: React.CSSProperties = { position: 'absolute', width: 8, height: 8, borderColor: color, pointerEvents: 'none' };
   return (
     <>
-      <span style={{ ...base, top: 6, left: 6, borderTop: `1.5px solid`, borderLeft: `1.5px solid` }} />
-      <span style={{ ...base, top: 6, right: 6, borderTop: `1.5px solid`, borderRight: `1.5px solid` }} />
-      <span style={{ ...base, bottom: 6, left: 6, borderBottom: `1.5px solid`, borderLeft: `1.5px solid` }} />
-      <span style={{ ...base, bottom: 6, right: 6, borderBottom: `1.5px solid`, borderRight: `1.5px solid` }} />
+      <span style={{ ...base, top: 4, left: 4, borderTop: `1.5px solid`, borderLeft: `1.5px solid`, opacity: 0.5 }} />
+      <span style={{ ...base, top: 4, right: 4, borderTop: `1.5px solid`, borderRight: `1.5px solid`, opacity: 0.5 }} />
+      <span style={{ ...base, bottom: 4, left: 4, borderBottom: `1.5px solid`, borderLeft: `1.5px solid`, opacity: 0.5 }} />
+      <span style={{ ...base, bottom: 4, right: 4, borderBottom: `1.5px solid`, borderRight: `1.5px solid`, opacity: 0.5 }} />
     </>
   );
 };
 
-/* Tarjeta 3D individual por sección */
-const GlassTile: React.FC<{ it: Resumen; side: 'left' | 'right' }> = ({ it, side }) => {
+/* DeptTile for side panel lists */
+const DeptTile: React.FC<{ dept: Dept; side: 'left' | 'right' }> = ({ dept, side }) => {
   const nav = useNav();
-  const Icon = it.icon;
+  const sc = STATUS_CFG[dept.status];
+  const DeptIcon = dept.icon;
+  const [isExpanded, setIsExpanded] = React.useState(false);
+
   return (
     <div className={`cc-tilt ${side}`}>
-      <div className="cc-panel3d" role="button" onClick={() => nav(it.id)} style={{ cursor: 'pointer' }}>
-        <div className="cc-glass" />
+      <div 
+        className="cc-panel3d" 
+        role="button" 
+        onClick={() => setIsExpanded(!isExpanded)} 
+        style={{ cursor: 'pointer', width: '260px' }}
+      >
+        <div className="cc-glass" style={{ border: isExpanded ? `1.5px solid ${dept.color}` : undefined }} />
         <div className="cc-glare" />
-        <div className="cc-content" style={{ padding: 13, gap: 9 }}>
-          <Corners color={colores.acento} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 9, flexShrink: 0, background: `${colores.secundario}16`, border: `1px solid ${colores.secundario}33`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Icon size={16} color={colores.secundario} strokeWidth={2} />
+        <div className="cc-content" style={{ padding: '12px 14px', gap: 6 }}>
+          <Corners color={dept.color} />
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ 
+              width: 30, height: 30, borderRadius: 8, flexShrink: 0, 
+              background: `${dept.color}14`, border: `1px solid ${dept.color}25`, 
+              display: 'flex', alignItems: 'center', justifyContent: 'center' 
+            }}>
+              <DeptIcon size={14} color={dept.color} strokeWidth={2} />
             </div>
-            <span style={{ flex: 1, fontSize: 13, fontWeight: 800, color: colores.textoClaro, letterSpacing: '-0.2px', lineHeight: 1.15 }}>{it.nombre}</span>
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: SEV[it.sev], boxShadow: `0 0 7px ${SEV[it.sev]}`, flexShrink: 0 }} />
+            
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <span style={{ fontSize: 8, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                DEP {String(dept.id).padStart(2, '0')}
+              </span>
+              <h3 style={{ 
+                fontSize: 12.5, fontWeight: 800, color: colores.textoClaro, 
+                margin: 0, lineHeight: 1.15, letterSpacing: '-0.1px',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+              }}>
+                {dept.nombre}
+              </h3>
+            </div>
+
+            <span style={{ 
+              width: 6, height: 6, borderRadius: '50%', 
+              background: sc.color, boxShadow: `0 0 6px ${sc.color}`, 
+              flexShrink: 0 
+            }} />
           </div>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 8 }}>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 11.5, color: colores.textoOscuro, fontVariantNumeric: 'tabular-nums' }}>{it.metrica}</div>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, marginTop: 4, fontSize: 10.5, fontWeight: 700, color: colores.secundario }}>
-                Abrir <ArrowRight size={11} />
+
+          {/* Description shown on expand */}
+          {isExpanded ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4, animation: 'cc-emerge2 0.2s ease' }}>
+              <p style={{ fontSize: 11, color: colores.textoMedio, lineHeight: 1.45, margin: 0 }}>
+                {dept.descripcion}
+              </p>
+              
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                {dept.subModulos.map(s => (
+                  <span key={s} style={{ padding: '2px 6px', borderRadius: 4, fontSize: 9, background: 'rgba(0,0,0,0.04)', color: colores.textoMedio }}>
+                    {s}
+                  </span>
+                ))}
+              </div>
+
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nav(dept.navTarget);
+                }}
+                style={{
+                  marginTop: 4,
+                  width: '100%',
+                  padding: '7px 12px',
+                  borderRadius: 6,
+                  background: dept.color,
+                  color: '#fff',
+                  border: 'none',
+                  fontSize: 10.5,
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                  boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
+                  fontFamily: 'inherit'
+                }}
+              >
+                <span>Más info</span>
+                <ArrowRight size={11} color="#fff" />
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
+              <span style={{ fontSize: 10, color: colores.textoOscuro, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 170 }}>
+                {PAQUETES_NAMES[dept.paquete]}
+              </span>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 9.5, fontWeight: 700, color: colores.secundario }}>
+                Expandir
               </div>
             </div>
-            <MiniBars bars={it.bars} color={SEV[it.sev]} />
-          </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-/* Columna de tarjetas individuales (con ocultar/llamar) */
-const SidePanel: React.FC<{ titulo: string; items: Resumen[]; open: boolean; onToggle: () => void; side: 'left' | 'right' }> = ({ titulo, items, open, onToggle, side }) => {
+/* SidePanel Column Container with Scroll support */
+const SidePanel: React.FC<{ titulo: string; items: Dept[]; open: boolean; onToggle: () => void; side: 'left' | 'right' }> = ({ titulo, items, open, onToggle, side }) => {
   if (!open) {
     return (
       <button onClick={onToggle} title={`Mostrar ${titulo}`} className="cc-rail" style={{
@@ -318,7 +405,7 @@ const SidePanel: React.FC<{ titulo: string; items: Resumen[]; open: boolean; onT
         background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(8px)', border: `1px solid ${colores.acento}40`,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '14px 0',
       }}>
-        {side === 'left' ? <ChevronRight size={15} color={colores.secundario} /> : <ChevronLeft size={15} color={colores.secundario} />}
+        {side === 'left' ? <ChevRight size={15} color={colores.secundario} /> : <ChevRight size={15} color={colores.secundario} style={{ transform: 'rotate(180deg)' }} />}
         <span style={{ writingMode: 'vertical-rl', fontSize: 10.5, fontWeight: 800, color: colores.secundario, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{titulo}</span>
       </button>
     );
@@ -328,13 +415,18 @@ const SidePanel: React.FC<{ titulo: string; items: Resumen[]; open: boolean; onT
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '0 2px', flexDirection: side === 'right' ? 'row-reverse' : 'row' }}>
         <span style={{ fontSize: 11, fontWeight: 800, color: colores.primario, letterSpacing: '0.12em', textTransform: 'uppercase', flex: 1, textAlign: side === 'right' ? 'right' : 'left' }}>{titulo}</span>
         <button onClick={onToggle} title="Ocultar" style={{ width: 24, height: 24, borderRadius: 7, border: `1px solid ${colores.borde}`, background: 'rgba(255,255,255,0.85)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <EyeOff size={12} color={colores.textoOscuro} />
+          <span style={{ fontSize: 10, color: colores.textoOscuro, fontWeight: 'bold' }}>✕</span>
         </button>
       </div>
-      {items.map(it => <GlassTile key={it.id} it={it} side={side} />)}
+      <div className="cc-scroll-area" style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: '580px', overflowY: 'auto', paddingRight: 4 }}>
+        {items.map(dept => <DeptTile key={dept.id} dept={dept} side={side} />)}
+      </div>
     </div>
   );
 };
+
+const LEFT_DEPTS = DEPARTAMENTOS.slice(0, 7);
+const RIGHT_DEPTS = DEPARTAMENTOS.slice(7, 14);
 
 /* ── Sección ───────────────────────────────────────────── */
 export const ComandoCentral: React.FC = () => {
@@ -359,8 +451,9 @@ export const ComandoCentral: React.FC = () => {
         @keyframes cc-emerge2 { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .cc-card { transition: transform 0.16s, box-shadow 0.16s; }
         .cc-card:hover { transform: translateX(2px); box-shadow: 0 8px 20px rgba(14,35,24,0.1); }
+        
         .cc-stage {
-          position: relative; height: 640px; overflow: visible;
+          position: relative; height: 680px; overflow: visible;
           background: radial-gradient(circle at 50% 46%, rgba(82,183,136,0.16) 0%, rgba(82,183,136,0.05) 42%, rgba(255,255,255,0) 72%);
         }
         .cc-brain { position: absolute; inset: 0; }
@@ -370,32 +463,35 @@ export const ComandoCentral: React.FC = () => {
 
         /* Tarjeta 3D individual (glass tilt) */
         .cc-tilt { perspective: 1000px; }
-        .cc-panel3d { position: relative; width: 260px; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(.22,1,.36,1); will-change: transform; }
-        /* Hundidas por defecto; se enderezan al hover */
-        .cc-tilt.left  .cc-panel3d { transform: rotate3d(1, 1,0,16deg); }
-        .cc-tilt.right .cc-panel3d { transform: rotate3d(1,-1,0,16deg); }
+        .cc-panel3d { position: relative; width: 100%; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(.22,1,.36,1); will-change: transform; }
+        .cc-tilt.left  .cc-panel3d { transform: rotate3d(1, 1,0,8deg); }
+        .cc-tilt.right .cc-panel3d { transform: rotate3d(1,-1,0,8deg); }
         .cc-tilt.left:hover  .cc-panel3d,
         .cc-tilt.right:hover .cc-panel3d { transform: none; }
-        .cc-glass { position: absolute; inset: 0; border-radius: 18px; background: rgba(255,255,255,0.62); backdrop-filter: blur(12px); border: 1.5px solid ${colores.acento}; transition: box-shadow 0.5s; animation: cc-glow 3.2s ease-in-out infinite; }
-        .cc-tilt:hover .cc-glass { box-shadow: 0 0 28px rgba(82,183,136,0.75), 0 16px 30px rgba(14,35,24,0.12); animation: none; border-color: ${colores.acento}; }
+        .cc-glass { position: absolute; inset: 0; border-radius: 18px; background: rgba(255,255,255,0.72); backdrop-filter: blur(12px); border: 1.5px solid ${colores.acento}44; transition: box-shadow 0.5s, border-color 0.3s; animation: cc-glow 3.2s ease-in-out infinite; }
+        .cc-tilt:hover .cc-glass { box-shadow: 0 0 24px rgba(82,183,136,0.65), 0 12px 24px rgba(14,35,24,0.1); animation: none; border-color: ${colores.acento}; }
+        
         @keyframes cc-glow {
-          0%,100% { box-shadow: 0 0 12px rgba(82,183,136,0.35), 0 10px 22px rgba(14,35,24,0.07); }
-          50%     { box-shadow: 0 0 24px rgba(82,183,136,0.65), 0 10px 22px rgba(14,35,24,0.07); }
+          0%,100% { box-shadow: 0 0 10px rgba(82,183,136,0.22), 0 8px 16px rgba(14,35,24,0.05); }
+          50%     { box-shadow: 0 0 20px rgba(82,183,136,0.48), 0 8px 16px rgba(14,35,24,0.05); }
         }
         .cc-glare { position: absolute; inset: 3px; border-radius: 16px; background: linear-gradient(140deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.04) 60%); border-bottom: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); pointer-events: none; }
-        .cc-content { position: relative; padding: 14px; display: flex; flex-direction: column; gap: 9px; }
-        .cc-tile { transition: transform 0.55s cubic-bezier(.22,1,.36,1), box-shadow 0.16s; }
+        .cc-content { position: relative; display: flex; flex-direction: column; }
+
+        .cc-scroll-area::-webkit-scrollbar { width: 4px; }
+        .cc-scroll-area::-webkit-scrollbar-track { background: transparent; }
+        .cc-scroll-area::-webkit-scrollbar-thumb { background: rgba(82,183,136,0.25); border-radius: 4px; }
 
         @media (max-width: 1023px) {
           .cc-stage { height: auto; display: flex; flex-direction: column; gap: 14px; }
-          .cc-brain { position: relative; inset: auto; height: 420px; }
+          .cc-brain { position: relative; inset: auto; height: 380px; }
           .cc-slot { position: static; }
           .cc-slot.left, .cc-slot.right { left: auto; right: auto; }
           .cc-tilt { perspective: none; }
           .cc-tilt.left .cc-panel3d, .cc-tilt.right .cc-panel3d { transform: none; }
           .cc-panel3d, .cc-col, .cc-rail { width: 100% !important; }
-          .cc-content { transform: none; }
           .cc-glare { display: none; }
+          .cc-scroll-area { max-height: none !important; overflow-y: visible !important; }
         }
       `}</style>
 
@@ -417,7 +513,7 @@ export const ComandoCentral: React.FC = () => {
         </div>
       </div>
 
-      {/* Sin cuadro: átomo centrado de fondo, laterales flotan encima */}
+      {/* Átomo centrado de fondo, laterales flotan encima */}
       <div className="cc-stage">
         <div className="cc-brain">
           <BrainCanvas ref={brainRef} onPulse={advance} />
@@ -429,6 +525,7 @@ export const ComandoCentral: React.FC = () => {
             background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)',
             border: `1px solid ${colores.acento}40`, borderRadius: 999, padding: '8px 10px 8px 12px',
             display: 'flex', alignItems: 'center', gap: 10, boxShadow: colores.sombraMedia,
+            zIndex: 10,
           }}>
             <div style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: colores.gradienteAcento, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Sparkles size={13} color="#fff" />
@@ -455,11 +552,12 @@ export const ComandoCentral: React.FC = () => {
           </div>
         </div>
 
+        {/* HUD Panels a los laterales */}
         <div className="cc-slot left">
-          <SidePanel titulo="Operación" items={IZQ} open={leftOpen} onToggle={() => setLeftOpen(o => !o)} side="left" />
+          <SidePanel titulo="Operación" items={LEFT_DEPTS} open={leftOpen} onToggle={() => setLeftOpen(o => !o)} side="left" />
         </div>
         <div className="cc-slot right">
-          <SidePanel titulo="Tecnología" items={DER} open={rightOpen} onToggle={() => setRightOpen(o => !o)} side="right" />
+          <SidePanel titulo="Tecnología" items={RIGHT_DEPTS} open={rightOpen} onToggle={() => setRightOpen(o => !o)} side="right" />
         </div>
       </div>
     </div>
