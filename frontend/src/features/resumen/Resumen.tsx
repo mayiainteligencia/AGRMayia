@@ -67,7 +67,7 @@ export const Resumen: React.FC = () => (
       </div>
       <div className="welcome-logos" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
         <div style={{ background: 'rgba(0,0,0,0.45)', borderRadius: 12, padding: '8px 14px' }}>
-          <img src="/assets/logosNativos/mayiaLogoBlanco.png" alt="Mayia" style={{ height: 36, objectFit: 'contain', display: 'block' }} />
+          <img src="/assets/logosNativos/AgroBotanicalLogo.png" alt="Mayia" style={{ height: 36, objectFit: 'contain', display: 'block' }} />
         </div>
         <div style={{ background: 'rgba(0,0,0,0.45)', borderRadius: 12, padding: '8px 14px' }}>
           <img src="/assets/logosNativos/flai.png" alt="FLAI" style={{ height: 36, objectFit: 'contain', display: 'block' }} />

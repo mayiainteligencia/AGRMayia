@@ -417,7 +417,7 @@ export const HeroCard: React.FC = () => {
           >
             <span>Potenciado por</span>
             <img
-              src="/assets/logosNativos/mayiaLogoBlanco.png"
+              src="/assets/logosNativos/AgroBotanicalLogo.png"
               alt="MAYIA"
               style={{
                 height: '16px',

@@ -2,7 +2,7 @@ export const brandingConfig = {
   empresa: {
     nombre: "AgroTech IA",
     eslogan: "Inteligencia para el campo",
-    logo: "/assets/logosNativos/agroTechAIBlack.png",
+    logo: "/assets/logosNativos/AgroBotanicalLogo.png",
   },
 
   colores: {
