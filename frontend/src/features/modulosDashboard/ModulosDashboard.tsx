@@ -637,12 +637,12 @@ export const ModulosDashboard: React.FC = () => {
           5 ETAPAS COMERCIALES — CLUSTERS
       ════════════════════════════════════════════ */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 40 }}>
-        {CLUSTERS.map((cluster, i) => (
+        {CLUSTERS.map((cluster) => (
           <ClusterSection
             key={cluster.etapa}
             cluster={cluster}
             depts={cluster.deptIds.map(id => DEPARTAMENTOS.find(d => d.id === id)!).filter(Boolean)}
-            defaultOpen={i === 0}
+            defaultOpen={false}
             nav={nav}
           />
         ))}

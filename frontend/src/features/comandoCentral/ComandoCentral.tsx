@@ -589,7 +589,7 @@ export const ComandoCentral: React.FC = () => {
           display: grid;
           grid-template-columns: 280px 1fr 280px;
           gap: 16px;
-          align-items: start;
+          align-items: center;
         }
         .cc-nucleus {
           position: relative; height: 640px;
@@ -597,7 +597,7 @@ export const ComandoCentral: React.FC = () => {
           border-radius: 20px;
         }
         .cc-brain { position: absolute; inset: 0; border-radius: 20px; overflow: hidden; }
-        .cc-col-side { display: flex; flex-direction: column; gap: 10px; }
+        .cc-col-side { display: flex; flex-direction: column; gap: 20px; }
 
         @media (max-width: 900px) {
           .cc-arena { grid-template-columns: 1fr; }
@@ -642,8 +642,8 @@ export const ComandoCentral: React.FC = () => {
 
         {/* COLUMNA IZQUIERDA — Cerebro · Essentials · Operación */}
         <div className="cc-col-side">
-          {CLUSTERS.slice(0, 3).map((cluster, i) => (
-            <ClusterAccordion key={cluster.etapa} cluster={cluster} defaultOpen={i === 0} />
+          {CLUSTERS.slice(0, 3).map((cluster) => (
+            <ClusterAccordion key={cluster.etapa} cluster={cluster} defaultOpen={false} />
           ))}
         </div>
 
