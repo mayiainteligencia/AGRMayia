@@ -6,6 +6,7 @@ import {
   ChevronRight, Sparkles, Lock, Check, Zap,
   Layers,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { useNav } from '../../config/navContext';
 
 /* ═══════════════════════════════════════════════════
@@ -207,6 +208,219 @@ const PAQUETES: PaqueteComercial[] = [
 ];
 
 /* ═══════════════════════════════════════════════════
+   5 CLUSTERS COMERCIALES
+   ═══════════════════════════════════════════════════ */
+
+interface Cluster {
+  etapa: number;
+  titulo: string;
+  subtitulo: string;
+  color: string;
+  colorBorder: string;
+  colorText: string;
+  colorAccent: string;
+  deptIds: number[];
+}
+
+const CLUSTERS: Cluster[] = [
+  {
+    etapa: 1, titulo: 'CEREBRO',
+    subtitulo: 'Módulo base obligatorio — plataforma, seguridad, IA y aprendizaje',
+    color: '#D6EFE4', colorBorder: '#A8D5BA', colorText: '#1A4731', colorAccent: '#2D6A4F',
+    deptIds: [1, 2, 6, 13, 14],
+  },
+  {
+    etapa: 2, titulo: 'ESSENTIALS',
+    subtitulo: 'Módulo premium agronómico-operativo — riego, nutrición y cosecha',
+    color: '#D4E8F5', colorBorder: '#A0C4E0', colorText: '#0C3556', colorAccent: '#1565C0',
+    deptIds: [4, 7],
+  },
+  {
+    etapa: 3, titulo: 'OPERACIÓN',
+    subtitulo: 'Empaque, calidad, trazabilidad, logística e inventarios',
+    color: '#F0D9E8', colorBorder: '#D4A8C5', colorText: '#4A1040', colorAccent: '#8B2475',
+    deptIds: [8, 9],
+  },
+  {
+    etapa: 4, titulo: 'AGRO BIO ROBOTICS',
+    subtitulo: 'Campo, monitoreo, IoT, cámaras, drones y control biológico',
+    color: '#FAE5D4', colorBorder: '#E8C4A4', colorText: '#4A2010', colorAccent: '#C0601A',
+    deptIds: [3, 5],
+  },
+  {
+    etapa: 5, titulo: 'VENTAS',
+    subtitulo: 'Comercial, finanzas, clientes internacionales y cooperativas',
+    color: '#E8D4F5', colorBorder: '#C8A4E0', colorText: '#2E0D55', colorAccent: '#6B21A8',
+    deptIds: [10, 11, 12],
+  },
+];
+
+/* ── Cluster Accordion sub-component ─────────────── */
+const ClusterSection: React.FC<{
+  cluster: Cluster;
+  depts: Departamento[];
+  defaultOpen?: boolean;
+  nav: (id: string) => void;
+}> = ({ cluster, depts, defaultOpen = false, nav }) => {
+  const [open, setOpen] = useState(defaultOpen);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const activeCount = depts.filter(d => d.status === 'activo').length;
+
+  return (
+    <div style={{
+      borderRadius: 18,
+      border: `1.5px solid ${cluster.colorBorder}`,
+      overflow: 'hidden',
+      boxShadow: open
+        ? `0 8px 28px ${cluster.color}90, 0 2px 8px rgba(0,0,0,0.04)`
+        : '0 2px 8px rgba(0,0,0,0.04)',
+      transition: 'box-shadow 0.4s ease',
+      marginBottom: 0,
+    }}>
+      {/* Header */}
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          width: '100%', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+          background: cluster.color, padding: '16px 22px',
+          display: 'flex', alignItems: 'center', gap: 16,
+        }}
+      >
+        <div style={{
+          width: 40, height: 40, borderRadius: 11, flexShrink: 0,
+          background: `${cluster.colorAccent}1A`, border: `1.5px solid ${cluster.colorAccent}40`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <span style={{ fontSize: 14, fontWeight: 900, color: cluster.colorAccent }}>{cluster.etapa}</span>
+        </div>
+        <div style={{ flex: 1, minWidth: 0, textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <span style={{ fontSize: 16, fontWeight: 900, color: cluster.colorText, letterSpacing: '-0.2px' }}>
+              ETAPA {cluster.etapa} — {cluster.titulo}
+            </span>
+            <span style={{
+              fontSize: 9.5, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+              background: `${cluster.colorAccent}18`, color: cluster.colorAccent,
+              border: `1px solid ${cluster.colorAccent}30`,
+            }}>
+              {activeCount}/{depts.length} ACTIVOS
+            </span>
+          </div>
+          <p style={{ margin: '2px 0 0', fontSize: 11.5, color: cluster.colorText, opacity: 0.6, fontWeight: 500 }}>
+            {cluster.subtitulo}
+          </p>
+        </div>
+        <div style={{
+          width: 30, height: 30, borderRadius: 8, flexShrink: 0,
+          background: `${cluster.colorAccent}15`, border: `1px solid ${cluster.colorAccent}30`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'transform 0.35s cubic-bezier(.22,1,.36,1)',
+          transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+        }}>
+          <ChevronRight size={15} color={cluster.colorAccent} />
+        </div>
+      </button>
+
+      {/* Cards grid */}
+      {open && (
+        <div style={{
+          background: `${cluster.color}55`,
+          padding: '20px 22px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: 16,
+          animation: 'md-fadein 0.28s ease',
+        }}>
+          {depts.map((dept, idx) => {
+            const sc = STATUS_CONFIG[dept.status];
+            const StatusIcon = sc.icon as LucideIcon;
+            const DeptIcon = dept.icon as LucideIcon;
+            const paq = PAQUETES.find(p => p.id === dept.paquete);
+            const isHov = hovered === dept.id;
+            return (
+              <div
+                key={dept.id}
+                className="md-card"
+                style={{ animation: `md-fadein 0.3s ease ${idx * 0.05}s backwards` }}
+                onMouseEnter={() => setHovered(dept.id)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => dept.navTarget && nav(dept.navTarget)}
+              >
+                <div style={{
+                  position: 'absolute', top: 0, left: 0, right: 0,
+                  height: 3, borderRadius: '16px 16px 0 0',
+                  background: `linear-gradient(90deg, ${dept.color}, ${dept.color}80)`,
+                  opacity: isHov ? 1 : 0.55, transition: 'opacity 0.25s',
+                }} />
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
+                  <div style={{
+                    width: 44, height: 44, borderRadius: 12, flexShrink: 0,
+                    background: `${dept.color}12`, border: `1px solid ${dept.color}25`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transform: isHov ? 'scale(1.08)' : 'none', transition: 'all 0.25s',
+                  }}>
+                    <DeptIcon size={20} color={dept.color} strokeWidth={2} />
+                  </div>
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 5,
+                    background: sc.bg, border: `1px solid ${sc.border}`,
+                    borderRadius: 20, padding: '3px 10px',
+                  }}>
+                    <StatusIcon size={10} color={sc.color} strokeWidth={3} />
+                    <span style={{ fontSize: 9.5, fontWeight: 700, color: sc.color, letterSpacing: '0.06em' }}>{sc.label}</span>
+                  </div>
+                </div>
+                <div style={{ marginBottom: 6 }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>
+                    DEPARTAMENTO {String(dept.id).padStart(2, '0')}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#111827', margin: '0 0 7px', lineHeight: 1.25 }}>
+                  {dept.nombre}
+                </h3>
+                <p style={{
+                  fontSize: 12, color: '#6B7280', lineHeight: 1.5, margin: '0 0 12px',
+                  display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
+                }}>
+                  {dept.descripcion}
+                </p>
+                <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 5, marginBottom: 14 }}>
+                  {dept.subModulos.slice(0, 4).map(sub => (
+                    <span key={sub} className="md-sub-tag">{sub}</span>
+                  ))}
+                  {dept.subModulos.length > 4 && (
+                    <span className="md-sub-tag" style={{ background: '#E5E7EB', color: '#9CA3AF' }}>+{dept.subModulos.length - 4}</span>
+                  )}
+                </div>
+                <div style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  paddingTop: 10, borderTop: '1px solid #F3F4F6',
+                }}>
+                  {paq && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6B7280', fontWeight: 500 }}>
+                      <Layers size={12} color={paq.color} />
+                      <span>Paquete {paq.id}: {paq.nombre}</span>
+                    </div>
+                  )}
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 8,
+                    background: isHov ? '#1A3C2E' : '#F3F4F6',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transition: 'all 0.2s',
+                  }}>
+                    <ChevronRight size={14} color={isHov ? '#fff' : '#9CA3AF'} />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* ═══════════════════════════════════════════════════
    STATUS HELPERS
    ═══════════════════════════════════════════════════ */
 
@@ -222,13 +436,7 @@ const STATUS_CONFIG: Record<DeptStatus, { label: string; bg: string; border: str
 
 export const ModulosDashboard: React.FC = () => {
   const nav = useNav();
-  const [hoveredDept, setHoveredDept] = useState<number | null>(null);
   const [expandedPaquete, setExpandedPaquete] = useState<number | null>(null);
-  const [filterStatus, setFilterStatus] = useState<DeptStatus | 'todos'>('todos');
-
-  const filtered = filterStatus === 'todos'
-    ? DEPARTAMENTOS
-    : DEPARTAMENTOS.filter(d => d.status === filterStatus);
 
   const stats = {
     activos:       DEPARTAMENTOS.filter(d => d.status === 'activo').length,
@@ -426,155 +634,18 @@ export const ModulosDashboard: React.FC = () => {
       </div>
 
       {/* ════════════════════════════════════════════
-          FILTERS
+          5 ETAPAS COMERCIALES — CLUSTERS
       ════════════════════════════════════════════ */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 24, flexWrap: 'wrap' as const }}>
-        <span style={{ fontSize: 12, color: '#6B7280', fontWeight: 600, marginRight: 4 }}>Filtrar:</span>
-        {(['todos', 'activo', 'disponible', 'proximamente'] as const).map(f => (
-          <button
-            key={f}
-            className={`md-filter-btn ${filterStatus === f ? 'is-active' : ''}`}
-            onClick={() => setFilterStatus(f)}
-          >
-            {f === 'todos' ? `Todos (${stats.total})` :
-             f === 'activo' ? `Activos (${stats.activos})` :
-             f === 'disponible' ? `Disponibles (${stats.disponibles})` :
-             `Próximamente (${stats.proximamente})`}
-          </button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 40 }}>
+        {CLUSTERS.map((cluster, i) => (
+          <ClusterSection
+            key={cluster.etapa}
+            cluster={cluster}
+            depts={cluster.deptIds.map(id => DEPARTAMENTOS.find(d => d.id === id)!).filter(Boolean)}
+            defaultOpen={i === 0}
+            nav={nav}
+          />
         ))}
-      </div>
-
-      {/* ════════════════════════════════════════════
-          DEPARTAMENTO CARDS GRID
-      ════════════════════════════════════════════ */}
-      <div className="md-dept-grid" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: 18,
-        marginBottom: 40,
-      }}>
-        {filtered.map((dept, idx) => {
-          const sc = STATUS_CONFIG[dept.status];
-          const StatusIcon = sc.icon;
-          const DeptIcon = dept.icon;
-          const isHovered = hoveredDept === dept.id;
-          const paq = PAQUETES.find(p => p.id === dept.paquete);
-
-          return (
-            <div
-              key={dept.id}
-              className="md-card"
-              style={{
-                animation: `md-fadein 0.4s cubic-bezier(.22,1,.36,1) ${idx * 0.04}s backwards`,
-              }}
-              onMouseEnter={() => setHoveredDept(dept.id)}
-              onMouseLeave={() => setHoveredDept(null)}
-              onClick={() => dept.navTarget && nav(dept.navTarget)}
-            >
-              {/* Top color bar */}
-              <div style={{
-                position: 'absolute', top: 0, left: 0, right: 0,
-                height: 3, borderRadius: '16px 16px 0 0',
-                background: `linear-gradient(90deg, ${dept.color}, ${dept.color}80)`,
-                opacity: isHovered ? 1 : 0.5,
-                transition: 'opacity 0.25s',
-              }} />
-
-              {/* Header row */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
-                {/* Icon */}
-                <div style={{
-                  width: 44, height: 44, borderRadius: 12, flexShrink: 0,
-                  background: `${dept.color}12`,
-                  border: `1px solid ${dept.color}25`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.25s',
-                  transform: isHovered ? 'scale(1.08)' : 'none',
-                }}>
-                  <DeptIcon size={20} color={dept.color} strokeWidth={2} />
-                </div>
-
-                {/* Status badge */}
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: 5,
-                  background: sc.bg, border: `1px solid ${sc.border}`,
-                  borderRadius: 20, padding: '3px 10px',
-                }}>
-                  <StatusIcon size={10} color={sc.color} strokeWidth={3} />
-                  <span style={{ fontSize: 9.5, fontWeight: 700, color: sc.color, letterSpacing: '0.06em' }}>
-                    {sc.label}
-                  </span>
-                </div>
-              </div>
-
-              {/* Department number + name */}
-              <div style={{ marginBottom: 8 }}>
-                <span style={{
-                  fontSize: 10, fontWeight: 700, color: '#9CA3AF',
-                  letterSpacing: '0.1em', textTransform: 'uppercase' as const,
-                }}>
-                  DEPARTAMENTO {String(dept.id).padStart(2, '0')}
-                </span>
-              </div>
-              <h3 style={{
-                fontSize: 16, fontWeight: 700, color: '#111827',
-                margin: '0 0 8px', lineHeight: 1.25,
-              }}>
-                {dept.nombre}
-              </h3>
-              <p style={{
-                fontSize: 12.5, color: '#6B7280', lineHeight: 1.5,
-                margin: '0 0 14px',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical' as const,
-                overflow: 'hidden',
-              }}>
-                {dept.descripcion}
-              </p>
-
-              {/* Sub-modules tags */}
-              <div style={{
-                display: 'flex', flexWrap: 'wrap' as const, gap: 5,
-                marginBottom: 16,
-              }}>
-                {dept.subModulos.slice(0, 4).map(sub => (
-                  <span key={sub} className="md-sub-tag">{sub}</span>
-                ))}
-                {dept.subModulos.length > 4 && (
-                  <span className="md-sub-tag" style={{ background: '#E5E7EB', color: '#9CA3AF' }}>
-                    +{dept.subModulos.length - 4}
-                  </span>
-                )}
-              </div>
-
-              {/* Footer: Paquete badge + arrow */}
-              <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                paddingTop: 12,
-                borderTop: '1px solid #F3F4F6',
-              }}>
-                {paq && (
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 6,
-                    fontSize: 11, color: '#6B7280', fontWeight: 500,
-                  }}>
-                    <Layers size={12} color={paq.color} />
-                    <span>Paquete {paq.id}: {paq.nombre}</span>
-                  </div>
-                )}
-                <div style={{
-                  width: 28, height: 28, borderRadius: 8,
-                  background: isHovered ? '#1A3C2E' : '#F3F4F6',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.2s',
-                }}>
-                  <ChevronRight size={14} color={isHovered ? '#fff' : '#9CA3AF'} />
-                </div>
-              </div>
-            </div>
-          );
-        })}
       </div>
 
       {/* ════════════════════════════════════════════

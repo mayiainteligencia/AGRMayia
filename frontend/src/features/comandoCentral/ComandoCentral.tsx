@@ -580,19 +580,28 @@ export const ComandoCentral: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <style>{`
         @keyframes cc-ping2 { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.7); opacity: 0.3; } }
         @keyframes cc-emerge2 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .cc-stage {
-          position: relative; height: 480px; overflow: visible;
-          background: radial-gradient(circle at 50% 46%, rgba(82,183,136,0.18) 0%, rgba(82,183,136,0.06) 42%, transparent 72%);
+        .cc-arena {
+          display: grid;
+          grid-template-columns: 280px 1fr 280px;
+          gap: 16px;
+          align-items: start;
         }
-        .cc-brain { position: absolute; inset: 0; }
+        .cc-nucleus {
+          position: relative; height: 640px;
+          background: radial-gradient(circle at 50% 46%, rgba(82,183,136,0.22) 0%, rgba(82,183,136,0.07) 45%, transparent 72%);
+          border-radius: 20px;
+        }
+        .cc-brain { position: absolute; inset: 0; border-radius: 20px; overflow: hidden; }
+        .cc-col-side { display: flex; flex-direction: column; gap: 10px; }
 
-        @media (max-width: 767px) {
-          .cc-stage { height: 320px; }
+        @media (max-width: 900px) {
+          .cc-arena { grid-template-columns: 1fr; }
+          .cc-nucleus { height: 360px; order: -1; }
         }
       `}</style>
 
@@ -628,16 +637,27 @@ export const ComandoCentral: React.FC = () => {
         </div>
       </div>
 
-      {/* ── Núcleo 3D ── */}
-      <div className="cc-stage">
-        <div className="cc-brain">
-          <BrainCanvas ref={brainRef} onPulse={advance} />
+      {/* ── Layout 3 columnas ── */}
+      <div className="cc-arena">
+
+        {/* COLUMNA IZQUIERDA — Cerebro · Essentials · Operación */}
+        <div className="cc-col-side">
+          {CLUSTERS.slice(0, 3).map((cluster, i) => (
+            <ClusterAccordion key={cluster.etapa} cluster={cluster} defaultOpen={i === 0} />
+          ))}
+        </div>
+
+        {/* COLUMNA CENTRO — Núcleo 3D MAYIA */}
+        <div className="cc-nucleus">
+          <div className="cc-brain">
+            <BrainCanvas ref={brainRef} onPulse={advance} />
+          </div>
 
           {/* HUD insight */}
           <div key={idx} style={{
             position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: 16,
-            width: 'min(440px, calc(100% - 32px))', animation: 'cc-emerge2 0.4s ease',
-            background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)',
+            width: 'min(360px, calc(100% - 24px))', animation: 'cc-emerge2 0.4s ease',
+            background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)',
             border: `1px solid ${colores.acento}40`, borderRadius: 999,
             padding: '8px 10px 8px 12px',
             display: 'flex', alignItems: 'center', gap: 10,
@@ -651,39 +671,40 @@ export const ComandoCentral: React.FC = () => {
               <Sparkles size={13} color="#fff" />
             </div>
             <p style={{
-              margin: 0, flex: 1, minWidth: 0, fontSize: 12, color: colores.textoMedio, lineHeight: 1.35,
+              margin: 0, flex: 1, minWidth: 0, fontSize: 11.5, color: colores.textoMedio, lineHeight: 1.35,
               display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
             }}>
               <span style={{ fontWeight: 800, color: colores.secundario }}>MAYIA · </span>{insight.texto}
             </p>
             <button onClick={() => nav(insight.seccion)} title={`Ir a ${insight.label}`} style={{
-              flexShrink: 0, width: 30, height: 30, borderRadius: '50%',
+              flexShrink: 0, width: 28, height: 28, borderRadius: '50%',
               border: 'none', cursor: 'pointer',
               background: colores.secundario, color: '#fff',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <ArrowRight size={15} />
+              <ArrowRight size={13} />
             </button>
           </div>
 
-          {/* Hint label */}
-          <div style={{ position: 'absolute', top: 10, left: 0, right: 0, textAlign: 'center', pointerEvents: 'none' }}>
+          {/* Hint label top */}
+          <div style={{ position: 'absolute', top: 10, left: 0, right: 0, textAlign: 'center', pointerEvents: 'none', zIndex: 5 }}>
             <span style={{
-              fontSize: 11.5, color: colores.textoOscuro,
-              background: 'rgba(255,255,255,0.75)', padding: '5px 14px',
+              fontSize: 11, color: colores.textoOscuro,
+              background: 'rgba(255,255,255,0.78)', padding: '4px 12px',
               borderRadius: 20, border: `1px solid ${colores.borde}`,
             }}>
               Toca el núcleo — gira y te da la siguiente lectura
             </span>
           </div>
         </div>
-      </div>
 
-      {/* ── 5 Clusters Acordeón ── */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {CLUSTERS.map((cluster, i) => (
-          <ClusterAccordion key={cluster.etapa} cluster={cluster} defaultOpen={i === 0} />
-        ))}
+        {/* COLUMNA DERECHA — Agro Bio Robotics · Ventas */}
+        <div className="cc-col-side">
+          {CLUSTERS.slice(3).map((cluster) => (
+            <ClusterAccordion key={cluster.etapa} cluster={cluster} defaultOpen={false} />
+          ))}
+        </div>
+
       </div>
     </div>
   );
