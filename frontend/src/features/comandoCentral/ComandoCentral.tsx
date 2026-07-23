@@ -155,46 +155,117 @@ const BrainCanvas = forwardRef<BrainHandle, { onPulse: () => void }>(({ onPulse 
       ctx.stroke();
       ctx.shadowBlur = 0;
 
-      // Flujo de datos — módulos → núcleo (curvas + streams)
+      // Flujo de datos dinámico — conecta delicadamente el núcleo con las etapas comerciales
       const bez = (x0: number, y0: number, x1: number, y1: number, x2: number, y2: number, u: number) => {
         const m = 1 - u;
         return { x: m * m * x0 + 2 * m * u * x1 + u * u * x2, y: m * m * y0 + 2 * m * u * y1 + u * u * y2 };
       };
-      const spreadY = Math.min(h * 0.40, R * 2.4);
-      const rels = [-0.5, -0.25, 0, 0.25, 0.5];
-      const anchors: { ax: number; ay: number; incoming: boolean; seed: number }[] = [];
-      rels.forEach((ry, i) => {
-        anchors.push({ ax: w * 0.19, ay: cy + ry * spreadY, incoming: true, seed: i });
-        anchors.push({ ax: w * 0.81, ay: cy + ry * spreadY, incoming: i % 3 !== 0, seed: i + 5 });
-      });
+
+      // Medir dinámicamente las posiciones Y de los headers de los clusters en el DOM
+      const arena = canvas.closest('.cc-arena');
+      const cRect = canvas.getBoundingClientRect();
+      const leftY: number[] = [];
+      const rightY: number[] = [];
+
+      if (arena) {
+        const sideCols = arena.querySelectorAll('.cc-col-side');
+        if (sideCols[0]) {
+          const headers = sideCols[0].querySelectorAll('button');
+          headers.forEach(h => {
+            const r = h.getBoundingClientRect();
+            if (r.right <= cRect.left + 120) { // Lado izquierdo
+              leftY.push(r.top + r.height / 2 - cRect.top);
+            }
+          });
+        }
+        if (sideCols[1]) {
+          const headers = sideCols[1].querySelectorAll('button');
+          headers.forEach(h => {
+            const r = h.getBoundingClientRect();
+            if (r.left >= cRect.right - 120) { // Lado derecho
+              rightY.push(r.top + r.height / 2 - cRect.top);
+            }
+          });
+        }
+      }
+
+      // Fallbacks para responsive
+      const leftFallback = [h * 0.28, h * 0.50, h * 0.72];
+      const rightFallback = [h * 0.38, h * 0.62];
+
+      const leftColors = ['#2D6A4F', '#1565C0', '#8B2475'];
+      const rightColors = ['#C0601A', '#6B21A8'];
+
+      const anchors: { ax: number; ay: number; color: string; seed: number }[] = [];
+
+      // Llenamos los lazos de la izquierda (ax = 0 toca físicamente el borde del botón)
+      if (leftY.length > 0) {
+        leftY.forEach((y, i) => {
+          anchors.push({ ax: 0, ay: y, color: leftColors[i] || '#2D6A4F', seed: i });
+        });
+      } else if (cRect.width > 600) {
+        leftFallback.forEach((y, i) => {
+          anchors.push({ ax: 0, ay: y, color: leftColors[i], seed: i });
+        });
+      }
+
+      // Llenamos los lazos de la derecha (ax = w toca físicamente el borde del botón)
+      if (rightY.length > 0) {
+        rightY.forEach((y, i) => {
+          anchors.push({ ax: w, ay: y, color: rightColors[i] || '#6B21A8', seed: i + 3 });
+        });
+      } else if (cRect.width > 600) {
+        rightFallback.forEach((y, i) => {
+          anchors.push({ ax: w, ay: y, color: rightColors[i], seed: i + 3 });
+        });
+      }
+
+      // Dibujar cada lazo de forma sutil y elegante (sin opacar el núcleo)
       anchors.forEach(a => {
         const cpx = (a.ax + cx) / 2;
-        const cpy = cy + (a.ay - cy) * 0.12;
+        const cpy = cy + (a.ay - cy) * 0.15;
+
+        // Línea elegante con opacidad media equilibrada
         const lg = ctx.createLinearGradient(a.ax, a.ay, cx, cy);
-        lg.addColorStop(0, 'rgba(82,183,136,0.14)');
-        lg.addColorStop(1, 'rgba(82,183,136,0.65)');
+        lg.addColorStop(0, `${a.color}55`);
+        lg.addColorStop(0.5, `${a.color}22`);
+        lg.addColorStop(1, 'rgba(82,183,136,0.55)');
+
         ctx.beginPath();
         ctx.moveTo(a.ax, a.ay);
         ctx.quadraticCurveTo(cpx, cpy, cx, cy);
         ctx.strokeStyle = lg;
-        ctx.lineWidth = 1.8;
-        ctx.shadowColor = 'rgba(82,183,136,0.7)';
-        ctx.shadowBlur = 8;
+        ctx.lineWidth = 1.35;
+        ctx.shadowColor = a.color;
+        ctx.shadowBlur = 2;
         ctx.stroke();
         ctx.shadowBlur = 0;
-        for (let k = 0; k < 4; k++) {
-          const raw = (t * 0.16 + a.seed * 0.21 + k * 0.25) % 1;
-          const u = a.incoming ? raw : 1 - raw;
+
+        // Orbes de datos sutiles pero claramente visibles flotando hacia el núcleo
+        for (let k = 0; k < 2; k++) {
+          const raw = (t * 0.11 + a.seed * 0.35 + k * 0.45) % 1;
+          const u = raw;
           const p = bez(a.ax, a.ay, cpx, cpy, cx, cy, u);
           const fade = Math.sin(raw * Math.PI);
-          const size = (2.6 - k * 0.5) * fade;
-          if (size <= 0.3) continue;
-          ctx.beginPath();
-          ctx.fillStyle = `rgba(${k === 0 ? '124,203,169' : '82,183,136'},${(k === 0 ? 0.95 : 0.55) * fade})`;
-          ctx.shadowColor = 'rgba(82,183,136,1)';
-          ctx.shadowBlur = 10 * fade;
-          ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-          ctx.fill();
+          const size = (2.8 - k * 0.6) * fade;
+
+          if (size > 0.4) {
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+            ctx.fillStyle = `${a.color}`;
+            ctx.globalAlpha = fade * 0.85;
+            ctx.shadowColor = a.color;
+            ctx.shadowBlur = 4;
+            ctx.fill();
+
+            // Pequeño centro brillante blanco
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, size * 0.45, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fill();
+            ctx.restore();
+          }
         }
       });
       ctx.shadowBlur = 0;
@@ -596,7 +667,7 @@ export const ComandoCentral: React.FC = () => {
           background: radial-gradient(circle at 50% 46%, rgba(82,183,136,0.22) 0%, rgba(82,183,136,0.07) 45%, transparent 72%);
           border-radius: 20px;
         }
-        .cc-brain { position: absolute; inset: 0; border-radius: 20px; overflow: hidden; }
+        .cc-brain { position: absolute; top: 0; bottom: 0; left: -16px; right: -16px; border-radius: 20px; overflow: visible; }
         .cc-col-side { display: flex; flex-direction: column; gap: 20px; }
 
         @media (max-width: 900px) {
