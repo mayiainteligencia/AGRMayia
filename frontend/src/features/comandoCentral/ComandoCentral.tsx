@@ -259,23 +259,88 @@ const PAQUETES_NAMES: Record<number, string> = {
 };
 
 const DEPARTAMENTOS: Dept[] = [
-  { id:1,  nombre:'Cerebro Tecnológico',                   descripcion:'Base obligatoria de la plataforma. Usuarios, seguridad, APIs, motor de alertas, IA y arquitectura cloud.',                     icon:Cpu,            status:'activo',       paquete:1, color:'#52B788', subModulos:['Comando Central','Control de Decisiones','Panel Principal','Ciberseguridad','NOC','Monitoreo App','Reglas Operativas'],      navTarget:'panel-principal' },
-  { id:2,  nombre:'Laboratorio e Inteligencia Agronómica',  descripcion:'Análisis foliar, agua, biometría, calidad de fruto, Brix, blush y relación fenológica.',                                     icon:FlaskConical,   status:'activo',       paquete:2, color:'#3B82F6', subModulos:['Panel Laboratorio','Análisis de Alimentos','Suelo y Aguas','Microbiología','Informes y Certificados','Análisis Visual'],        navTarget:'panel-laboratorio' },
-  { id:3,  nombre:'Campo y Monitoreo Agrícola',             descripcion:'Registro de recorridos, muestreo por lote, fenología, incidencias y evidencia fotográfica.',                                 icon:Sprout,         status:'disponible',   paquete:2, color:'#10B981', subModulos:['Cosecha y Siembra','Campos / Ranchos','Plagas y Enfermedades','Listas de Preparación'],                                          navTarget:'cosecha-siembra' },
-  { id:4,  nombre:'Riego, Nutrición y Variables Críticas',  descripcion:'pH, EC/PPM, humedad, VPD, PPFD, DLI, horas de frío, programa de nutrición.',                                                icon:Droplets,       status:'activo',       paquete:2, color:'#06B6D4', subModulos:['Medición de Agua','Instrumentos Ambientales','Soil-Bio-Vision™','Calculadora de Fertilizantes'],                                   navTarget:'medicion-agua' },
-  { id:5,  nombre:'Control Biológico, Plagas y Enfermedades',descripcion:'Monitoreo preventivo y correctivo de agentes biológicos con protocolos y evidencia.',                                      icon:Bug,            status:'disponible',   paquete:2, color:'#F59E0B', subModulos:['Bio-Acoustic Sentinel™','Plagas y Enfermedades','Protocolos Preventivos','Protocolos Correctivos'],                           navTarget:'bio-acoustic-sentinel' },
-  { id:6,  nombre:'Alertas e Inteligencia Operativa',       descripcion:'Alertas informativas, preventivas, críticas y ejecutivas de toda la operación.',                                            icon:Bell,           status:'activo',       paquete:1, color:'#EF4444', subModulos:['Reglas Operativas','Alertas del Sistema','Alertas Meteorológicas','Motor de Alertas'],                                           navTarget:'reglas-operativas' },
-  { id:7,  nombre:'Cosecha y Predicción de Producción',     descripcion:'Estimación de volumen, ventana de corte, rendimiento por planta y programación.',                                          icon:BarChart3,      status:'activo',       paquete:3, color:'#8B5CF6', subModulos:['Motor de Probabilidad™','Planificación Integral','Calendario de Siembra','Predicción IA'],                                       navTarget:'motor-probabilidad' },
-  { id:8,  nombre:'Empaque, Calidad y Trazabilidad',        descripcion:'Recepción de fruta, clasificación, empaque, trazabilidad, certificaciones.',                                                icon:Package,        status:'activo',       paquete:3, color:'#EC4899', subModulos:['Cooler y Empaque','Calidad','Trazabilidad','Certificaciones'],                                                                  navTarget:'cooler-empaque' },
-  { id:9,  nombre:'Logística, Inventarios y CEDIS',         descripcion:'Inventarios, insumos, almacén, CEDIS, embarques, rutas y cadena fría.',                                                    icon:Truck,          status:'activo',       paquete:4, color:'#F97316', subModulos:['CEDIS','Inventario','Logística y Envíos','Pedidos','Proveedores'],                                                             navTarget:'cedis' },
-  { id:10, nombre:'Ventas, Finanzas y Precios Predictivos', descripcion:'Precios históricos, proyectados, órdenes de compra, márgenes y rentabilidad.',                                             icon:DollarSign,     status:'activo',       paquete:5, color:'#14B8A6', subModulos:['Analítica y Reportes','Gastos Operativos','Clientes','Precios Predictivos'],                                                  navTarget:'analitica-reportes' },
-  { id:11, nombre:'Portal Clientes Internacionales',        descripcion:'Acceso B2B para compradores de USA y Canadá. Disponibilidad, precios, órdenes.',                                          icon:Globe,          status:'proximamente', paquete:6, color:'#6366F1', subModulos:['Portal B2B','Disponibilidad de Cosecha','Órdenes de Compra','Trazabilidad','Documentación'],                                navTarget:'portal-clientes-b2b' },
-  { id:12, nombre:'Cooperativas y Pequeños Productores',    descripcion:'Registro de productores, capacitación, certificaciones, financiamiento.',                                                  icon:HeartHandshake, status:'activo',       paquete:7, color:'#D946EF', subModulos:['Agricultores Menores','Certificaciones','Financiamiento','Oportunidades Comerciales'],                                        navTarget:'agricultores-menores' },
-  { id:13, nombre:'Capacitación y Adopción',                descripcion:'Cursos, manuales, certificaciones internas, rutas de aprendizaje por rol.',                                                icon:GraduationCap,  status:'proximamente', paquete:7, color:'#0EA5E9', subModulos:['Academia','Cursos por Rol','Certificaciones Internas','Biblioteca Agrícola'],                                             navTarget:'academia-capacitacion' },
-  { id:14, nombre:'Inteligencia Artificial y Agentes',      descripcion:'Agentes especializados: agronómico, riego, laboratorio, plagas, cosecha, comercial.',                                     icon:Brain,          status:'activo',       paquete:8, color:'#A855F7', subModulos:['BRAIN™ Central','Agente Agronómico','Agente de Riego','Agente Comercial','Inteligencia Etapa 2'],                            navTarget:'inteligencia-etapa-2' },
+  { id:1,  nombre:'Cerebro Tecnológico',                    descripcion:'Base obligatoria de la plataforma. Usuarios, seguridad, APIs, motor de alertas, IA y arquitectura cloud.',                     icon:Cpu,            status:'activo',       paquete:1, color:'#52B788', subModulos:['Comando Central','Control de Decisiones','Panel Principal','Ciberseguridad','NOC','Monitoreo App','Reglas Operativas'], navTarget:'panel-principal' },
+  { id:2,  nombre:'Laboratorio e Inteligencia Agronómica',  descripcion:'Análisis foliar, agua, biometría, calidad de fruto, Brix, blush y relación fenológica.',                                      icon:FlaskConical,   status:'activo',       paquete:2, color:'#3B82F6', subModulos:['Panel Laboratorio','Análisis de Alimentos','Suelo y Aguas','Microbiología','Informes y Certificados','Análisis Visual'], navTarget:'panel-laboratorio' },
+  { id:3,  nombre:'Campo y Monitoreo Agrícola',             descripcion:'Registro de recorridos, muestreo por lote, fenología, incidencias y evidencia fotográfica.',                                  icon:Sprout,         status:'disponible',   paquete:2, color:'#10B981', subModulos:['Cosecha y Siembra','Campos / Ranchos','Plagas y Enfermedades','Listas de Preparación'], navTarget:'cosecha-siembra' },
+  { id:4,  nombre:'Riego, Nutrición y Variables Críticas',  descripcion:'pH, EC/PPM, humedad, VPD, PPFD, DLI, horas de frío, programa de nutrición.',                                                 icon:Droplets,       status:'activo',       paquete:2, color:'#06B6D4', subModulos:['Medición de Agua','Instrumentos Ambientales','Soil-Bio-Vision™','Calculadora de Fertilizantes'], navTarget:'medicion-agua' },
+  { id:5,  nombre:'Control Biológico, Plagas y Enfermedades',descripcion:'Monitoreo preventivo y correctivo de agentes biológicos con protocolos y evidencia.',                                       icon:Bug,            status:'disponible',   paquete:2, color:'#F59E0B', subModulos:['Bio-Acoustic Sentinel™','Plagas y Enfermedades','Protocolos Preventivos','Protocolos Correctivos'], navTarget:'bio-acoustic-sentinel' },
+  { id:6,  nombre:'Alertas e Inteligencia Operativa',       descripcion:'Alertas informativas, preventivas, críticas y ejecutivas de toda la operación.',                                             icon:Bell,           status:'activo',       paquete:1, color:'#EF4444', subModulos:['Reglas Operativas','Alertas del Sistema','Alertas Meteorológicas','Motor de Alertas'], navTarget:'reglas-operativas' },
+  { id:7,  nombre:'Cosecha y Predicción de Producción',     descripcion:'Estimación de volumen, ventana de corte, rendimiento por planta y programación.',                                           icon:BarChart3,      status:'activo',       paquete:3, color:'#8B5CF6', subModulos:['Motor de Probabilidad™','Planificación Integral','Calendario de Siembra','Predicción IA'], navTarget:'motor-probabilidad' },
+  { id:8,  nombre:'Empaque, Calidad y Trazabilidad',        descripcion:'Recepción de fruta, clasificación, empaque, trazabilidad, certificaciones.',                                                 icon:Package,        status:'activo',       paquete:3, color:'#EC4899', subModulos:['Cooler y Empaque','Calidad','Trazabilidad','Certificaciones'], navTarget:'cooler-empaque' },
+  { id:9,  nombre:'Logística, Inventarios y CEDIS',         descripcion:'Inventarios, insumos, almacén, CEDIS, embarques, rutas y cadena fría.',                                                     icon:Truck,          status:'activo',       paquete:4, color:'#F97316', subModulos:['CEDIS','Inventario','Logística y Envíos','Pedidos','Proveedores'], navTarget:'cedis' },
+  { id:10, nombre:'Ventas, Finanzas y Precios Predictivos', descripcion:'Precios históricos, proyectados, órdenes de compra, márgenes y rentabilidad.',                                              icon:DollarSign,     status:'activo',       paquete:5, color:'#14B8A6', subModulos:['Analítica y Reportes','Gastos Operativos','Clientes','Precios Predictivos'], navTarget:'analitica-reportes' },
+  { id:11, nombre:'Portal Clientes Internacionales',        descripcion:'Acceso B2B para compradores de USA y Canadá. Disponibilidad, precios, órdenes.',                                           icon:Globe,          status:'proximamente', paquete:6, color:'#6366F1', subModulos:['Portal B2B','Disponibilidad de Cosecha','Órdenes de Compra','Trazabilidad','Documentación'], navTarget:'portal-clientes-b2b' },
+  { id:12, nombre:'Cooperativas y Pequeños Productores',    descripcion:'Registro de productores, capacitación, certificaciones, financiamiento.',                                                   icon:HeartHandshake, status:'activo',       paquete:7, color:'#D946EF', subModulos:['Agricultores Menores','Certificaciones','Financiamiento','Oportunidades Comerciales'], navTarget:'agricultores-menores' },
+  { id:13, nombre:'Capacitación y Adopción',                descripcion:'Cursos, manuales, certificaciones internas, rutas de aprendizaje por rol.',                                                 icon:GraduationCap,  status:'proximamente', paquete:7, color:'#0EA5E9', subModulos:['Academia','Cursos por Rol','Certificaciones Internas','Biblioteca Agrícola'], navTarget:'academia-capacitacion' },
+  { id:14, nombre:'Inteligencia Artificial y Agentes',      descripcion:'Agentes especializados: agronómico, riego, laboratorio, plagas, cosecha, comercial.',                                      icon:Brain,          status:'activo',       paquete:8, color:'#A855F7', subModulos:['BRAIN™ Central','Agente Agronómico','Agente de Riego','Agente Comercial','Inteligencia Etapa 2'], navTarget:'inteligencia-etapa-2' },
 ];
 
-/* Corners decorative element */
+/* ── 5 CLUSTERS COMERCIALES ────────────────────────────── */
+interface Cluster {
+  etapa: number;
+  titulo: string;
+  subtitulo: string;
+  color: string;          // header background (pastel)
+  colorBorder: string;    // border color
+  colorText: string;      // header text color
+  colorAccent: string;    // accent / icon color
+  deptIds: number[];
+}
+
+const CLUSTERS: Cluster[] = [
+  {
+    etapa: 1,
+    titulo: 'CEREBRO',
+    subtitulo: 'Módulo base obligatorio — plataforma, seguridad, IA y aprendizaje',
+    color: '#D6EFE4',
+    colorBorder: '#A8D5BA',
+    colorText: '#1A4731',
+    colorAccent: '#2D6A4F',
+    deptIds: [1, 2, 6, 13, 14],
+  },
+  {
+    etapa: 2,
+    titulo: 'ESSENTIALS',
+    subtitulo: 'Módulo premium agronómico-operativo — riego, nutrición y cosecha',
+    color: '#D4E8F5',
+    colorBorder: '#A0C4E0',
+    colorText: '#0C3556',
+    colorAccent: '#1565C0',
+    deptIds: [4, 7],
+  },
+  {
+    etapa: 3,
+    titulo: 'OPERACIÓN',
+    subtitulo: 'Empaque, calidad, trazabilidad, logística e inventarios',
+    color: '#F0D9E8',
+    colorBorder: '#D4A8C5',
+    colorText: '#4A1040',
+    colorAccent: '#8B2475',
+    deptIds: [8, 9],
+  },
+  {
+    etapa: 4,
+    titulo: 'AGRO BIO ROBOTICS',
+    subtitulo: 'Campo, monitoreo, IoT, cámaras, drones y control biológico',
+    color: '#FAE5D4',
+    colorBorder: '#E8C4A4',
+    colorText: '#4A2010',
+    colorAccent: '#C0601A',
+    deptIds: [3, 5],
+  },
+  {
+    etapa: 5,
+    titulo: 'VENTAS',
+    subtitulo: 'Comercial, finanzas, clientes internacionales y cooperativas',
+    color: '#E8D4F5',
+    colorBorder: '#C8A4E0',
+    colorText: '#2E0D55',
+    colorAccent: '#6B21A8',
+    deptIds: [10, 11, 12],
+  },
+];
+
+/* ── Corners decorative element ────────────────────────── */
 const Corners: React.FC<{ color: string }> = ({ color }) => {
   const base: React.CSSProperties = { position: 'absolute', width: 8, height: 8, borderColor: color, pointerEvents: 'none' };
   return (
@@ -288,106 +353,122 @@ const Corners: React.FC<{ color: string }> = ({ color }) => {
   );
 };
 
-/* DeptTile for side panel lists */
-const DeptTile: React.FC<{ dept: Dept; side: 'left' | 'right' }> = ({ dept, side }) => {
+/* ── DeptTile — tarjeta individual expandible ───────────── */
+const DeptTile: React.FC<{ dept: Dept }> = ({ dept }) => {
   const nav = useNav();
   const sc = STATUS_CFG[dept.status];
   const DeptIcon = dept.icon;
   const [isExpanded, setIsExpanded] = React.useState(false);
 
   return (
-    <div className={`cc-tilt ${side}`}>
-      <div 
-        className="cc-panel3d" 
-        role="button" 
-        onClick={() => setIsExpanded(!isExpanded)} 
-        style={{ cursor: 'pointer', width: '260px' }}
+    <div style={{ perspective: 1000, width: '100%' }}>
+      <div
+        role="button"
+        onClick={() => setIsExpanded(!isExpanded)}
+        style={{
+          position: 'relative',
+          cursor: 'pointer',
+          width: '100%',
+          transformStyle: 'preserve-3d',
+          transition: 'transform 0.4s cubic-bezier(.22,1,.36,1)',
+        }}
       >
-        <div className="cc-glass" style={{ border: isExpanded ? `1.5px solid ${dept.color}` : undefined }} />
-        <div className="cc-glare" />
-        <div className="cc-content" style={{ padding: '12px 14px', gap: 6 }}>
+        {/* Glass card */}
+        <div style={{
+          position: 'absolute', inset: 0, borderRadius: 14,
+          background: isExpanded ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.80)',
+          backdropFilter: 'blur(12px)',
+          border: isExpanded ? `1.5px solid ${dept.color}` : '1.5px solid rgba(82,183,136,0.20)',
+          boxShadow: isExpanded
+            ? `0 0 20px ${dept.color}40, 0 8px 20px rgba(14,35,24,0.08)`
+            : '0 2px 8px rgba(14,35,24,0.06)',
+          transition: 'all 0.35s ease',
+        }} />
+        {/* Glare */}
+        <div style={{
+          position: 'absolute', inset: 2, borderRadius: 12,
+          background: 'linear-gradient(140deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.02) 60%)',
+          pointerEvents: 'none',
+        }} />
+
+        <div style={{ position: 'relative', padding: '11px 14px', display: 'flex', flexDirection: 'column', gap: 6 }}>
           <Corners color={dept.color} />
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ 
-              width: 30, height: 30, borderRadius: 8, flexShrink: 0, 
-              background: `${dept.color}14`, border: `1px solid ${dept.color}25`, 
-              display: 'flex', alignItems: 'center', justifyContent: 'center' 
+
+          {/* Row 1: icon + name + status dot */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+            <div style={{
+              width: 32, height: 32, borderRadius: 9, flexShrink: 0,
+              background: `${dept.color}18`, border: `1px solid ${dept.color}30`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <DeptIcon size={14} color={dept.color} strokeWidth={2} />
+              <DeptIcon size={15} color={dept.color} strokeWidth={2} />
             </div>
-            
+
             <div style={{ flex: 1, minWidth: 0 }}>
               <span style={{ fontSize: 8, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 DEP {String(dept.id).padStart(2, '0')}
               </span>
-              <h3 style={{ 
-                fontSize: 12.5, fontWeight: 800, color: colores.textoClaro, 
-                margin: 0, lineHeight: 1.15, letterSpacing: '-0.1px',
-                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+              <h3 style={{
+                fontSize: 13, fontWeight: 800, color: '#111827',
+                margin: 0, lineHeight: 1.2, letterSpacing: '-0.1px',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
               }}>
                 {dept.nombre}
               </h3>
             </div>
 
-            <span style={{ 
-              width: 6, height: 6, borderRadius: '50%', 
-              background: sc.color, boxShadow: `0 0 6px ${sc.color}`, 
-              flexShrink: 0 
+            <span style={{
+              width: 7, height: 7, borderRadius: '50%',
+              background: sc.color, boxShadow: `0 0 6px ${sc.color}`,
+              flexShrink: 0,
             }} />
           </div>
 
-          {/* Description shown on expand */}
-          {isExpanded ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4, animation: 'cc-emerge2 0.2s ease' }}>
-              <p style={{ fontSize: 11, color: colores.textoMedio, lineHeight: 1.45, margin: 0 }}>
+          {/* Row 2: paquete + "Expandir" label (collapsed) */}
+          {!isExpanded && (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 10, color: '#6B7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200 }}>
+                {PAQUETES_NAMES[dept.paquete]}
+              </span>
+              <span style={{ fontSize: 9.5, fontWeight: 700, color: '#2D6A4F', letterSpacing: '0.02em' }}>
+                Expandir
+              </span>
+            </div>
+          )}
+
+          {/* Expanded content */}
+          {isExpanded && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 2, animation: 'cc-emerge2 0.22s ease' }}>
+              <p style={{ fontSize: 11.5, color: '#374151', lineHeight: 1.5, margin: 0 }}>
                 {dept.descripcion}
               </p>
-              
+
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
                 {dept.subModulos.map(s => (
-                  <span key={s} style={{ padding: '2px 6px', borderRadius: 4, fontSize: 9, background: 'rgba(0,0,0,0.04)', color: colores.textoMedio }}>
+                  <span key={s} style={{
+                    padding: '2px 8px', borderRadius: 5, fontSize: 9.5, fontWeight: 500,
+                    background: `${dept.color}12`, color: dept.color, border: `1px solid ${dept.color}25`,
+                    whiteSpace: 'nowrap',
+                  }}>
                     {s}
                   </span>
                 ))}
               </div>
 
-              <button 
-                onClick={(e) => {
-                  e.stopPropagation();
-                  nav(dept.navTarget);
-                }}
+              <button
+                onClick={(e) => { e.stopPropagation(); nav(dept.navTarget); }}
                 style={{
-                  marginTop: 4,
-                  width: '100%',
-                  padding: '7px 12px',
-                  borderRadius: 6,
-                  background: dept.color,
-                  color: '#fff',
-                  border: 'none',
-                  fontSize: 10.5,
-                  fontWeight: 700,
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6,
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.1)',
-                  fontFamily: 'inherit'
+                  marginTop: 2, width: '100%', padding: '8px 14px',
+                  borderRadius: 8, background: dept.color, color: '#fff',
+                  border: 'none', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                  boxShadow: `0 3px 10px ${dept.color}40`, fontFamily: 'inherit',
+                  transition: 'opacity 0.15s',
                 }}
               >
                 <span>Más info</span>
-                <ArrowRight size={11} color="#fff" />
+                <ArrowRight size={12} color="#fff" />
               </button>
-            </div>
-          ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 2 }}>
-              <span style={{ fontSize: 10, color: colores.textoOscuro, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 170 }}>
-                {PAQUETES_NAMES[dept.paquete]}
-              </span>
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 3, fontSize: 9.5, fontWeight: 700, color: colores.secundario }}>
-                Expandir
-              </div>
             </div>
           )}
         </div>
@@ -396,44 +477,98 @@ const DeptTile: React.FC<{ dept: Dept; side: 'left' | 'right' }> = ({ dept, side
   );
 };
 
-/* SidePanel Column Container with Scroll support */
-const SidePanel: React.FC<{ titulo: string; items: Dept[]; open: boolean; onToggle: () => void; side: 'left' | 'right' }> = ({ titulo, items, open, onToggle, side }) => {
-  if (!open) {
-    return (
-      <button onClick={onToggle} title={`Mostrar ${titulo}`} className="cc-rail" style={{
-        width: 38, alignSelf: 'stretch', minHeight: 120, borderRadius: 12, cursor: 'pointer',
-        background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(8px)', border: `1px solid ${colores.acento}40`,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, padding: '14px 0',
-      }}>
-        {side === 'left' ? <ChevRight size={15} color={colores.secundario} /> : <ChevRight size={15} color={colores.secundario} style={{ transform: 'rotate(180deg)' }} />}
-        <span style={{ writingMode: 'vertical-rl', fontSize: 10.5, fontWeight: 800, color: colores.secundario, letterSpacing: '0.14em', textTransform: 'uppercase' }}>{titulo}</span>
-      </button>
-    );
-  }
+/* ── ClusterAccordion — sección colapsable ──────────────── */
+const ClusterAccordion: React.FC<{ cluster: Cluster; defaultOpen?: boolean }> = ({ cluster, defaultOpen = false }) => {
+  const [open, setOpen] = useState(defaultOpen);
+  const depts = cluster.deptIds.map(id => DEPARTAMENTOS.find(d => d.id === id)!).filter(Boolean);
+  const activeCount = depts.filter(d => d.status === 'activo').length;
+
   return (
-    <div className="cc-col" style={{ width: 260, display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '0 2px', flexDirection: side === 'right' ? 'row-reverse' : 'row' }}>
-        <span style={{ fontSize: 11, fontWeight: 800, color: colores.primario, letterSpacing: '0.12em', textTransform: 'uppercase', flex: 1, textAlign: side === 'right' ? 'right' : 'left' }}>{titulo}</span>
-        <button onClick={onToggle} title="Ocultar" style={{ width: 24, height: 24, borderRadius: 7, border: `1px solid ${colores.borde}`, background: 'rgba(255,255,255,0.85)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <span style={{ fontSize: 10, color: colores.textoOscuro, fontWeight: 'bold' }}>✕</span>
-        </button>
-      </div>
-      <div className="cc-scroll-area" style={{ display: 'flex', flexDirection: 'column', gap: 10, maxHeight: '580px', overflowY: 'auto', paddingRight: 4 }}>
-        {items.map(dept => <DeptTile key={dept.id} dept={dept} side={side} />)}
-      </div>
+    <div style={{
+      borderRadius: 18,
+      border: `1.5px solid ${cluster.colorBorder}`,
+      overflow: 'hidden',
+      boxShadow: open
+        ? `0 8px 32px ${cluster.color}80, 0 2px 8px rgba(0,0,0,0.04)`
+        : '0 2px 8px rgba(0,0,0,0.04)',
+      transition: 'box-shadow 0.4s ease',
+    }}>
+      {/* ── Header / Toggle ── */}
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{
+          width: '100%', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
+          background: cluster.color,
+          padding: '14px 20px',
+          display: 'flex', alignItems: 'center', gap: 14,
+        }}
+      >
+        {/* Etapa badge */}
+        <div style={{
+          width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+          background: `${cluster.colorAccent}20`, border: `1.5px solid ${cluster.colorAccent}40`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <span style={{ fontSize: 12, fontWeight: 900, color: cluster.colorAccent }}>
+            {cluster.etapa}
+          </span>
+        </div>
+
+        {/* Titles */}
+        <div style={{ flex: 1, minWidth: 0, textAlign: 'left' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 15, fontWeight: 900, color: cluster.colorText, letterSpacing: '-0.2px' }}>
+              ETAPA {cluster.etapa} — {cluster.titulo}
+            </span>
+            {/* active count badge */}
+            <span style={{
+              fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 20,
+              background: `${cluster.colorAccent}18`, color: cluster.colorAccent,
+              border: `1px solid ${cluster.colorAccent}30`,
+            }}>
+              {activeCount}/{depts.length} ACTIVOS
+            </span>
+          </div>
+          <p style={{ margin: '2px 0 0', fontSize: 11, color: cluster.colorText, opacity: 0.65, fontWeight: 500 }}>
+            {cluster.subtitulo}
+          </p>
+        </div>
+
+        {/* Chevron */}
+        <div style={{
+          width: 28, height: 28, borderRadius: 8, flexShrink: 0,
+          background: `${cluster.colorAccent}15`, border: `1px solid ${cluster.colorAccent}30`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          transition: 'transform 0.35s cubic-bezier(.22,1,.36,1)',
+          transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+        }}>
+          <ChevRight size={14} color={cluster.colorAccent} />
+        </div>
+      </button>
+
+      {/* ── Dept tiles grid ── */}
+      {open && (
+        <div style={{
+          background: `${cluster.color}50`,
+          padding: '16px 20px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+          gap: 12,
+          animation: 'cc-emerge2 0.28s ease',
+        }}>
+          {depts.map(dept => (
+            <DeptTile key={dept.id} dept={dept} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-const LEFT_DEPTS = DEPARTAMENTOS.slice(0, 7);
-const RIGHT_DEPTS = DEPARTAMENTOS.slice(7, 14);
-
-/* ── Sección ───────────────────────────────────────────── */
+/* ── Sección principal ─────────────────────────────────── */
 export const ComandoCentral: React.FC = () => {
   const nav = useNav();
   const brainRef = useRef<BrainHandle>(null);
-  const [leftOpen, setLeftOpen] = useState(true);
-  const [rightOpen, setRightOpen] = useState(true);
   const [idx, setIdx] = useState(0);
   const insight = INSIGHTS[idx];
 
@@ -445,66 +580,46 @@ export const ComandoCentral: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <style>{`
         @keyframes cc-ping2 { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.7); opacity: 0.3; } }
-        @keyframes cc-emerge2 { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .cc-card { transition: transform 0.16s, box-shadow 0.16s; }
-        .cc-card:hover { transform: translateX(2px); box-shadow: 0 8px 20px rgba(14,35,24,0.1); }
-        
+        @keyframes cc-emerge2 { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
         .cc-stage {
-          position: relative; height: 680px; overflow: visible;
-          background: radial-gradient(circle at 50% 46%, rgba(82,183,136,0.16) 0%, rgba(82,183,136,0.05) 42%, rgba(255,255,255,0) 72%);
+          position: relative; height: 480px; overflow: visible;
+          background: radial-gradient(circle at 50% 46%, rgba(82,183,136,0.18) 0%, rgba(82,183,136,0.06) 42%, transparent 72%);
         }
         .cc-brain { position: absolute; inset: 0; }
-        .cc-slot { position: absolute; top: 16px; z-index: 5; }
-        .cc-slot.left { left: 16px; }
-        .cc-slot.right { right: 16px; }
 
-        /* Tarjeta 3D individual (glass tilt) */
-        .cc-tilt { perspective: 1000px; }
-        .cc-panel3d { position: relative; width: 100%; transform-style: preserve-3d; transition: transform 0.5s cubic-bezier(.22,1,.36,1); will-change: transform; }
-        .cc-tilt.left  .cc-panel3d { transform: rotate3d(1, 1,0,8deg); }
-        .cc-tilt.right .cc-panel3d { transform: rotate3d(1,-1,0,8deg); }
-        .cc-tilt.left:hover  .cc-panel3d,
-        .cc-tilt.right:hover .cc-panel3d { transform: none; }
-        .cc-glass { position: absolute; inset: 0; border-radius: 18px; background: rgba(255,255,255,0.72); backdrop-filter: blur(12px); border: 1.5px solid ${colores.acento}44; transition: box-shadow 0.5s, border-color 0.3s; animation: cc-glow 3.2s ease-in-out infinite; }
-        .cc-tilt:hover .cc-glass { box-shadow: 0 0 24px rgba(82,183,136,0.65), 0 12px 24px rgba(14,35,24,0.1); animation: none; border-color: ${colores.acento}; }
-        
-        @keyframes cc-glow {
-          0%,100% { box-shadow: 0 0 10px rgba(82,183,136,0.22), 0 8px 16px rgba(14,35,24,0.05); }
-          50%     { box-shadow: 0 0 20px rgba(82,183,136,0.48), 0 8px 16px rgba(14,35,24,0.05); }
-        }
-        .cc-glare { position: absolute; inset: 3px; border-radius: 16px; background: linear-gradient(140deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.04) 60%); border-bottom: 1px solid rgba(255,255,255,0.5); border-left: 1px solid rgba(255,255,255,0.5); pointer-events: none; }
-        .cc-content { position: relative; display: flex; flex-direction: column; }
-
-        .cc-scroll-area::-webkit-scrollbar { width: 4px; }
-        .cc-scroll-area::-webkit-scrollbar-track { background: transparent; }
-        .cc-scroll-area::-webkit-scrollbar-thumb { background: rgba(82,183,136,0.25); border-radius: 4px; }
-
-        @media (max-width: 1023px) {
-          .cc-stage { height: auto; display: flex; flex-direction: column; gap: 14px; }
-          .cc-brain { position: relative; inset: auto; height: 380px; }
-          .cc-slot { position: static; }
-          .cc-slot.left, .cc-slot.right { left: auto; right: auto; }
-          .cc-tilt { perspective: none; }
-          .cc-tilt.left .cc-panel3d, .cc-tilt.right .cc-panel3d { transform: none; }
-          .cc-panel3d, .cc-col, .cc-rail { width: 100% !important; }
-          .cc-glare { display: none; }
-          .cc-scroll-area { max-height: none !important; overflow-y: visible !important; }
+        @media (max-width: 767px) {
+          .cc-stage { height: 320px; }
         }
       `}</style>
 
-      {/* Cabecera */}
+      {/* ── Cabecera ── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
-        <div style={{ width: 48, height: 48, borderRadius: 13, background: colores.gradientePrimario, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 8px 20px ${colores.primario}40` }}>
+        <div style={{
+          width: 48, height: 48, borderRadius: 13,
+          background: colores.gradientePrimario,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: `0 8px 20px ${colores.primario}40`,
+        }}>
           <Atom size={24} color="#fff" />
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: colores.textoClaro, letterSpacing: '-0.6px' }}>Comando Central</h1>
-          <p style={{ margin: '3px 0 0', fontSize: 13.5, color: colores.textoOscuro }}>Núcleo de inteligencia MAYIA — orquestación viva de todas las secciones</p>
+          <h1 style={{ margin: 0, fontSize: 28, fontWeight: 800, color: colores.textoClaro, letterSpacing: '-0.6px' }}>
+            Comando Central
+          </h1>
+          <p style={{ margin: '3px 0 0', fontSize: 13.5, color: colores.textoOscuro }}>
+            Núcleo de inteligencia MAYIA — 14 departamentos · 5 etapas comerciales
+          </p>
         </div>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '8px 13px', borderRadius: 20, background: '#fff', border: `1px solid ${colores.acento}40`, boxShadow: colores.sombra }}>
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 7,
+          padding: '8px 13px', borderRadius: 20,
+          background: '#fff', border: `1px solid ${colores.acento}40`,
+          boxShadow: colores.sombra,
+        }}>
           <span style={{ position: 'relative', width: 8, height: 8 }}>
             <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: colores.acento }} />
             <span style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: colores.acento, animation: 'cc-ping2 1.8s ease-in-out infinite' }} />
@@ -513,21 +628,26 @@ export const ComandoCentral: React.FC = () => {
         </div>
       </div>
 
-      {/* Átomo centrado de fondo, laterales flotan encima */}
+      {/* ── Núcleo 3D ── */}
       <div className="cc-stage">
         <div className="cc-brain">
           <BrainCanvas ref={brainRef} onPulse={advance} />
 
-          {/* HUD inferior con la lectura del núcleo */}
+          {/* HUD insight */}
           <div key={idx} style={{
             position: 'absolute', left: '50%', transform: 'translateX(-50%)', bottom: 16,
             width: 'min(440px, calc(100% - 32px))', animation: 'cc-emerge2 0.4s ease',
             background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)',
-            border: `1px solid ${colores.acento}40`, borderRadius: 999, padding: '8px 10px 8px 12px',
-            display: 'flex', alignItems: 'center', gap: 10, boxShadow: colores.sombraMedia,
-            zIndex: 10,
+            border: `1px solid ${colores.acento}40`, borderRadius: 999,
+            padding: '8px 10px 8px 12px',
+            display: 'flex', alignItems: 'center', gap: 10,
+            boxShadow: colores.sombraMedia, zIndex: 10,
           }}>
-            <div style={{ width: 26, height: 26, borderRadius: '50%', flexShrink: 0, background: colores.gradienteAcento, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{
+              width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
+              background: colores.gradienteAcento,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
               <Sparkles size={13} color="#fff" />
             </div>
             <p style={{
@@ -537,31 +657,37 @@ export const ComandoCentral: React.FC = () => {
               <span style={{ fontWeight: 800, color: colores.secundario }}>MAYIA · </span>{insight.texto}
             </p>
             <button onClick={() => nav(insight.seccion)} title={`Ir a ${insight.label}`} style={{
-              flexShrink: 0, width: 30, height: 30, borderRadius: '50%', border: 'none', cursor: 'pointer',
-              background: colores.secundario, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              flexShrink: 0, width: 30, height: 30, borderRadius: '50%',
+              border: 'none', cursor: 'pointer',
+              background: colores.secundario, color: '#fff',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <ArrowRight size={15} />
             </button>
           </div>
 
-          {/* Pista superior */}
-          <div style={{ position: 'absolute', top: 6, left: 0, right: 0, textAlign: 'center', pointerEvents: 'none' }}>
-            <span style={{ fontSize: 11.5, color: colores.textoOscuro, background: 'rgba(255,255,255,0.7)', padding: '5px 12px', borderRadius: 20, border: `1px solid ${colores.borde}` }}>
+          {/* Hint label */}
+          <div style={{ position: 'absolute', top: 10, left: 0, right: 0, textAlign: 'center', pointerEvents: 'none' }}>
+            <span style={{
+              fontSize: 11.5, color: colores.textoOscuro,
+              background: 'rgba(255,255,255,0.75)', padding: '5px 14px',
+              borderRadius: 20, border: `1px solid ${colores.borde}`,
+            }}>
               Toca el núcleo — gira y te da la siguiente lectura
             </span>
           </div>
         </div>
+      </div>
 
-        {/* HUD Panels a los laterales */}
-        <div className="cc-slot left">
-          <SidePanel titulo="Operación" items={LEFT_DEPTS} open={leftOpen} onToggle={() => setLeftOpen(o => !o)} side="left" />
-        </div>
-        <div className="cc-slot right">
-          <SidePanel titulo="Tecnología" items={RIGHT_DEPTS} open={rightOpen} onToggle={() => setRightOpen(o => !o)} side="right" />
-        </div>
+      {/* ── 5 Clusters Acordeón ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {CLUSTERS.map((cluster, i) => (
+          <ClusterAccordion key={cluster.etapa} cluster={cluster} defaultOpen={i === 0} />
+        ))}
       </div>
     </div>
   );
 };
 
 export default ComandoCentral;
+
