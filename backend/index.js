@@ -8,21 +8,38 @@ import { initGeminiClient } from './config/gemini.js';
 import chatRoutes from './routes/chatRoutes.js';
 import departamentosRoutes from './routes/departamentosRoutes.js';
 
+import authRoutes from './routes/authRoutes.js';
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Middleware
+// Middleware de CORS robusto para proteger el backend y permitir frontend
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:3000',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: 'http://localhost:5173', // o 3000 según tu frontend
-    methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
+    origin: (origin, callback) => {
+      // Permitir requests locales seguros, sin origin (herramientas locales) o whitelist
+      if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
+        return callback(null, true);
+      }
+      return callback(new Error('Bloqueado por política CORS de AGRO Botanical'));
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
   })
 );
 
 app.use(express.json());
 
 // Routes
+app.use('/api/auth', authRoutes);
 app.use('/api/chat', chatRoutes);
 app.use('/api/departamentos', departamentosRoutes);
 

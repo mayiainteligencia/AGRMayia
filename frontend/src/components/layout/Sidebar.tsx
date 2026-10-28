@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { Leaf } from 'lucide-react';
+import { Leaf, LogOut, ChevronsLeft } from 'lucide-react';
 import { NAV_GROUPS, NAV_ITEMS_BY_ID } from '../../config/navigation';
 import { IMPLEMENTED_IDS } from '../../config/pages';
+import { useAuth } from '../../context/AuthContext';
+import { useBrand } from '../../context/BrandContext';
 
 interface SidebarProps {
   activeSection: string;
   onSectionChange: (section: string) => void;
   isOpen: boolean;
+  onCollapse?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange, isOpen }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange, isOpen, onCollapse }) => {
+  const { user, logout } = useAuth();
+  const { brandHidden } = useBrand();
   const [hovered, setHovered] = useState<string | null>(null);
   const activeItem = NAV_ITEMS_BY_ID[activeSection];
 
@@ -100,32 +105,56 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
                 fontSize: 15, fontWeight: 700, color: '#FFFFFF',
                 letterSpacing: '-0.3px', lineHeight: 1.2,
               }}>
-                AgroTech IA
+                {brandHidden ? 'Plataforma IA' : 'AgroTech IA'}
               </div>
               <div style={{
                 fontSize: 9.5, color: 'rgba(255,255,255,0.32)',
                 fontWeight: 400, marginTop: 2, letterSpacing: 0.2,
               }}>
-                Inteligencia para el campo
+                {brandHidden ? 'Inteligencia Operativa' : 'Inteligencia para el campo'}
               </div>
             </div>
 
             <div style={{
               marginLeft: 'auto', flexShrink: 0,
-              display: 'flex', alignItems: 'center', gap: 4,
-              background: 'rgba(82,183,136,0.15)',
-              border: '1px solid rgba(82,183,136,0.3)',
-              borderRadius: 20, padding: '3px 7px',
+              display: 'flex', alignItems: 'center', gap: 6,
             }}>
-              <span style={{
-                width: 5, height: 5, borderRadius: '50%',
-                background: '#52B788',
-                boxShadow: '0 0 6px rgba(82,183,136,0.8)',
-                animation: 'sb-ping 2s ease-in-out infinite',
-              }} />
-              <span style={{ fontSize: 8.5, color: '#52B788', fontWeight: 700, letterSpacing: 0.5 }}>
-                LIVE
-              </span>
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 4,
+                background: 'rgba(82,183,136,0.15)',
+                border: '1px solid rgba(82,183,136,0.3)',
+                borderRadius: 20, padding: '3px 7px',
+              }}>
+                <span style={{
+                  width: 5, height: 5, borderRadius: '50%',
+                  background: '#52B788',
+                  boxShadow: '0 0 6px rgba(82,183,136,0.8)',
+                  animation: 'sb-ping 2s ease-in-out infinite',
+                }} />
+                <span style={{ fontSize: 8.5, color: '#52B788', fontWeight: 700, letterSpacing: 0.5 }}>
+                  LIVE
+                </span>
+              </div>
+
+              {onCollapse && (
+                <button
+                  type="button"
+                  onClick={onCollapse}
+                  title="Colapsar menú a la izquierda"
+                  className="sb-collapse-trigger"
+                  style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    width: 26, height: 26, borderRadius: 7,
+                    background: 'rgba(255,255,255,0.06)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    color: 'rgba(255,255,255,0.65)',
+                    cursor: 'pointer', padding: 0,
+                    transition: 'all 0.18s ease',
+                  }}
+                >
+                  <ChevronsLeft size={15} />
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -239,21 +268,37 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeSection, onSectionChange
               border: '2px solid rgba(82,183,136,0.4)',
               fontSize: 13, fontWeight: 700, color: '#fff',
             }}>
-              M
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'M'}
             </div>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)', margin: 0, lineHeight: 1.3 }}>
-                Martín Cortés
+              <p style={{ fontSize: 12, fontWeight: 600, color: 'rgba(255,255,255,0.75)', margin: 0, lineHeight: 1.3, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {user?.name || 'Martín Cortés'}
               </p>
               <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.28)', margin: 0 }}>
-                Administrador
+                {user?.role || 'Administrador'}
               </p>
             </div>
-            <div style={{
-              width: 8, height: 8, borderRadius: '50%', flexShrink: 0,
-              background: '#52B788',
-              boxShadow: '0 0 8px rgba(82,183,136,0.8)',
-            }} />
+            <button
+              onClick={logout}
+              title="Cerrar sesión"
+              aria-label="Cerrar sesión"
+              style={{
+                background: 'none', border: 'none', padding: 5, cursor: 'pointer',
+                color: 'rgba(255,255,255,0.38)', borderRadius: 6,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'color 0.15s, background 0.15s',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLButtonElement).style.color = '#FF8585';
+                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(255,100,100,0.12)';
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.38)';
+                (e.currentTarget as HTMLButtonElement).style.background = 'none';
+              }}
+            >
+              <LogOut size={15} />
+            </button>
           </div>
         </div>
       </aside>

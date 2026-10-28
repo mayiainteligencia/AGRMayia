@@ -103,11 +103,34 @@ button {
   .page-title                   { font-size: 22px !important; }
 }
 
-/* ── Desktop (≥ 1024 px) ── */
-@media (min-width: 1024px) {
+/* ── Desktop & Tablets (≥ 860 px) ── */
+@media (min-width: 860px) {
   .sidebar-drawer               { position: relative !important; transform: none !important; }
   .hamburger-btn                { display: none !important; }
+
+  /* Sidebar colapsable: el wrapper anima su ancho y recorta el aside */
+  .sb-wrap                      { width: 252px; flex-shrink: 0; overflow: hidden; transition: width 0.32s cubic-bezier(.22,1,.36,1); }
+  .sb-wrap.is-collapsed         { width: 0; }
+  .sb-toggle                    { display: flex; }
 }
+
+/* Botón-pestaña para colapsar / expandir el sidebar pegado a la izquierda */
+.sb-toggle {
+  display: none;
+  position: fixed; top: 76px; left: 252px; z-index: 60;
+  width: 24px; height: 44px;
+  align-items: center; justify-content: center;
+  border: 1px solid rgba(82,183,136,0.35); border-left: none;
+  border-radius: 0 10px 10px 0;
+  background: linear-gradient(180deg, #1A3C2E, #0E2318);
+  color: #7CCBA9; cursor: pointer; padding: 0;
+  box-shadow: 4px 2px 14px rgba(0,0,0,0.22);
+  transition: left 0.32s cubic-bezier(.22,1,.36,1), background 0.2s, color 0.2s, width 0.2s;
+}
+.sb-toggle:hover              { width: 30px; background: linear-gradient(180deg, #2D6A4F, #1A3C2E); color: #fff; }
+.sb-toggle.is-collapsed       { left: 0; width: 30px; height: 48px; background: linear-gradient(180deg, #2D6A4F, #153725); color: #ffffff; border: 1px solid rgba(82,183,136,0.5); border-left: none; box-shadow: 4px 4px 18px rgba(0,0,0,0.32); }
+.sb-toggle.is-collapsed:hover { width: 36px; background: linear-gradient(180deg, #52B788, #2D6A4F); }
+.sb-toggle svg                { transition: transform 0.25s ease; }
 
 @keyframes fadeIn {
   from {

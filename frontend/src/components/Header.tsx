@@ -8,13 +8,20 @@ import {
   Info,
   Menu,
   Atom,
+  LogOut,
+  PanelLeftClose,
+  PanelLeftOpen,
 } from 'lucide-react';
 import { brandingConfig } from '../config/branding';
 import { useNav } from '../config/navContext';
+import { useAuth } from '../context/AuthContext';
+import { useBrand } from '../context/BrandContext';
 
 interface HeaderProps {
   title: string;
   onMenuToggle: () => void;
+  isSidebarCollapsed?: boolean;
+  onToggleCollapse?: () => void;
 }
 
 interface Notification {
@@ -53,7 +60,12 @@ const NOTIF_CONFIG = {
   info:    { color: '#3B82F6', bg: 'rgba(59,130,246,0.12)',  border: 'rgba(59,130,246,0.25)',  icon: Info          },
 };
 
-export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
+export const Header: React.FC<HeaderProps> = ({
+  title,
+  onMenuToggle,
+  isSidebarCollapsed,
+  onToggleCollapse,
+}) => {
   const { colores, empresa } = brandingConfig;
   const nav = useNav();
   const [notifOpen,    setNotifOpen]    = useState(false);
@@ -66,11 +78,19 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
   const sectionName = SECTION_NAMES[title] ?? title;
   const noLeidas    = notificaciones.filter(n => !n.leida).length;
 
+  const { user, logout } = useAuth();
+  const { brandHidden, toggleBrand } = useBrand();
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
   /* close on outside click */
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setNotifOpen(false);
+      }
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setUserMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handler);
@@ -93,6 +113,27 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
           background: transparent;
         }
         .hdr-icon-btn:hover { opacity: 0.85; transform: scale(1.06); }
+
+        .hdr-collapse-btn {
+          display: flex; align-items: center; justify-content: center;
+          width: 36px; height: 36px; border-radius: 9px;
+          border: 1px solid ${colores.borde};
+          background: ${colores.fondoTerciario};
+          color: ${colores.textoMedio};
+          cursor: pointer; transition: all 0.2s ease;
+          flex-shrink: 0;
+        }
+        .hdr-collapse-btn:hover {
+          background: #E4EFE9;
+          border-color: rgba(82,183,136,0.4);
+          color: ${colores.secundario};
+          transform: scale(1.04);
+        }
+        .hdr-collapse-btn.is-active {
+          background: ${colores.secundario};
+          color: #ffffff;
+          border-color: ${colores.secundario};
+        }
 
         .hdr-date-btn {
           display: flex; align-items: center; gap: 7px;
@@ -135,7 +176,7 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
           gap: 12,
         }}
       >
-        {/* ── LEFT: Hamburger + Breadcrumb ── */}
+        {/* ── LEFT: Collapse Button / Hamburger + Breadcrumb ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0, flex: 1 }}>
           {/* Hamburger — mobile only */}
           <button
@@ -151,6 +192,19 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
           >
             <Menu size={18} color={colores.textoMedio} />
           </button>
+
+          {/* Desktop/Tablet collapse toggle button */}
+          {onToggleCollapse && (
+            <button
+              type="button"
+              className={`hdr-collapse-btn ${isSidebarCollapsed ? 'is-active' : ''}`}
+              onClick={onToggleCollapse}
+              title={isSidebarCollapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral a la izquierda'}
+              aria-label={isSidebarCollapsed ? 'Expandir barra lateral' : 'Colapsar barra lateral a la izquierda'}
+            >
+              {isSidebarCollapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+            </button>
+          )}
 
           {/* Date pill */}
           <button className="hdr-date-btn">
@@ -182,19 +236,24 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
           </div>
         </div>
 
-        {/* ── CENTER: Logo ── */}
+        {/* ── CENTER: Logo con Easter Egg de doble clic ── */}
         <div
           className="header-center"
+          onDoubleClick={toggleBrand}
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            flexShrink: 0,
+            flexShrink: 0, minWidth: 160, minHeight: 50, userSelect: 'none', cursor: 'default',
           }}
         >
           <img
             className="header-logo-img"
             src={empresa.logo}
-            alt={`${empresa.nombre} logo`}
-            style={{ height: 50, width: 'auto', objectFit: 'contain' }}
+            alt={brandHidden ? '' : `${empresa.nombre} logo`}
+            style={{
+              height: 50, width: 'auto', objectFit: 'contain',
+              opacity: brandHidden ? 0 : 1,
+              transition: 'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
             onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
         </div>
@@ -374,34 +433,76 @@ export const Header: React.FC<HeaderProps> = ({ title, onMenuToggle }) => {
           {/* Divider */}
           <div style={{ width: 1, height: 24, background: colores.borde }} />
 
-          {/* Avatar */}
-          <button
-            className="hdr-icon-btn"
-            style={{
-              width: 36, height: 36, borderRadius: '50%', padding: 0, overflow: 'hidden',
-              border: `2px solid ${colores.borde}`,
-              background: `linear-gradient(135deg, ${colores.acento} 0%, ${colores.primario} 100%)`,
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = colores.acento; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = colores.borde; }}
-          >
-            <img
-              src="/assets/logosEmpresas/"
-              alt="Perfil"
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-              onError={e => {
-                const img = e.target as HTMLImageElement;
-                img.style.display = 'none';
-                const btn = img.parentElement as HTMLButtonElement;
-                if (btn) {
-                  btn.style.fontSize = '14px';
-                  btn.style.fontWeight = '700';
-                  btn.style.color = '#fff';
-                  btn.textContent = 'M';
-                }
+          {/* Avatar con menú de perfil y Cerrar Sesión */}
+          <div style={{ position: 'relative' }} ref={userMenuRef}>
+            <button
+              className="hdr-icon-btn"
+              onClick={() => setUserMenuOpen(o => !o)}
+              title="Perfil de usuario"
+              aria-label="Perfil y opciones de sesión"
+              style={{
+                width: 36, height: 36, borderRadius: '50%', padding: 0, overflow: 'hidden',
+                border: `2px solid ${colores.borde}`,
+                background: `linear-gradient(135deg, ${colores.acento} 0%, ${colores.primario} 100%)`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: '#fff', fontSize: '13px', fontWeight: '700',
               }}
-            />
-          </button>
+              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = colores.acento; }}
+              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = colores.borde; }}
+            >
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'M'}
+            </button>
+
+            {userMenuOpen && (
+              <div style={{
+                position: 'absolute', right: 0, top: 'calc(100% + 10px)',
+                width: 250, background: '#fff', borderRadius: 14,
+                border: `1px solid ${colores.borde}`,
+                boxShadow: '0 12px 36px rgba(0,0,0,0.12)',
+                overflow: 'hidden', zIndex: 100,
+                animation: 'cc-emerge 0.2s ease',
+              }}>
+                <div style={{ padding: '14px 16px', borderBottom: `1px solid ${colores.borde}`, background: colores.fondoTerciario }}>
+                  <p style={{ margin: 0, fontSize: 13.5, fontWeight: 700, color: colores.textoClaro }}>
+                    {user?.name || 'Martín Cortés'}
+                  </p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: colores.textoOscuro }}>
+                    {user?.email || 'admin@agrobotanical.com'}
+                  </p>
+                  <span style={{
+                    display: 'inline-block', marginTop: 6,
+                    fontSize: 9.5, fontWeight: 800, letterSpacing: '0.04em',
+                    color: colores.secundario, background: `${colores.acento}20`,
+                    padding: '2px 8px', borderRadius: 10,
+                  }}>
+                    {user?.role || 'ADMINISTRADOR'}
+                  </span>
+                </div>
+
+                <div style={{ padding: '6px' }}>
+                  <button
+                    onClick={() => {
+                      setUserMenuOpen(false);
+                      logout();
+                    }}
+                    style={{
+                      width: '100%', padding: '9px 12px',
+                      display: 'flex', alignItems: 'center', gap: 9,
+                      border: 'none', background: 'transparent',
+                      color: '#E5484D', fontSize: 13, fontWeight: 600,
+                      borderRadius: 8, cursor: 'pointer', fontFamily: 'inherit',
+                      transition: 'background 0.15s',
+                    }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = 'rgba(229,72,77,0.08)'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = 'transparent'; }}
+                  >
+                    <LogOut size={16} />
+                    <span>Cerrar sesión</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </header>
     </>
