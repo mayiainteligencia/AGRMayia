@@ -8,7 +8,7 @@ export const brandingConfig = {
   colores: {
     primario:       "#1A3C2E",
     primarioOscuro: "#122B21",
-    primarioClaro:  "#E8F4EE",
+    primarioClaro:  "var(--accent-soft)",
     secundario:     "#2D6A4F",
     acento:         "#52B788",
     acentoBerry:    "#5C3D8F",
@@ -18,17 +18,17 @@ export const brandingConfig = {
     exito:       "#059669",
     info:        "#0284C7",
 
-    fondoPrincipal:  "#F7F9F8",
-    fondoSecundario: "#FFFFFF",
-    fondoTerciario:  "#EEF4F1",
-    fondoClaro:      "#FFFFFF",
+    fondoPrincipal:  "var(--bg)",
+    fondoSecundario: "var(--surface)",
+    fondoTerciario:  "var(--surface-2)",
+    fondoClaro:      "var(--surface)",
 
-    textoClaro:    "#111827",
-    textoMedio:    "#374151",
-    textoOscuro:   "#6B7280",
+    textoClaro:    "var(--text)",
+    textoMedio:    "var(--text-2)",
+    textoOscuro:   "var(--text-3)",
     textoEnOscuro: "#FFFFFF",
 
-    borde:      "#E5E7EB",
+    borde:      "var(--border)",
     bordeHover: "#52B788",
 
     gradientePrimario: "linear-gradient(135deg, #1A3C2E 0%, #2D6A4F 100%)",

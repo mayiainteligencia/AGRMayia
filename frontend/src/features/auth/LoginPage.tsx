@@ -38,7 +38,7 @@ export const LoginPage: React.FC = () => {
           width: 100vw;
           height: 100vh;
           overflow: hidden;
-          background-color: #F8F9F5;
+          background-color: var(--bg);
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
           user-select: none;
         }

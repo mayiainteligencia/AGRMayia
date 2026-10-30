@@ -110,7 +110,7 @@ export function useLiveFeed(plantillas: { sev: FeedSev; texto: string }[], seed:
 }
 
 export const LiveFeed: React.FC<{ items: FeedEvent[]; titulo?: string }> = ({ items, titulo = 'Actividad en tiempo real' }) => (
-  <div style={{ background: '#fff', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, overflow: 'hidden' }}>
+  <div style={{ background: 'var(--surface)', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, overflow: 'hidden' }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '13px 16px', borderBottom: `1px solid ${colores.borde}` }}>
       <Activity size={15} color={colores.secundario} />
       <span style={{ fontSize: 13, fontWeight: 600, color: colores.textoClaro }}>{titulo}</span>
@@ -118,7 +118,7 @@ export const LiveFeed: React.FC<{ items: FeedEvent[]; titulo?: string }> = ({ it
     </div>
     <div style={{ maxHeight: 300, overflowY: 'auto' }}>
       {items.map(ev => (
-        <div key={ev.id} className="cc-feed-item" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderBottom: '1px solid #F3F4F6' }}>
+        <div key={ev.id} className="cc-feed-item" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 16px', borderBottom: '1px solid var(--surface-3)' }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: SEV_COLOR[ev.sev], boxShadow: `0 0 7px ${SEV_COLOR[ev.sev]}66`, flexShrink: 0 }} />
           <span style={{ fontSize: 12.5, color: colores.textoMedio, flex: 1, lineHeight: 1.4 }}>{ev.texto}</span>
           <span style={{ fontSize: 10.5, color: colores.textoOscuro, fontVariantNumeric: 'tabular-nums', flexShrink: 0 }}>{ev.hora}</span>
@@ -153,7 +153,7 @@ export const Sugerencia: React.FC<{ accion: string }> = ({ accion }) => {
     <button
       onClick={() => setEstado('confirmar')}
       style={{
-        ...btn, marginTop: 9, background: '#fff', border: `1px solid ${colores.acento}`,
+        ...btn, marginTop: 9, background: 'var(--surface)', border: `1px solid ${colores.acento}`,
         color: colores.secundario, borderRadius: 20, padding: '6px 11px',
         animation: 'cc-sug 2.4s ease-in-out infinite',
       }}
@@ -168,7 +168,7 @@ export const Sugerencia: React.FC<{ accion: string }> = ({ accion }) => {
 /* ── Stack de alertas ──────────────────────────────────── */
 export interface AlertItem { sev: FeedSev; titulo: string; detalle: string; accion?: string; }
 export const AlertStack: React.FC<{ alertas: AlertItem[]; titulo?: string }> = ({ alertas, titulo = 'Alertas activas' }) => (
-  <div style={{ background: '#fff', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, padding: 18 }}>
+  <div style={{ background: 'var(--surface)', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, padding: 18 }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
       <AlertTriangle size={15} color={colores.advertencia} />
       <span style={{ fontSize: 13, fontWeight: 600, color: colores.textoClaro }}>{titulo}</span>
@@ -196,7 +196,7 @@ export interface Palanca { nombre: string; valor: string; estado: 'ok' | 'warn' 
 export const FinancialLevers: React.FC<{ palancas: Palanca[]; titulo?: string }> = ({ palancas, titulo = 'Palancas financieras' }) => {
   const c: Record<Palanca['estado'], string> = { ok: colores.exito, warn: colores.advertencia, crit: colores.peligro };
   return (
-    <div style={{ background: '#fff', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, padding: 18 }}>
+    <div style={{ background: 'var(--surface)', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, padding: 18 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
         <span style={{ fontSize: 13, fontWeight: 600, color: colores.textoClaro }}>{titulo}</span>
       </div>
@@ -232,7 +232,7 @@ export const VideoGrid: React.FC<{ slots: VideoSlot[] }> = ({ slots }) => {
         const url = urls[i];
         const esFija = !!s.url; // cámara predefinida: solo lectura, no se pausa ni se quita
         return (
-          <div key={i} style={{ background: '#fff', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, overflow: 'hidden' }}>
+          <div key={i} style={{ background: 'var(--surface)', borderRadius: 12, border: `1px solid ${colores.borde}`, boxShadow: colores.sombra, overflow: 'hidden' }}>
             <div style={{ position: 'relative', aspectRatio: '16 / 9', background: '#0E2318' }}>
               {url ? (
                 <>
@@ -244,7 +244,7 @@ export const VideoGrid: React.FC<{ slots: VideoSlot[] }> = ({ slots }) => {
                     style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
                   />
                   <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', alignItems: 'center', gap: 5, padding: '3px 8px', borderRadius: 20, background: 'rgba(220,38,38,0.85)' }}>
-                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', animation: 'cc-ping 1.6s ease-in-out infinite' }} />
+                    <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--surface)', animation: 'cc-ping 1.6s ease-in-out infinite' }} />
                     <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: '#fff' }}>EN VIVO</span>
                   </div>
                   {!esFija && (

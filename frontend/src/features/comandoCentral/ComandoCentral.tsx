@@ -38,7 +38,7 @@ interface Dept {
 const STATUS_CFG: Record<DeptStatus, { label: string; bg: string; border: string; color: string; icon: LucideIcon }> = {
   activo:       { label: 'ACTIVO',       bg: 'rgba(82,183,136,0.12)',  border: 'rgba(82,183,136,0.3)',  color: '#52B788', icon: Check },
   disponible:   { label: 'DISPONIBLE',   bg: 'rgba(59,130,246,0.10)',  border: 'rgba(59,130,246,0.25)', color: '#3B82F6', icon: Zap },
-  proximamente: { label: 'PRÓXIMAMENTE', bg: 'rgba(156,163,175,0.10)', border: 'rgba(156,163,175,0.25)', color: '#9CA3AF', icon: Lock },
+  proximamente: { label: 'PRÓXIMAMENTE', bg: 'rgba(156,163,175,0.10)', border: 'rgba(156,163,175,0.25)', color: 'var(--text-4)', icon: Lock },
 };
 
 const PAQUETES_NAMES: Record<number, string> = {
@@ -521,7 +521,7 @@ export const ComandoCentral: React.FC = () => {
           gap: 6px;
           padding: 4px 10px;
           border-radius: 7px;
-          border: 1px dashed color-mix(in srgb, var(--accent) 50%, #9CA3AF);
+          border: 1px dashed color-mix(in srgb, var(--accent) 50%, var(--text-4));
           background: rgba(255, 255, 255, 0.78);
           color: var(--accent);
           font-size: 11px;
@@ -557,7 +557,7 @@ export const ComandoCentral: React.FC = () => {
         .cc-price-val {
           font-size: 16px;
           font-weight: 900;
-          color: #111827;
+          color: var(--text);
           letter-spacing: -0.4px;
         }
         .cc-price-val.is-quote {
@@ -568,7 +568,7 @@ export const ComandoCentral: React.FC = () => {
         .cc-price-tax {
           font-size: 9.5px;
           font-weight: 600;
-          color: #6B7280;
+          color: var(--text-3);
         }
         .cc-price-action-btn {
           display: inline-flex;
@@ -577,7 +577,7 @@ export const ComandoCentral: React.FC = () => {
           padding: 3px 6px;
           border-radius: 5px;
           border: none;
-          background: #F3F4F6;
+          background: var(--surface-3);
           color: #4B5563;
           font-size: 9.5px;
           font-weight: 700;
@@ -585,8 +585,8 @@ export const ComandoCentral: React.FC = () => {
           transition: background 0.15s;
         }
         .cc-price-action-btn:hover {
-          background: #E5E7EB;
-          color: #111827;
+          background: var(--border);
+          color: var(--text);
         }
 
         /* ── Precio individual por departamento en DeptTile ── */
@@ -651,7 +651,7 @@ export const ComandoCentral: React.FC = () => {
         .cc-tile {
           position: relative; min-width: 0; overflow: hidden; border-radius: 12px;
           background: rgba(255,255,255,.85);
-          border: 1px solid color-mix(in srgb, var(--dc) 22%, #e5e7eb);
+          border: 1px solid color-mix(in srgb, var(--dc) 22%, var(--border));
           border-left: 3px solid var(--dc);
           transition: box-shadow .25s ease, background .25s ease;
         }
@@ -668,13 +668,13 @@ export const ComandoCentral: React.FC = () => {
           border: 1px solid color-mix(in srgb, var(--dc) 28%, transparent);
         }
         .cc-tile-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
-        .cc-tile-dep { font-size: 8.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #9CA3AF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cc-tile-name { font-size: 12.5px; font-weight: 800; color: #111827; line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .cc-tile-dep { font-size: 8.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--text-4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cc-tile-name { font-size: 12.5px; font-weight: 800; color: var(--text); line-height: 1.2; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .cc-tile-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-        .cc-tile-chev { flex-shrink: 0; color: #9CA3AF; transition: transform .25s ease; }
+        .cc-tile-chev { flex-shrink: 0; color: var(--text-4); transition: transform .25s ease; }
         .cc-tile.is-open .cc-tile-chev { transform: rotate(90deg); }
         .cc-tile-body { padding: 2px 12px 12px; display: flex; flex-direction: column; gap: 9px; animation: cc-emerge2 .22s ease; }
-        .cc-tile-body p { margin: 0; font-size: 11.5px; line-height: 1.5; color: #374151; overflow-wrap: anywhere; }
+        .cc-tile-body p { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--text-2); overflow-wrap: anywhere; }
         .cc-tile-chips { display: flex; flex-wrap: wrap; gap: 4px; }
         .cc-tile-chips span {
           max-width: 100%; overflow-wrap: anywhere; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600;
@@ -713,17 +713,17 @@ export const ComandoCentral: React.FC = () => {
           box-shadow: 0 4px 12px ${colores.primario}30;
         }
         .cc-total-btn.secondary {
-          border-color: #E5E7EB;
+          border-color: var(--border);
           color: #4B5563;
         }
         .cc-total-btn.secondary:hover {
-          background: #374151;
+          background: var(--text-2);
           color: #ffffff;
         }
         .cc-total-btn.secondary.active {
-          background: #111827;
+          background: var(--text);
           color: #ffffff;
-          border-color: #111827;
+          border-color: var(--text);
         }
         .cc-total-card {
           background: #ffffff;
@@ -742,19 +742,19 @@ export const ComandoCentral: React.FC = () => {
           align-items: baseline;
           justify-content: space-between;
           gap: 12px;
-          border-bottom: 1px solid #F3F4F6;
+          border-bottom: 1px solid var(--surface-3);
           padding-bottom: 6px;
         }
         .cc-total-label {
           font-size: 10px;
           font-weight: 800;
           letter-spacing: 0.08em;
-          color: #6B7280;
+          color: var(--text-3);
         }
         .cc-total-num {
           font-size: 20px;
           font-weight: 900;
-          color: #111827;
+          color: var(--text);
           letter-spacing: -0.5px;
         }
         .cc-total-currency {
@@ -841,7 +841,7 @@ export const ComandoCentral: React.FC = () => {
             <div style={{
               display: 'inline-flex', alignItems: 'center', gap: 7,
               padding: '8px 14px', borderRadius: 20,
-              background: '#fff', border: `1px solid ${colores.acento}40`,
+              background: 'var(--surface)', border: `1px solid ${colores.acento}40`,
               boxShadow: colores.sombra,
             }}>
               <span style={{ position: 'relative', width: 8, height: 8 }}>

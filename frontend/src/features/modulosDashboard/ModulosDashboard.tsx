@@ -371,15 +371,15 @@ const ClusterSection: React.FC<{
                   </div>
                 </div>
                 <div style={{ marginBottom: 6 }}>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-4)', letterSpacing: '0.1em', textTransform: 'uppercase' as const }}>
                     DEPARTAMENTO {String(dept.id).padStart(2, '0')}
                   </span>
                 </div>
-                <h3 style={{ fontSize: 15, fontWeight: 700, color: '#111827', margin: '0 0 7px', lineHeight: 1.25 }}>
+                <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', margin: '0 0 7px', lineHeight: 1.25 }}>
                   {dept.nombre}
                 </h3>
                 <p style={{
-                  fontSize: 12, color: '#6B7280', lineHeight: 1.5, margin: '0 0 12px',
+                  fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5, margin: '0 0 12px',
                   display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden',
                 }}>
                   {dept.descripcion}
@@ -389,26 +389,26 @@ const ClusterSection: React.FC<{
                     <span key={sub} className="md-sub-tag">{sub}</span>
                   ))}
                   {dept.subModulos.length > 4 && (
-                    <span className="md-sub-tag" style={{ background: '#E5E7EB', color: '#9CA3AF' }}>+{dept.subModulos.length - 4}</span>
+                    <span className="md-sub-tag" style={{ background: 'var(--border)', color: 'var(--text-4)' }}>+{dept.subModulos.length - 4}</span>
                   )}
                 </div>
                 <div style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  paddingTop: 10, borderTop: '1px solid #F3F4F6',
+                  paddingTop: 10, borderTop: '1px solid var(--surface-3)',
                 }}>
                   {paq && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#6B7280', fontWeight: 500 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: 'var(--text-3)', fontWeight: 500 }}>
                       <Layers size={12} color={paq.color} />
                       <span>Paquete {paq.id}: {paq.nombre}</span>
                     </div>
                   )}
                   <div style={{
                     width: 28, height: 28, borderRadius: 8,
-                    background: isHov ? '#1A3C2E' : '#F3F4F6',
+                    background: isHov ? '#1A3C2E' : 'var(--surface-3)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     transition: 'all 0.2s',
                   }}>
-                    <ChevronRight size={14} color={isHov ? '#fff' : '#9CA3AF'} />
+                    <ChevronRight size={14} color={isHov ? '#fff' : 'var(--text-4)'} />
                   </div>
                 </div>
               </div>
@@ -427,7 +427,7 @@ const ClusterSection: React.FC<{
 const STATUS_CONFIG: Record<DeptStatus, { label: string; bg: string; border: string; color: string; icon: React.ElementType }> = {
   activo:       { label: 'ACTIVO',        bg: 'rgba(82,183,136,0.12)',  border: 'rgba(82,183,136,0.3)',  color: '#52B788', icon: Check },
   disponible:   { label: 'DISPONIBLE',    bg: 'rgba(59,130,246,0.10)',  border: 'rgba(59,130,246,0.25)', color: '#3B82F6', icon: Zap },
-  proximamente: { label: 'PRÓXIMAMENTE',  bg: 'rgba(156,163,175,0.10)', border: 'rgba(156,163,175,0.25)', color: '#9CA3AF', icon: Lock },
+  proximamente: { label: 'PRÓXIMAMENTE',  bg: 'rgba(156,163,175,0.10)', border: 'rgba(156,163,175,0.25)', color: 'var(--text-4)', icon: Lock },
 };
 
 /* ═══════════════════════════════════════════════════
@@ -456,7 +456,7 @@ export const ModulosDashboard: React.FC = () => {
         .md-card {
           position: relative;
           background: #FFFFFF;
-          border: 1px solid #E5E7EB;
+          border: 1px solid var(--border);
           border-radius: 16px;
           padding: 24px;
           cursor: pointer;
@@ -481,14 +481,14 @@ export const ModulosDashboard: React.FC = () => {
         .md-filter-btn {
           padding: 7px 16px;
           border-radius: 20px;
-          border: 1px solid #E5E7EB;
+          border: 1px solid var(--border);
           background: #fff;
           font-size: 12.5px;
           font-weight: 500;
           cursor: pointer;
           transition: all 0.18s;
           font-family: inherit;
-          color: #6B7280;
+          color: var(--text-3);
         }
         .md-filter-btn:hover { border-color: rgba(82,183,136,0.4); color: #2D6A4F; }
         .md-filter-btn.is-active {
@@ -500,7 +500,7 @@ export const ModulosDashboard: React.FC = () => {
 
         .md-paquete {
           background: #FFFFFF;
-          border: 1px solid #E5E7EB;
+          border: 1px solid var(--border);
           border-radius: 14px;
           overflow: hidden;
           cursor: pointer;
@@ -514,8 +514,8 @@ export const ModulosDashboard: React.FC = () => {
           border-radius: 6px;
           font-size: 11px;
           font-weight: 500;
-          background: #F3F4F6;
-          color: #374151;
+          background: var(--surface-3);
+          color: var(--text-2);
           white-space: nowrap;
         }
 
@@ -599,7 +599,7 @@ export const ModulosDashboard: React.FC = () => {
             {[
               { label: 'Activos', value: stats.activos, color: '#52B788', total: stats.total },
               { label: 'Disponibles', value: stats.disponibles, color: '#3B82F6', total: stats.total },
-              { label: 'Próximos', value: stats.proximamente, color: '#9CA3AF', total: stats.total },
+              { label: 'Próximos', value: stats.proximamente, color: 'var(--text-4)', total: stats.total },
             ].map(s => (
               <div key={s.label} style={{
                 background: 'rgba(255,255,255,0.06)',
@@ -661,10 +661,10 @@ export const ModulosDashboard: React.FC = () => {
             <Layers size={16} color="#fff" />
           </div>
           <div>
-            <h2 style={{ fontSize: 20, fontWeight: 700, color: '#111827', margin: 0 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text)', margin: 0 }}>
               Paquetes Comerciales
             </h2>
-            <p style={{ fontSize: 12.5, color: '#6B7280', margin: 0 }}>
+            <p style={{ fontSize: 12.5, color: 'var(--text-3)', margin: 0 }}>
               8 paquetes modulares — activa capacidades conforme crece tu operación
             </p>
           </div>
@@ -704,18 +704,18 @@ export const ModulosDashboard: React.FC = () => {
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{
-                        fontSize: 9.5, fontWeight: 700, color: '#9CA3AF',
+                        fontSize: 9.5, fontWeight: 700, color: 'var(--text-4)',
                         letterSpacing: '0.08em', textTransform: 'uppercase' as const,
                       }}>
                         Paquete {paq.id}
                       </div>
-                      <div style={{ fontSize: 13.5, fontWeight: 700, color: '#111827' }}>
+                      <div style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)' }}>
                         {paq.nombre}
                       </div>
                     </div>
                     <ChevronRight
                       size={14}
-                      color="#9CA3AF"
+                      color="var(--text-4)"
                       style={{
                         transition: 'transform 0.2s',
                         transform: isExpanded ? 'rotate(90deg)' : 'none',
@@ -723,14 +723,14 @@ export const ModulosDashboard: React.FC = () => {
                     />
                   </div>
 
-                  <p style={{ fontSize: 11.5, color: '#6B7280', margin: '0 0 10px', lineHeight: 1.4 }}>
+                  <p style={{ fontSize: 11.5, color: 'var(--text-3)', margin: '0 0 10px', lineHeight: 1.4 }}>
                     {paq.descripcion}
                   </p>
 
                   {/* Expanded: show department list */}
                   {isExpanded && (
                     <div style={{
-                      borderTop: '1px solid #F3F4F6',
+                      borderTop: '1px solid var(--surface-3)',
                       paddingTop: 10,
                       animation: 'md-fadein 0.2s ease forwards',
                     }}>
@@ -742,7 +742,7 @@ export const ModulosDashboard: React.FC = () => {
                             style={{
                               display: 'flex', alignItems: 'center', gap: 8,
                               padding: '6px 0',
-                              fontSize: 12, color: '#374151',
+                              fontSize: 12, color: 'var(--text-2)',
                             }}
                           >
                             <div style={{

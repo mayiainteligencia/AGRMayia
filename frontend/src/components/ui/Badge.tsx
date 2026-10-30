@@ -12,7 +12,7 @@ const VARIANT_STYLES: Record<BadgeVariant, { bg: string; color: string }> = {
   warning: { bg: '#FFFBEB', color: '#92400E' },
   danger:  { bg: '#FEF2F2', color: '#991B1B' },
   info:    { bg: '#EFF6FF', color: '#1E40AF' },
-  neutral: { bg: '#F3F4F6', color: '#374151' },
+  neutral: { bg: 'var(--surface-3)', color: 'var(--text-2)' },
 };
 
 export const Badge: React.FC<BadgeProps> = ({ variant, children }) => {

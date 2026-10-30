@@ -24,10 +24,10 @@ const ordenEstado: Record<OrdenCompra['estado'], 'warning' | 'success' | 'info' 
 export const Proyeccion: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
     <div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-0.5px' }}>
+      <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', margin: 0, letterSpacing: '-0.5px' }}>
         Proyeccion
       </h1>
-      <p style={{ fontSize: 14, color: '#6B7280', margin: '4px 0 0 0' }}>
+      <p style={{ fontSize: 14, color: 'var(--text-3)', margin: '4px 0 0 0' }}>
         Comercializacion, curva fenologica y estimacion de ingreso
       </p>
     </div>
@@ -57,9 +57,9 @@ export const Proyeccion: React.FC = () => (
               <stop offset="95%" stopColor="#2D6A4F" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-          <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-          <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} unit=" kg" domain={[0, 5]} />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+          <XAxis dataKey="mes" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+          <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} unit=" kg" domain={[0, 5]} />
           <Tooltip content={<CustomTooltip />} />
           <Legend wrapperStyle={{ fontSize: 12, paddingTop: 10 }} />
           <Area type="monotone" dataKey="gauss" name="Gauss (referencia)" stroke="#52B788" strokeWidth={2} fill="url(#gaussGrad)" strokeDasharray="5 3" dot={false} />
@@ -77,9 +77,9 @@ export const Proyeccion: React.FC = () => (
         />
         <ResponsiveContainer width="100%" height={230}>
           <BarChart data={kgPorMes} margin={{ top: 5, right: 10, left: 0, bottom: 0 }} barGap={3}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} unit=" kg" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="mes" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} unit=" kg" />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
             <Bar dataKey="proyectado" name="Proyectado" fill="#B7E4C7" radius={[4, 4, 0, 0]} />
@@ -94,23 +94,23 @@ export const Proyeccion: React.FC = () => (
           {ordenesProyeccion.map(oc => (
             <div key={oc.id} style={{
               padding: '12px 14px',
-              border: '1px solid #E5E7EB',
+              border: '1px solid var(--border)',
               borderRadius: 8,
               display: 'flex',
               flexDirection: 'column',
               gap: 6,
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>{oc.id}</span>
+                <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{oc.id}</span>
                 <Badge variant={ordenEstado[oc.estado]}>{oc.estado}</Badge>
               </div>
-              <span style={{ fontSize: 12, color: '#374151' }}>{oc.comercializador}</span>
+              <span style={{ fontSize: 12, color: 'var(--text-2)' }}>{oc.comercializador}</span>
               <div style={{ display: 'flex', gap: 16 }}>
-                <span style={{ fontSize: 12, color: '#6B7280' }}>{oc.kgSolicitados.toLocaleString()} kg</span>
-                <span style={{ fontSize: 12, color: '#6B7280' }}>${oc.precioKg}/kg</span>
-                <span style={{ fontSize: 12, color: '#6B7280' }}>{oc.clamshell}</span>
+                <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{oc.kgSolicitados.toLocaleString()} kg</span>
+                <span style={{ fontSize: 12, color: 'var(--text-3)' }}>${oc.precioKg}/kg</span>
+                <span style={{ fontSize: 12, color: 'var(--text-3)' }}>{oc.clamshell}</span>
               </div>
-              <span style={{ fontSize: 11, color: '#9CA3AF' }}>Fecha: {oc.fechaOrden}</span>
+              <span style={{ fontSize: 11, color: 'var(--text-4)' }}>Fecha: {oc.fechaOrden}</span>
             </div>
           ))}
         </div>

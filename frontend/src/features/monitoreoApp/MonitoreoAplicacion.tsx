@@ -85,9 +85,9 @@ export const MonitoreoAplicacion: React.FC = () => {
                   <stop offset="100%" stopColor={colores.acento} stopOpacity={0.02} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-              <XAxis dataKey="t" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+              <XAxis dataKey="t" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Area type="monotone" dataKey="p95" name="p95 (ms)" stroke={colores.secundario} strokeWidth={2} fill="url(#apmGrad)" />
             </AreaChart>

@@ -16,16 +16,16 @@ export const StatCard: React.FC<StatCardProps> = ({
   icon,
 }) => {
   const trendColor =
-    trend === 'up' ? '#059669' : trend === 'down' ? '#DC2626' : '#6B7280';
+    trend === 'up' ? '#059669' : trend === 'down' ? '#DC2626' : 'var(--text-3)';
   const TrendIcon =
     trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
 
   return (
     <div
       style={{
-        backgroundColor: '#FFFFFF',
+        backgroundColor: 'var(--surface)',
         borderRadius: 12,
-        border: '1px solid #E5E7EB',
+        border: '1px solid var(--border)',
         padding: '20px 24px',
         boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
         borderTop: `3px solid ${accentColor}`,
@@ -38,7 +38,7 @@ export const StatCard: React.FC<StatCardProps> = ({
         <span
           style={{
             fontSize: 11,
-            color: '#6B7280',
+            color: 'var(--text-3)',
             fontWeight: 600,
             letterSpacing: '0.06em',
             textTransform: 'uppercase',
@@ -54,14 +54,14 @@ export const StatCard: React.FC<StatCardProps> = ({
           style={{
             fontSize: 28,
             fontWeight: 700,
-            color: '#111827',
+            color: 'var(--text)',
             letterSpacing: '-0.5px',
             lineHeight: 1,
           }}
         >
           {value}
         </span>
-        <span style={{ fontSize: 13, color: '#9CA3AF', fontWeight: 400 }}>{unit}</span>
+        <span style={{ fontSize: 13, color: 'var(--text-4)', fontWeight: 400 }}>{unit}</span>
       </div>
 
       {delta && (

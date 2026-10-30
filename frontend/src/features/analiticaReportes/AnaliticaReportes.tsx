@@ -66,9 +66,9 @@ export const AnaliticaReportes: React.FC = () => (
                 <stop offset="100%" stopColor={colores.acento}    stopOpacity={0.7} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="mes" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `$${(v / 1000).toFixed(0)}K`} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="mes" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `$${(v / 1000).toFixed(0)}K`} />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="mxn" name="Gasto" fill="url(#anGastoGrad)" radius={[6, 6, 0, 0]} />
           </BarChart>
@@ -110,8 +110,8 @@ export const AnaliticaReportes: React.FC = () => (
         />
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={kgPorCampo} layout="vertical" margin={{ top: 5, right: 20, left: 30, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" horizontal={false} />
-            <XAxis type="number" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(1)}K`} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" horizontal={false} />
+            <XAxis type="number" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} tickFormatter={(v: number) => `${(v / 1000).toFixed(1)}K`} />
             <YAxis dataKey="campo" type="category" tick={{ fontSize: 11, fill: colores.textoMedio }} axisLine={false} tickLine={false} width={140} />
             <Tooltip content={<CustomTooltip />} />
             <Bar dataKey="kg" name="Kg" fill={colores.primario} radius={[0, 6, 6, 0]} />

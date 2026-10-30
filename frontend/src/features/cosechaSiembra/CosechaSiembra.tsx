@@ -59,13 +59,13 @@ export const CosechaSiembra: React.FC = () => {
     <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
         @keyframes cs-fadein { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-        .cs-tab { padding:10px 20px; border:none; background:transparent; font-size:13px; font-weight:500; color:#6B7280; cursor:pointer; font-family:inherit; border-bottom:2px solid transparent; transition:all .18s; }
-        .cs-tab:hover { color:#374151; }
+        .cs-tab { padding:10px 20px; border:none; background:transparent; font-size:13px; font-weight:500; color:var(--text-3); cursor:pointer; font-family:inherit; border-bottom:2px solid transparent; transition:all .18s; }
+        .cs-tab:hover { color:var(--text-2); }
         .cs-tab.active { color:#1A3C2E; font-weight:700; border-bottom-color:#52B788; }
         .cs-table { width:100%; border-collapse:separate; border-spacing:0; }
-        .cs-table th { text-align:left; font-size:10.5px; font-weight:700; color:#9CA3AF; letter-spacing:.08em; text-transform:uppercase; padding:10px 14px; border-bottom:1px solid #E5E7EB; background:#FAFBFB; }
-        .cs-table td { padding:13px 14px; font-size:13px; color:#374151; border-bottom:1px solid #F3F4F6; }
-        .cs-table tbody tr:hover { background:#F9FAFB; }
+        .cs-table th { text-align:left; font-size:10.5px; font-weight:700; color:var(--text-4); letter-spacing:.08em; text-transform:uppercase; padding:10px 14px; border-bottom:1px solid var(--border); background:#FAFBFB; }
+        .cs-table td { padding:13px 14px; font-size:13px; color:var(--text-2); border-bottom:1px solid var(--surface-3); }
+        .cs-table tbody tr:hover { background:var(--surface-3); }
         @media(max-width:767px){ .cs-kpis{flex-direction:column!important;} }
       `}</style>
 
@@ -98,13 +98,13 @@ export const CosechaSiembra: React.FC = () => {
         ].map(k=>{
           const I=k.icon;
           return(
-            <div key={k.label} style={{ flex:1,background:'#fff',border:'1px solid #E5E7EB',borderRadius:14,padding:'16px 18px',display:'flex',alignItems:'center',gap:12 }}>
+            <div key={k.label} style={{ flex:1,background:'var(--surface)',border:'1px solid var(--border)',borderRadius:14,padding:'16px 18px',display:'flex',alignItems:'center',gap:12 }}>
               <div style={{ width:40,height:40,borderRadius:10,background:`${k.color}10`,border:`1px solid ${k.color}20`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
                 <I size={18} color={k.color}/>
               </div>
               <div>
-                <div style={{ fontSize:20,fontWeight:700,color:'#111827',lineHeight:1 }}>{k.value}</div>
-                <div style={{ fontSize:11,color:'#6B7280',marginTop:2 }}>{k.label}</div>
+                <div style={{ fontSize:20,fontWeight:700,color:'var(--text)',lineHeight:1 }}>{k.value}</div>
+                <div style={{ fontSize:11,color:'var(--text-3)',marginTop:2 }}>{k.label}</div>
               </div>
             </div>
           );
@@ -112,7 +112,7 @@ export const CosechaSiembra: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div style={{ borderBottom:'1px solid #E5E7EB',marginBottom:18,display:'flex' }}>
+      <div style={{ borderBottom:'1px solid var(--border)',marginBottom:18,display:'flex' }}>
         <button className={`cs-tab ${activeTab==='cosecha'?'active':''}`} onClick={()=>setActiveTab('cosecha')}>
           <span style={{display:'flex',alignItems:'center',gap:6}}><Scale size={14}/>Registros de Cosecha</span>
         </button>
@@ -123,7 +123,7 @@ export const CosechaSiembra: React.FC = () => {
 
       {/* Cosecha table */}
       {activeTab==='cosecha'&&(
-        <div style={{ background:'#fff',border:'1px solid #E5E7EB',borderRadius:16,overflow:'hidden',animation:'cs-fadein .3s ease' }}>
+        <div style={{ background:'var(--surface)',border:'1px solid var(--border)',borderRadius:16,overflow:'hidden',animation:'cs-fadein .3s ease' }}>
           <div style={{ overflowX:'auto' }}>
             <table className="cs-table">
               <thead><tr><th>QR ID</th><th>Cosechador</th><th>Lote</th><th>Variedad</th><th>Peso</th><th>Calidad</th><th>Hora</th></tr></thead>
@@ -142,7 +142,7 @@ export const CosechaSiembra: React.FC = () => {
                         color:r.calidad==='A+'?'#059669':r.calidad==='A'?'#2563EB':'#D97706',
                       }}>{r.calidad}</span>
                     </td>
-                    <td style={{color:'#6B7280',fontSize:12}}>{r.hora}</td>
+                    <td style={{color:'var(--text-3)',fontSize:12}}>{r.hora}</td>
                   </tr>
                 ))}
               </tbody>
@@ -156,7 +156,7 @@ export const CosechaSiembra: React.FC = () => {
         <div style={{ display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))',gap:14,animation:'cs-fadein .3s ease' }}>
           {PLANTING.map((p,i)=>(
             <div key={p.lote} style={{
-              background:'#fff',border:'1px solid #E5E7EB',borderRadius:14,padding:'18px 20px',
+              background:'var(--surface)',border:'1px solid var(--border)',borderRadius:14,padding:'18px 20px',
               animation:`cs-fadein .3s ease ${i*.05}s backwards`,
               transition:'all .2s',
             }}>
@@ -166,24 +166,24 @@ export const CosechaSiembra: React.FC = () => {
                     <MapPin size={16} color="#10B981"/>
                   </div>
                   <div>
-                    <div style={{fontSize:15,fontWeight:700,color:'#111827'}}>Lote {p.lote}</div>
-                    <div style={{fontSize:11,color:'#6B7280'}}>{p.variedad}</div>
+                    <div style={{fontSize:15,fontWeight:700,color:'var(--text)'}}>Lote {p.lote}</div>
+                    <div style={{fontSize:11,color:'var(--text-3)'}}>{p.variedad}</div>
                   </div>
                 </div>
                 <span style={{ fontSize:11,fontWeight:600,color:'#52B788',padding:'3px 10px',borderRadius:8,background:'rgba(82,183,136,0.08)' }}>
                   {p.etapa}
                 </span>
               </div>
-              <div style={{ display:'flex',gap:16,marginBottom:12,fontSize:11.5,color:'#6B7280' }}>
+              <div style={{ display:'flex',gap:16,marginBottom:12,fontSize:11.5,color:'var(--text-3)' }}>
                 <span style={{display:'flex',alignItems:'center',gap:4}}><Calendar size={12}/>{p.fechaSiembra}</span>
                 <span>{p.responsable}</span>
               </div>
               <div>
-                <div style={{ display:'flex',justifyContent:'space-between',fontSize:10.5,color:'#9CA3AF',marginBottom:4 }}>
+                <div style={{ display:'flex',justifyContent:'space-between',fontSize:10.5,color:'var(--text-4)',marginBottom:4 }}>
                   <span>Progreso del ciclo</span>
-                  <span style={{fontWeight:700,color:'#374151'}}>{p.progreso}%</span>
+                  <span style={{fontWeight:700,color:'var(--text-2)'}}>{p.progreso}%</span>
                 </div>
-                <div style={{ height:5,borderRadius:3,background:'#F3F4F6',overflow:'hidden' }}>
+                <div style={{ height:5,borderRadius:3,background:'var(--surface-3)',overflow:'hidden' }}>
                   <div style={{ height:'100%',borderRadius:3,background:'linear-gradient(90deg,#10B981,#059669)',width:`${p.progreso}%`,transition:'width .6s' }}/>
                 </div>
               </div>

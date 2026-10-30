@@ -58,7 +58,7 @@ const COURSES: Course[] = [
 const STATUS_CONFIG: Record<CourseStatus, { label: string; color: string; bg: string; icon: React.ElementType }> = {
   completado:   { label: 'Completado',   color: '#10B981', bg: 'rgba(16,185,129,0.10)',  icon: Check },
   'en-progreso': { label: 'En progreso', color: '#3B82F6', bg: 'rgba(59,130,246,0.10)',  icon: Play },
-  bloqueado:    { label: 'Bloqueado',    color: '#9CA3AF', bg: 'rgba(156,163,175,0.10)', icon: Lock },
+  bloqueado:    { label: 'Bloqueado',    color: 'var(--text-4)', bg: 'rgba(156,163,175,0.10)', icon: Lock },
 };
 
 /* ═══════════════════════════════════════════════════
@@ -87,10 +87,10 @@ export const AcademiaCapacitacion: React.FC = () => {
         .ac-role-btn {
           display: flex; align-items: center; gap: 8;
           padding: 10px 16px; border-radius: 12;
-          border: 1px solid #E5E7EB; background: #fff;
+          border: 1px solid var(--border); background: #fff;
           cursor: pointer; transition: all 0.2s;
           font-family: inherit; font-size: 12.5px;
-          color: #6B7280; font-weight: 500;
+          color: var(--text-3); font-weight: 500;
         }
         .ac-role-btn:hover { border-color: rgba(82,183,136,0.35); }
         .ac-role-btn.is-active {
@@ -103,7 +103,7 @@ export const AcademiaCapacitacion: React.FC = () => {
         }
 
         .ac-course-card {
-          background: #fff; border: 1px solid #E5E7EB;
+          background: #fff; border: 1px solid var(--border);
           border-radius: 14px; padding: 20px 22px;
           transition: all 0.2s; cursor: pointer;
         }
@@ -173,7 +173,7 @@ export const AcademiaCapacitacion: React.FC = () => {
           const KpiIcon = kpi.icon;
           return (
             <div key={kpi.label} style={{
-              flex: 1, background: '#fff', border: '1px solid #E5E7EB',
+              flex: 1, background: 'var(--surface)', border: '1px solid var(--border)',
               borderRadius: 14, padding: '18px 20px',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: kpi.showBar ? 12 : 0 }}>
@@ -185,16 +185,16 @@ export const AcademiaCapacitacion: React.FC = () => {
                   <KpiIcon size={18} color={kpi.color} />
                 </div>
                 <div>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: '#111827', lineHeight: 1 }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>
                     {kpi.value}
                   </div>
-                  <div style={{ fontSize: 11.5, color: '#6B7280', marginTop: 2 }}>
+                  <div style={{ fontSize: 11.5, color: 'var(--text-3)', marginTop: 2 }}>
                     {kpi.label}
                   </div>
                 </div>
               </div>
               {kpi.showBar && (
-                <div style={{ height: 6, borderRadius: 3, background: '#F3F4F6', overflow: 'hidden' }}>
+                <div style={{ height: 6, borderRadius: 3, background: 'var(--surface-3)', overflow: 'hidden' }}>
                   <div style={{
                     height: '100%', borderRadius: 3,
                     background: `linear-gradient(90deg, ${kpi.color}, #2D6A4F)`,
@@ -273,7 +273,7 @@ export const AcademiaCapacitacion: React.FC = () => {
                 </div>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: 5,
-                  fontSize: 10.5, color: '#9CA3AF',
+                  fontSize: 10.5, color: 'var(--text-4)',
                 }}>
                   <RoleIcon size={12} color={role.color} />
                   {role.label}
@@ -282,13 +282,13 @@ export const AcademiaCapacitacion: React.FC = () => {
 
               {/* Title + Desc */}
               <h3 style={{
-                fontSize: 15, fontWeight: 700, color: '#111827',
+                fontSize: 15, fontWeight: 700, color: 'var(--text)',
                 margin: '0 0 6px', lineHeight: 1.3,
               }}>
                 {course.title}
               </h3>
               <p style={{
-                fontSize: 12, color: '#6B7280', lineHeight: 1.5,
+                fontSize: 12, color: 'var(--text-3)', lineHeight: 1.5,
                 margin: '0 0 14px',
                 display: '-webkit-box',
                 WebkitLineClamp: 2,
@@ -301,7 +301,7 @@ export const AcademiaCapacitacion: React.FC = () => {
               {/* Meta row */}
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 12, marginBottom: 14,
-                fontSize: 11.5, color: '#9CA3AF',
+                fontSize: 11.5, color: 'var(--text-4)',
               }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                   <Clock size={12} /> {course.duration}
@@ -320,21 +320,21 @@ export const AcademiaCapacitacion: React.FC = () => {
               <div style={{ marginBottom: 14 }}>
                 <div style={{
                   display: 'flex', justifyContent: 'space-between',
-                  fontSize: 10.5, color: '#9CA3AF', marginBottom: 4,
+                  fontSize: 10.5, color: 'var(--text-4)', marginBottom: 4,
                 }}>
                   <span>Progreso</span>
-                  <span style={{ fontWeight: 700, color: course.progress === 100 ? '#10B981' : '#374151' }}>
+                  <span style={{ fontWeight: 700, color: course.progress === 100 ? '#10B981' : 'var(--text-2)' }}>
                     {course.progress}%
                   </span>
                 </div>
-                <div style={{ height: 5, borderRadius: 3, background: '#F3F4F6', overflow: 'hidden' }}>
+                <div style={{ height: 5, borderRadius: 3, background: 'var(--surface-3)', overflow: 'hidden' }}>
                   <div style={{
                     height: '100%', borderRadius: 3,
                     background: course.progress === 100
                       ? '#10B981'
                       : course.progress > 0
                       ? 'linear-gradient(90deg, #3B82F6, #60A5FA)'
-                      : '#E5E7EB',
+                      : 'var(--border)',
                     width: `${course.progress}%`,
                     transition: 'width 0.6s ease',
                   }} />
@@ -345,14 +345,14 @@ export const AcademiaCapacitacion: React.FC = () => {
               <button style={{
                 width: '100%', padding: '10px',
                 borderRadius: 10,
-                border: course.status === 'bloqueado' ? '1px solid #E5E7EB' : 'none',
+                border: course.status === 'bloqueado' ? '1px solid var(--border)' : 'none',
                 background: course.status === 'bloqueado'
-                  ? '#F9FAFB'
+                  ? 'var(--surface-3)'
                   : course.status === 'completado'
                   ? 'rgba(16,185,129,0.08)'
                   : 'linear-gradient(135deg, #1A3C2E, #2D6A4F)',
                 color: course.status === 'bloqueado'
-                  ? '#9CA3AF'
+                  ? 'var(--text-4)'
                   : course.status === 'completado'
                   ? '#059669'
                   : '#fff',
@@ -374,7 +374,7 @@ export const AcademiaCapacitacion: React.FC = () => {
           BIBLIOTECA CALLOUT
       ════════════════════════════════════════════ */}
       <div style={{
-        background: '#F9FAFB', border: '1px solid #E5E7EB',
+        background: 'var(--surface-3)', border: '1px solid var(--border)',
         borderRadius: 16, padding: '24px 28px',
         marginTop: 28,
         display: 'flex', alignItems: 'center', gap: 18,
@@ -387,10 +387,10 @@ export const AcademiaCapacitacion: React.FC = () => {
           <BookOpen size={22} color="#0EA5E9" />
         </div>
         <div style={{ flex: 1 }}>
-          <h3 style={{ fontSize: 15, fontWeight: 700, color: '#111827', margin: '0 0 4px' }}>
+          <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text)', margin: '0 0 4px' }}>
             Biblioteca de Conocimiento Agrícola
           </h3>
-          <p style={{ fontSize: 12.5, color: '#6B7280', margin: 0, lineHeight: 1.5 }}>
+          <p style={{ fontSize: 12.5, color: 'var(--text-3)', margin: 0, lineHeight: 1.5 }}>
             Accede a manuales, guías técnicas, fichas de variedades, protocolos de riego
             y documentos de referencia para toda la operación AgroBotanicals™.
           </p>

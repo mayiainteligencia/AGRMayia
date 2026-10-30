@@ -19,8 +19,8 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, l
   return (
     <div
       style={{
-        background: '#FFFFFF',
-        border: '1px solid #E5E7EB',
+        background: 'var(--surface)',
+        border: '1px solid var(--border)',
         borderRadius: 8,
         padding: '10px 14px',
         boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
@@ -31,11 +31,11 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, l
       {label && (
         <p
           style={{
-            color: '#374151',
+            color: 'var(--text-2)',
             fontWeight: 600,
             margin: '0 0 8px 0',
             paddingBottom: 6,
-            borderBottom: '1px solid #F3F4F6',
+            borderBottom: '1px solid var(--surface-3)',
             fontSize: 12,
           }}
         >
@@ -61,8 +61,8 @@ export const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, l
               flexShrink: 0,
             }}
           />
-          <span style={{ color: '#6B7280' }}>{p.name}:</span>
-          <strong style={{ color: '#111827' }}>
+          <span style={{ color: 'var(--text-3)' }}>{p.name}:</span>
+          <strong style={{ color: 'var(--text)' }}>
             {p.value}
             {p.unit || ''}
           </strong>

@@ -94,7 +94,7 @@ const LiveVideoMini: React.FC<{ src: string }> = ({ src }) => (
   <div style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', aspectRatio: '16 / 9', background: '#0E2318' }}>
     <video src={src} autoPlay muted loop playsInline controls={false} onContextMenu={e => e.preventDefault()} style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
     <div style={{ position: 'absolute', top: 6, left: 6, display: 'flex', alignItems: 'center', gap: 5, padding: '2px 7px', borderRadius: 20, background: 'rgba(220,38,38,0.85)' }}>
-      <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#fff', animation: 'cd-ping 1.6s ease-in-out infinite' }} />
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--surface)', animation: 'cd-ping 1.6s ease-in-out infinite' }} />
       <span style={{ fontSize: 8, fontWeight: 800, letterSpacing: '0.1em', color: '#fff' }}>EN VIVO</span>
     </div>
   </div>
@@ -319,7 +319,7 @@ const DecisionModule: React.FC<{ m: Modulo; tick: number }> = ({ m, tick }) => {
   return (
     <div className="cd-mod" style={{
       gridColumn: m.span ? `span ${m.span}` : undefined,
-      background: '#fff', borderRadius: 16, border: `1px solid ${colores.borde}`,
+      background: 'var(--surface)', borderRadius: 16, border: `1px solid ${colores.borde}`,
       boxShadow: colores.sombra, padding: 16, display: 'flex', flexDirection: 'column', gap: 12,
       borderTop: `3px solid ${m.color}`,
     }}>
@@ -396,7 +396,7 @@ const CommandHeader: React.FC = () => {
   const saludo = now.getHours() < 12 ? 'Buenos días' : now.getHours() < 19 ? 'Buenas tardes' : 'Buenas noches';
 
   const chip = (icon: React.ReactNode, label: string, value: string, color: string) => (
-    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '9px 14px', borderRadius: 12, background: '#fff', border: `1px solid ${colores.borde}` }}>
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '9px 14px', borderRadius: 12, background: 'var(--surface)', border: `1px solid ${colores.borde}` }}>
       <span style={{ color }}>{icon}</span>
       <span style={{ fontSize: 12.5, color: colores.textoMedio }}>{label}:</span>
       <span style={{ fontSize: 13.5, fontWeight: 700, color }}>{value}</span>
@@ -417,7 +417,7 @@ const CommandHeader: React.FC = () => {
             <p style={{ margin: '3px 0 0', fontSize: 13.5, color: colores.textoOscuro }}>Centro de mando con inteligencia artificial activa</p>
           </div>
         </div>
-        <div style={{ background: '#fff', border: `1px solid ${colores.borde}`, borderRadius: 14, padding: '12px 18px', textAlign: 'right', boxShadow: colores.sombra }}>
+        <div style={{ background: 'var(--surface)', border: `1px solid ${colores.borde}`, borderRadius: 14, padding: '12px 18px', textAlign: 'right', boxShadow: colores.sombra }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'flex-end' }}>
             <Clock size={16} color={colores.primario} />
             <span style={{ fontSize: 20, fontWeight: 800, color: colores.textoClaro, fontVariantNumeric: 'tabular-nums', letterSpacing: '-0.5px' }}>{hora}</span>
@@ -432,7 +432,7 @@ const CommandHeader: React.FC = () => {
         {chip(<Bot size={15} />, 'Agentes IA', '4 Online', colores.secundario)}
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 12, background: '#fff', border: `1px solid ${colores.peligro}33` }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 12, background: 'var(--surface)', border: `1px solid ${colores.peligro}33` }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: colores.peligro, boxShadow: `0 0 8px ${colores.peligro}`, animation: 'cd-ping 1.6s ease-in-out infinite' }} />
           <span style={{ fontSize: 11, fontWeight: 800, color: colores.peligro, letterSpacing: '0.06em' }}>EN VIVO</span>

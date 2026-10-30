@@ -34,10 +34,10 @@ const lmrBadge: Record<string, 'success' | 'warning' | 'danger'> = {
 export const Riego: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
     <div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-0.5px' }}>
+      <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', margin: 0, letterSpacing: '-0.5px' }}>
         Riego y Nutricion
       </h1>
-      <p style={{ fontSize: 14, color: '#6B7280', margin: '4px 0 0 0' }}>
+      <p style={{ fontSize: 14, color: 'var(--text-3)', margin: '4px 0 0 0' }}>
         Monitoreo local y remoto del esquema de nutricion: EC/PPM y pH en agua de riego, sustrato y drenaje · Ventanas de absorcion y LMR para exportacion.
       </p>
     </div>
@@ -57,9 +57,9 @@ export const Riego: React.FC = () => (
         />
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={phHistorico} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} domain={[4.5, 7]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="dia" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} domain={[4.5, 7]} />
             <ReferenceArea y1={5.5} y2={6.0} fill="#52B788" fillOpacity={0.07} label={{ value: 'pH optimo riego', fill: '#52B788', fontSize: 10, position: 'insideTopRight' }} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
@@ -77,9 +77,9 @@ export const Riego: React.FC = () => (
         />
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={ecHistorico} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} domain={[0.5, 3]} unit=" mS" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="dia" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} domain={[0.5, 3]} unit=" mS" />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
             <Line type="monotone" dataKey="entrada" name="EC entrada" stroke="#5C3D8F" strokeWidth={2.5} dot={false} />
@@ -105,8 +105,8 @@ export const Riego: React.FC = () => (
                   textAlign: 'left',
                   fontSize: 11,
                   fontWeight: 600,
-                  color: '#6B7280',
-                  borderBottom: '1px solid #E5E7EB',
+                  color: 'var(--text-3)',
+                  borderBottom: '1px solid var(--border)',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
                 }}>{h}</th>
@@ -115,12 +115,12 @@ export const Riego: React.FC = () => (
           </thead>
           <tbody>
             {valoresPorEtapa.map((v, i) => (
-              <tr key={v.etapa} style={{ backgroundColor: i % 2 === 0 ? '#FAFAFA' : '#FFFFFF' }}>
-                <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: '#111827' }}>{v.etapa}</td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{v.ecMin} mS/cm</td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{v.ecMax} mS/cm</td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{v.phRiego}</td>
-                <td style={{ padding: '11px 14px', fontSize: 12, color: '#6B7280' }}>{v.notas}</td>
+              <tr key={v.etapa} style={{ backgroundColor: i % 2 === 0 ? 'var(--surface-3)' : '#FFFFFF' }}>
+                <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{v.etapa}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{v.ecMin} mS/cm</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{v.ecMax} mS/cm</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{v.phRiego}</td>
+                <td style={{ padding: '11px 14px', fontSize: 12, color: 'var(--text-3)' }}>{v.notas}</td>
               </tr>
             ))}
           </tbody>
@@ -144,8 +144,8 @@ export const Riego: React.FC = () => (
                   textAlign: 'left',
                   fontSize: 11,
                   fontWeight: 600,
-                  color: '#6B7280',
-                  borderBottom: '1px solid #E5E7EB',
+                  color: 'var(--text-3)',
+                  borderBottom: '1px solid var(--border)',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
                 }}>{h}</th>
@@ -154,12 +154,12 @@ export const Riego: React.FC = () => (
           </thead>
           <tbody>
             {interaccionesNutrientes.map((n, i) => (
-              <tr key={n.elemento} style={{ backgroundColor: i % 2 === 0 ? '#FAFAFA' : '#FFFFFF' }}>
-                <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: '#111827' }}>{n.elemento}</td>
+              <tr key={n.elemento} style={{ backgroundColor: i % 2 === 0 ? 'var(--surface-3)' : '#FFFFFF' }}>
+                <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{n.elemento}</td>
                 <td style={{ padding: '11px 14px', fontSize: 13, color: '#059669' }}>{n.sinergia}</td>
                 <td style={{ padding: '11px 14px', fontSize: 13, color: '#DC2626' }}>{n.antagonismo}</td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{n.ventanaPh}</td>
-                <td style={{ padding: '11px 14px', fontSize: 12, color: '#6B7280' }}>{n.nota}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{n.ventanaPh}</td>
+                <td style={{ padding: '11px 14px', fontSize: 12, color: 'var(--text-3)' }}>{n.nota}</td>
               </tr>
             ))}
           </tbody>
@@ -183,8 +183,8 @@ export const Riego: React.FC = () => (
                   textAlign: 'left',
                   fontSize: 11,
                   fontWeight: 600,
-                  color: '#6B7280',
-                  borderBottom: '1px solid #E5E7EB',
+                  color: 'var(--text-3)',
+                  borderBottom: '1px solid var(--border)',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
                 }}>{h}</th>
@@ -193,14 +193,14 @@ export const Riego: React.FC = () => (
           </thead>
           <tbody>
             {lmrExportacion.map((l, i) => (
-              <tr key={i} style={{ backgroundColor: i % 2 === 0 ? '#FAFAFA' : '#FFFFFF' }}>
-                <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: '#111827' }}>{l.mercado}</td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{l.residuo}</td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{l.lmr}</td>
+              <tr key={i} style={{ backgroundColor: i % 2 === 0 ? 'var(--surface-3)' : '#FFFFFF' }}>
+                <td style={{ padding: '11px 14px', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{l.mercado}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{l.residuo}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{l.lmr}</td>
                 <td style={{ padding: '11px 14px' }}>
                   <Badge variant={lmrBadge[l.estado] ?? 'neutral'}>{l.estado}</Badge>
                 </td>
-                <td style={{ padding: '11px 14px', fontSize: 13, color: '#374151' }}>{l.ultimoLote}</td>
+                <td style={{ padding: '11px 14px', fontSize: 13, color: 'var(--text-2)' }}>{l.ultimoLote}</td>
               </tr>
             ))}
           </tbody>

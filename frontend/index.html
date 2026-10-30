@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <script>
+      try { document.documentElement.dataset.theme = localStorage.getItem('theme') === 'dark' ? 'dark' : 'light'; } catch (e) {}
+    </script>
     <meta charset="UTF-8" />
     
     <!-- Favicon para diferentes dispositivos -->
@@ -22,9 +25,29 @@
     <meta name="theme-color" content="#040D02" />
 
     <title>AgroTech IA - Plataforma inteligente</title>
+    <style>
+      .goog-te-banner-frame, .skiptranslate > iframe, #goog-gt-tt, .goog-te-balloon-frame { display: none !important; }
+      body { top: 0 !important; }
+      #google_translate_element { display: none; }
+      font[style] { background: none !important; box-shadow: none !important; }
+    </style>
   </head>
   <body>
+    <div id="google_translate_element"></div>
     <div id="root"></div>
+    <script>
+      // Evita que Google Translate rompa React al reemplazar nodos de texto
+      (function () {
+        var rc = Node.prototype.removeChild;
+        Node.prototype.removeChild = function (c) { if (c.parentNode !== this) return c; return rc.apply(this, arguments); };
+        var ib = Node.prototype.insertBefore;
+        Node.prototype.insertBefore = function (n, r) { if (r && r.parentNode !== this) return n; return ib.apply(this, arguments); };
+      })();
+      function googleTranslateElementInit() {
+        new google.translate.TranslateElement({ pageLanguage: 'es', includedLanguages: 'es,en', autoDisplay: false }, 'google_translate_element');
+      }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

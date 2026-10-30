@@ -80,14 +80,14 @@ const CLIENTS: ClientInfo[] = [
 const ORDER_STATUS: Record<OrderStatus, { label: string; color: string; bg: string; icon: React.ElementType }> = {
   confirmed:  { label: 'Confirmado',  color: '#3B82F6', bg: 'rgba(59,130,246,0.10)',  icon: Check },
   'in-transit': { label: 'En tránsito', color: '#F59E0B', bg: 'rgba(245,158,11,0.10)', icon: Truck },
-  pending:    { label: 'Pendiente',   color: '#9CA3AF', bg: 'rgba(156,163,175,0.10)', icon: Clock },
+  pending:    { label: 'Pendiente',   color: 'var(--text-4)', bg: 'rgba(156,163,175,0.10)', icon: Clock },
   delivered:  { label: 'Entregado',   color: '#10B981', bg: 'rgba(16,185,129,0.10)',  icon: Check },
 };
 
 const TREND_ICON: Record<string, { symbol: string; color: string }> = {
   up:     { symbol: '↑', color: '#10B981' },
   down:   { symbol: '↓', color: '#EF4444' },
-  stable: { symbol: '→', color: '#6B7280' },
+  stable: { symbol: '→', color: 'var(--text-3)' },
 };
 
 /* ═══════════════════════════════════════════════════
@@ -109,13 +109,13 @@ export const PortalClientesB2B: React.FC = () => {
           background: transparent;
           font-size: 13px;
           font-weight: 500;
-          color: #6B7280;
+          color: var(--text-3);
           cursor: pointer;
           font-family: inherit;
           border-bottom: 2px solid transparent;
           transition: all 0.18s;
         }
-        .pcb-tab:hover { color: #374151; }
+        .pcb-tab:hover { color: var(--text-2); }
         .pcb-tab.is-active {
           color: #1A3C2E;
           font-weight: 700;
@@ -131,22 +131,22 @@ export const PortalClientesB2B: React.FC = () => {
           text-align: left;
           font-size: 10.5px;
           font-weight: 700;
-          color: #9CA3AF;
+          color: var(--text-4);
           letter-spacing: 0.08em;
           text-transform: uppercase;
           padding: 10px 14px;
-          border-bottom: 1px solid #E5E7EB;
+          border-bottom: 1px solid var(--border);
           background: #FAFBFB;
         }
         .pcb-table td {
           padding: 14px;
           font-size: 13px;
-          color: #374151;
-          border-bottom: 1px solid #F3F4F6;
+          color: var(--text-2);
+          border-bottom: 1px solid var(--surface-3);
           vertical-align: middle;
         }
         .pcb-table tr { transition: background 0.15s; }
-        .pcb-table tbody tr:hover { background: #F9FAFB; }
+        .pcb-table tbody tr:hover { background: var(--surface-3); }
 
         .pcb-cert-tag {
           display: inline-flex;
@@ -162,7 +162,7 @@ export const PortalClientesB2B: React.FC = () => {
 
         .pcb-client-card {
           background: #fff;
-          border: 1px solid #E5E7EB;
+          border: 1px solid var(--border);
           border-radius: 14px;
           padding: 20px;
           transition: all 0.2s;
@@ -242,7 +242,7 @@ export const PortalClientesB2B: React.FC = () => {
           return (
             <div key={kpi.label} style={{
               flex: 1,
-              background: '#fff', border: '1px solid #E5E7EB', borderRadius: 14,
+              background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 14,
               padding: '18px 20px',
               display: 'flex', alignItems: 'center', gap: 14,
             }}>
@@ -255,10 +255,10 @@ export const PortalClientesB2B: React.FC = () => {
                 <KpiIcon size={18} color={kpi.color} />
               </div>
               <div>
-                <div style={{ fontSize: 22, fontWeight: 700, color: '#111827', lineHeight: 1 }}>
+                <div style={{ fontSize: 22, fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>
                   {kpi.value}
                 </div>
-                <div style={{ fontSize: 11.5, color: '#6B7280', marginTop: 2 }}>
+                <div style={{ fontSize: 11.5, color: 'var(--text-3)', marginTop: 2 }}>
                   {kpi.label}
                 </div>
               </div>
@@ -272,7 +272,7 @@ export const PortalClientesB2B: React.FC = () => {
       ════════════════════════════════════════════ */}
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        borderBottom: '1px solid #E5E7EB', marginBottom: 20,
+        borderBottom: '1px solid var(--border)', marginBottom: 20,
         flexWrap: 'wrap' as const, gap: 10,
       }}>
         <div style={{ display: 'flex' }}>
@@ -300,9 +300,9 @@ export const PortalClientesB2B: React.FC = () => {
         <div style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '6px 12px', borderRadius: 10,
-          background: '#F9FAFB', border: '1px solid #E5E7EB',
+          background: 'var(--surface-3)', border: '1px solid var(--border)',
         }}>
-          <Search size={14} color="#9CA3AF" />
+          <Search size={14} color="var(--text-4)" />
           <input
             type="text"
             placeholder="Search..."
@@ -310,7 +310,7 @@ export const PortalClientesB2B: React.FC = () => {
             onChange={e => setSearchTerm(e.target.value)}
             style={{
               border: 'none', background: 'transparent', outline: 'none',
-              fontSize: 12.5, color: '#374151', fontFamily: 'inherit',
+              fontSize: 12.5, color: 'var(--text-2)', fontFamily: 'inherit',
               width: 140,
             }}
           />
@@ -324,18 +324,18 @@ export const PortalClientesB2B: React.FC = () => {
       {/* --- Availability --- */}
       {activeTab === 'availability' && (
         <div style={{
-          background: '#fff', border: '1px solid #E5E7EB',
+          background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 16, overflow: 'hidden',
           animation: 'pcb-fadein 0.3s ease',
         }}>
           <div style={{
             padding: '16px 20px',
-            borderBottom: '1px solid #E5E7EB',
+            borderBottom: '1px solid var(--border)',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <Package size={16} color="#2D6A4F" />
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
                 Real-Time Harvest Availability
               </span>
             </div>
@@ -343,16 +343,16 @@ export const PortalClientesB2B: React.FC = () => {
               <button style={{
                 display: 'flex', alignItems: 'center', gap: 5,
                 padding: '6px 12px', borderRadius: 8,
-                background: '#F3F4F6', border: '1px solid #E5E7EB',
-                fontSize: 11.5, color: '#374151', cursor: 'pointer', fontFamily: 'inherit',
+                background: 'var(--surface-3)', border: '1px solid var(--border)',
+                fontSize: 11.5, color: 'var(--text-2)', cursor: 'pointer', fontFamily: 'inherit',
               }}>
                 <Filter size={12} /> Filter
               </button>
               <button style={{
                 display: 'flex', alignItems: 'center', gap: 5,
                 padding: '6px 12px', borderRadius: 8,
-                background: '#F3F4F6', border: '1px solid #E5E7EB',
-                fontSize: 11.5, color: '#374151', cursor: 'pointer', fontFamily: 'inherit',
+                background: 'var(--surface-3)', border: '1px solid var(--border)',
+                fontSize: 11.5, color: 'var(--text-2)', cursor: 'pointer', fontFamily: 'inherit',
               }}>
                 <Download size={12} /> Export
               </button>
@@ -379,7 +379,7 @@ export const PortalClientesB2B: React.FC = () => {
                   return (
                     <tr key={idx} style={{ animation: `pcb-fadein 0.3s ease ${idx * 0.05}s backwards` }}>
                       <td>
-                        <div style={{ fontWeight: 600, color: '#111827' }}>{h.variety}</div>
+                        <div style={{ fontWeight: 600, color: 'var(--text)' }}>{h.variety}</div>
                       </td>
                       <td>
                         <span style={{ fontWeight: 600 }}>{h.available}</span>
@@ -400,7 +400,7 @@ export const PortalClientesB2B: React.FC = () => {
                           {trend.symbol}
                         </span>
                       </td>
-                      <td style={{ color: '#6B7280', fontSize: 12 }}>{h.origin}</td>
+                      <td style={{ color: 'var(--text-3)', fontSize: 12 }}>{h.origin}</td>
                       <td>
                         <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' as const }}>
                           {h.certifications.map(c => (
@@ -432,17 +432,17 @@ export const PortalClientesB2B: React.FC = () => {
       {/* --- Orders --- */}
       {activeTab === 'orders' && (
         <div style={{
-          background: '#fff', border: '1px solid #E5E7EB',
+          background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 16, overflow: 'hidden',
           animation: 'pcb-fadein 0.3s ease',
         }}>
           <div style={{
             padding: '16px 20px',
-            borderBottom: '1px solid #E5E7EB',
+            borderBottom: '1px solid var(--border)',
             display: 'flex', alignItems: 'center', gap: 8,
           }}>
             <FileText size={16} color="#2D6A4F" />
-            <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>
+            <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>
               Purchase Orders
             </span>
           </div>
@@ -483,9 +483,9 @@ export const PortalClientesB2B: React.FC = () => {
                           <StIcon size={11} /> {st.label}
                         </span>
                       </td>
-                      <td style={{ color: '#6B7280', fontSize: 12 }}>{o.date}</td>
-                      <td style={{ color: '#6B7280', fontSize: 12 }}>{o.deliveryDate}</td>
-                      <td style={{ fontWeight: 700, color: '#111827' }}>{o.total}</td>
+                      <td style={{ color: 'var(--text-3)', fontSize: 12 }}>{o.date}</td>
+                      <td style={{ color: 'var(--text-3)', fontSize: 12 }}>{o.deliveryDate}</td>
+                      <td style={{ fontWeight: 700, color: 'var(--text)' }}>{o.total}</td>
                     </tr>
                   );
                 })}
@@ -512,14 +512,14 @@ export const PortalClientesB2B: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <span style={{ fontSize: 28 }}>{c.flag}</span>
                     <div>
-                      <div style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{c.name}</div>
-                      <div style={{ fontSize: 11, color: '#6B7280' }}>{c.country}</div>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--text)' }}>{c.name}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-3)' }}>{c.country}</div>
                     </div>
                   </div>
                   <span style={{
                     padding: '3px 10px', borderRadius: 20,
                     background: c.status === 'active' ? 'rgba(16,185,129,0.1)' : 'rgba(156,163,175,0.1)',
-                    color: c.status === 'active' ? '#059669' : '#9CA3AF',
+                    color: c.status === 'active' ? '#059669' : 'var(--text-4)',
                     fontSize: 10, fontWeight: 700, textTransform: 'uppercase' as const,
                     letterSpacing: '0.06em',
                   }}>
@@ -537,11 +537,11 @@ export const PortalClientesB2B: React.FC = () => {
                     { label: 'Volume', value: c.volume },
                   ].map(stat => (
                     <div key={stat.label} style={{
-                      background: '#F9FAFB', borderRadius: 8,
+                      background: 'var(--surface-3)', borderRadius: 8,
                       padding: '8px 10px', textAlign: 'center' as const,
                     }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{stat.value}</div>
-                      <div style={{ fontSize: 9.5, color: '#9CA3AF', marginTop: 2 }}>{stat.label}</div>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--text)' }}>{stat.value}</div>
+                      <div style={{ fontSize: 9.5, color: 'var(--text-4)', marginTop: 2 }}>{stat.label}</div>
                     </div>
                   ))}
                 </div>
@@ -549,7 +549,7 @@ export const PortalClientesB2B: React.FC = () => {
                 <div style={{
                   display: 'flex', gap: 6,
                   paddingTop: 12,
-                  borderTop: '1px solid #F3F4F6',
+                  borderTop: '1px solid var(--surface-3)',
                 }}>
                   <button style={{
                     flex: 1, padding: '8px', borderRadius: 8,
@@ -563,7 +563,7 @@ export const PortalClientesB2B: React.FC = () => {
                   </button>
                   <button style={{
                     padding: '8px 12px', borderRadius: 8,
-                    background: '#F3F4F6', border: '1px solid #E5E7EB',
+                    background: 'var(--surface-3)', border: '1px solid var(--border)',
                     cursor: 'pointer', fontFamily: 'inherit',
                     display: 'flex', alignItems: 'center',
                   }}>

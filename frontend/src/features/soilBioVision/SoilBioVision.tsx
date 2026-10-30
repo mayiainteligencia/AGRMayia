@@ -138,7 +138,7 @@ export const SoilBioVision: React.FC = () => {
             <div
               style={{
                 width: 130, height: 280, borderRadius: '14px 14px 18px 18px',
-                border: `3px solid ${colores.textoOscuro}55`,
+                border: '3px solid rgba(107,114,128,0.33)',
                 overflow: 'hidden',
                 display: 'flex', flexDirection: 'column',
                 background: colores.fondoTerciario,
@@ -150,7 +150,7 @@ export const SoilBioVision: React.FC = () => {
               <div style={{ flexBasis: `${arcillaH}%`, background: `${colores.peligro}CC` }}    title={`Arcilla ${arcilla} mm`} />
               <div style={{ flexBasis: `${limoH}%`,  background: `${colores.info}CC` }}       title={`Limo ${limo} mm`} />
               <div style={{ flexBasis: `${arenaH}%`, background: `${colores.advertencia}DD` }} title={`Arena ${arena} mm`} />
-              <div style={{ position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', width: 60, height: 14, background: colores.fondoTerciario, borderRadius: '6px 6px 0 0', border: `2px solid ${colores.textoOscuro}55`, borderBottom: 'none' }} />
+              <div style={{ position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', width: 60, height: 14, background: colores.fondoTerciario, borderRadius: '6px 6px 0 0', border: "2px solid rgba(107,114,128,0.33)", borderBottom: 'none' }} />
             </div>
           </div>
           <p style={{ fontSize: 11, color: colores.textoOscuro, textAlign: 'center', margin: '10px 0 0', fontFamily: 'ui-monospace, monospace' }}>

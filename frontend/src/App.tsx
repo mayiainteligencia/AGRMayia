@@ -35,7 +35,7 @@ function DashboardApp() {
 
   return (
     <NavContext.Provider value={handleSectionChange}>
-      <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#F7F9F8' }}>
+      <div style={{ display: 'flex', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'var(--bg)' }}>
         {sidebarOpen && (
           <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
         )}
@@ -84,7 +84,7 @@ function MainRouter() {
     return (
       <div style={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        width: '100vw', height: '100vh', backgroundColor: '#F8F9F5',
+        width: '100vw', height: '100vh', backgroundColor: 'var(--bg)',
       }}>
         <div style={{
           width: 38, height: 38, border: '3px solid rgba(45,106,79,0.2)',

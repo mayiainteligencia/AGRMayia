@@ -443,7 +443,7 @@ export const AnalisisVisual: React.FC = () => {
             </span>
             <span style={{
               width: 6, height: 6, borderRadius: '50%',
-              background: '#fff', opacity: 0.8,
+              background: 'var(--surface)', opacity: 0.8,
               boxShadow: '0 0 5px rgba(255,255,255,0.6)',
             }} />
           </div>

@@ -18,8 +18,8 @@ const EtapaCard: React.FC<{ etapa: EtapaFenologicaItem }> = ({ etapa }) => (
       borderRadius: 10,
       border: etapa.activa
         ? `2px solid ${etapa.color}`
-        : '1px solid #E5E7EB',
-      backgroundColor: etapa.activa ? `${etapa.color}10` : etapa.completada ? '#F9FAFB' : '#FFFFFF',
+        : '1px solid var(--border)',
+      backgroundColor: etapa.activa ? `${etapa.color}10` : etapa.completada ? 'var(--surface-3)' : '#FFFFFF',
       display: 'flex',
       flexDirection: 'column',
       gap: 6,
@@ -45,17 +45,17 @@ const EtapaCard: React.FC<{ etapa: EtapaFenologicaItem }> = ({ etapa }) => (
       ) : etapa.activa ? (
         <div style={{ width: 8, height: 8, borderRadius: '50%', backgroundColor: etapa.color, marginRight: 2 }} />
       ) : (
-        <Clock size={13} color="#9CA3AF" />
+        <Clock size={13} color="var(--text-4)" />
       )}
       <span style={{
         fontSize: 12,
         fontWeight: etapa.activa ? 700 : 500,
-        color: etapa.activa ? etapa.color : etapa.completada ? '#374151' : '#9CA3AF',
+        color: etapa.activa ? etapa.color : etapa.completada ? 'var(--text-2)' : 'var(--text-4)',
       }}>
         {etapa.label}
       </span>
     </div>
-    <span style={{ fontSize: 10, color: '#9CA3AF', fontWeight: 400 }}>{etapa.meses}</span>
+    <span style={{ fontSize: 10, color: 'var(--text-4)', fontWeight: 400 }}>{etapa.meses}</span>
     {etapa.activa && (
       <span style={{ fontSize: 10, fontWeight: 600, color: etapa.color, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
         En curso
@@ -71,32 +71,32 @@ const prioridadBadge: Record<string, 'danger' | 'warning' | 'neutral'> = {
 const AlertaItem: React.FC<{ alerta: AlertaAgro }> = ({ alerta }) => (
   <div style={{
     padding: '12px 14px',
-    border: '1px solid #F3F4F6',
+    border: '1px solid var(--surface-3)',
     borderRadius: 8,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: 'var(--surface-3)',
     display: 'flex',
     flexDirection: 'column',
     gap: 4,
   }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-      <span style={{ fontSize: 13, fontWeight: 600, color: '#111827' }}>{alerta.titulo}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{alerta.titulo}</span>
       <Badge variant={prioridadBadge[alerta.prioridad]}>{alerta.prioridad}</Badge>
     </div>
-    <p style={{ fontSize: 12, color: '#6B7280', margin: 0, lineHeight: 1.5 }}>{alerta.mensaje}</p>
+    <p style={{ fontSize: 12, color: 'var(--text-3)', margin: 0, lineHeight: 1.5 }}>{alerta.mensaje}</p>
     {alerta.contingencia && (
       <p style={{ fontSize: 11, color: '#2D6A4F', margin: 0, fontWeight: 500 }}>Plan: {alerta.contingencia}</p>
     )}
-    <span style={{ fontSize: 10, color: '#9CA3AF' }}>{alerta.timestamp}</span>
+    <span style={{ fontSize: 10, color: 'var(--text-4)' }}>{alerta.timestamp}</span>
   </div>
 );
 
 export const Fenologia: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
     <div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-0.5px' }}>
+      <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', margin: 0, letterSpacing: '-0.5px' }}>
         Fenologia
       </h1>
-      <p style={{ fontSize: 14, color: '#6B7280', margin: '4px 0 0 0' }}>
+      <p style={{ fontSize: 14, color: 'var(--text-3)', margin: '4px 0 0 0' }}>
         Desarrollo de la planta: etapa actual y crecimiento por día/semana. El manejo de insectos, virus y hongos vive en Control Biológico. — Referente: Julieta
       </p>
     </div>
@@ -127,10 +127,10 @@ export const Fenologia: React.FC = () => (
         />
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={climaHistorico} margin={{ top: 5, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="dia" tick={{ fontSize: 10, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis yAxisId="temp" tick={{ fontSize: 10, fill: '#9CA3AF' }} axisLine={false} tickLine={false} domain={[0, 40]} unit="°C" />
-            <YAxis yAxisId="hum"  orientation="right" tick={{ fontSize: 10, fill: '#9CA3AF' }} axisLine={false} tickLine={false} unit="%" domain={[40, 100]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="dia" tick={{ fontSize: 10, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis yAxisId="temp" tick={{ fontSize: 10, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} domain={[0, 40]} unit="°C" />
+            <YAxis yAxisId="hum"  orientation="right" tick={{ fontSize: 10, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} unit="%" domain={[40, 100]} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
             <Line yAxisId="temp" type="monotone" dataKey="tempMax"  name="Temp Max"  stroke="#DC2626" strokeWidth={2} dot={false} />

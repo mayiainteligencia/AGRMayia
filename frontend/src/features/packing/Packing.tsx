@@ -24,10 +24,10 @@ const ICONS = [<Droplet size={18} />, <Package size={18} />, <Thermometer size={
 export const Packing: React.FC = () => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
     <div>
-      <h1 style={{ fontSize: 28, fontWeight: 700, color: '#111827', margin: 0, letterSpacing: '-0.5px' }}>
+      <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', margin: 0, letterSpacing: '-0.5px' }}>
         Packing
       </h1>
-      <p style={{ fontSize: 14, color: '#6B7280', margin: '4px 0 0 0' }}>
+      <p style={{ fontSize: 14, color: 'var(--text-3)', margin: '4px 0 0 0' }}>
         Empaque, control de calidad y cadena de frio
       </p>
     </div>
@@ -49,9 +49,9 @@ export const Packing: React.FC = () => (
         />
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={calidadBatch} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="batch" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="batch" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
             <Tooltip content={<CustomTooltip />} />
             <Legend wrapperStyle={{ fontSize: 11, paddingTop: 8 }} />
             <Bar dataKey="ok"      name="Aprobado" stackId="a" fill="#2D6A4F" radius={[0, 0, 0, 0]} />
@@ -77,9 +77,9 @@ export const Packing: React.FC = () => (
                 <stop offset="95%" stopColor="#0284C7" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#F3F4F6" vertical={false} />
-            <XAxis dataKey="hora" tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} />
-            <YAxis tick={{ fontSize: 11, fill: '#9CA3AF' }} axisLine={false} tickLine={false} domain={[-1, 1]} unit="°C" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--surface-3)" vertical={false} />
+            <XAxis dataKey="hora" tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} />
+            <YAxis tick={{ fontSize: 11, fill: 'var(--text-4)' }} axisLine={false} tickLine={false} domain={[-1, 1]} unit="°C" />
             <Tooltip content={<CustomTooltip />} />
             <ReferenceLine y={0} stroke="#0284C7" strokeDasharray="4 4" strokeOpacity={0.6} label={{ value: 'Meta 0°C', fill: '#0284C7', fontSize: 10, position: 'insideTopRight' }} />
             <Line type="monotone" dataKey="temp" name="Temperatura" stroke="#0284C7" strokeWidth={2.5} dot={false} activeDot={{ r: 4 }} />
@@ -101,8 +101,8 @@ export const Packing: React.FC = () => (
                   textAlign: 'left',
                   fontSize: 11,
                   fontWeight: 600,
-                  color: '#6B7280',
-                  borderBottom: '1px solid #E5E7EB',
+                  color: 'var(--text-3)',
+                  borderBottom: '1px solid var(--border)',
                   letterSpacing: '0.05em',
                   textTransform: 'uppercase',
                   whiteSpace: 'nowrap',
@@ -114,14 +114,14 @@ export const Packing: React.FC = () => (
           </thead>
           <tbody>
             {lotes.map((lote, i) => (
-              <tr key={lote.id} style={{ backgroundColor: i % 2 === 0 ? '#FAFAFA' : '#FFFFFF' }}>
-                <td style={{ padding: '11px 12px', fontSize: 13, fontWeight: 600, color: '#111827' }}>{lote.id}</td>
-                <td style={{ padding: '11px 12px', fontSize: 13, color: '#374151' }}>{lote.fecha}</td>
-                <td style={{ padding: '11px 12px', fontSize: 13, color: '#374151' }}>{lote.clamshell}</td>
-                <td style={{ padding: '11px 12px', fontSize: 13, color: '#374151' }}>{lote.kilos} kg</td>
-                <td style={{ padding: '11px 12px', fontSize: 13, color: '#374151' }}>{lote.cajas}</td>
+              <tr key={lote.id} style={{ backgroundColor: i % 2 === 0 ? 'var(--surface-3)' : '#FFFFFF' }}>
+                <td style={{ padding: '11px 12px', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>{lote.id}</td>
+                <td style={{ padding: '11px 12px', fontSize: 13, color: 'var(--text-2)' }}>{lote.fecha}</td>
+                <td style={{ padding: '11px 12px', fontSize: 13, color: 'var(--text-2)' }}>{lote.clamshell}</td>
+                <td style={{ padding: '11px 12px', fontSize: 13, color: 'var(--text-2)' }}>{lote.kilos} kg</td>
+                <td style={{ padding: '11px 12px', fontSize: 13, color: 'var(--text-2)' }}>{lote.cajas}</td>
                 <td style={{ padding: '11px 12px', fontSize: 13, color: '#0284C7', fontWeight: 600 }}>{lote.temperaturaActual} °C</td>
-                <td style={{ padding: '11px 12px', fontSize: 13, color: lote.tasaRechazo > 3 ? '#DC2626' : '#374151' }}>{lote.tasaRechazo}%</td>
+                <td style={{ padding: '11px 12px', fontSize: 13, color: lote.tasaRechazo > 3 ? '#DC2626' : 'var(--text-2)' }}>{lote.tasaRechazo}%</td>
                 <td style={{ padding: '11px 12px' }}>
                   <Badge variant={estadoBadge[lote.estado]}>{lote.estado}</Badge>
                 </td>

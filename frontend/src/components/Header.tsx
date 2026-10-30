@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
+  Sun, Moon,
   Bell,
   Calendar,
   ChevronDown,
@@ -79,7 +80,21 @@ export const Header: React.FC<HeaderProps> = ({
   const noLeidas    = notificaciones.filter(n => !n.leida).length;
 
   const { user, logout } = useAuth();
-  const { brandHidden, toggleBrand } = useBrand();
+  const { brandHidden, brandMode, toggleBrand } = useBrand();
+  const [dark, setDark] = useState(() => document.documentElement.dataset.theme === 'dark');
+  const toggleTheme = () => {
+    const next = dark ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch { /* sin storage */ }
+    setDark(!dark);
+  };
+  const isEn = document.cookie.includes('googtrans=/es/en');
+  const switchLang = () => {
+    const v = isEn ? '/es/es' : '/es/en';
+    document.cookie = `googtrans=${v}; path=/`;
+    document.cookie = `googtrans=${v}; path=/; domain=${location.hostname}`;
+    location.reload();
+  };
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
 
@@ -245,21 +260,57 @@ export const Header: React.FC<HeaderProps> = ({
             flexShrink: 0, minWidth: 160, minHeight: 50, userSelect: 'none', cursor: 'default',
           }}
         >
-          <img
-            className="header-logo-img"
-            src={empresa.logo}
-            alt={brandHidden ? '' : `${empresa.nombre} logo`}
-            style={{
-              height: 50, width: 'auto', objectFit: 'contain',
-              opacity: brandHidden ? 0 : 1,
-              transition: 'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-            }}
-            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
-          />
+          {brandMode === 'alianza' ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <img src={empresa.logo} alt={`${empresa.nombre} logo`} style={{ height: 34, width: 'auto', objectFit: 'contain' }} />
+              <span style={{ fontSize: 20, fontWeight: 300, color: colores.textoOscuro }}>×</span>
+              <img src="/assets/logosEmpresas/northbay.webp" alt="Northbay logo" style={{ height: 62, width: 'auto', objectFit: 'contain' }} />
+            </div>
+          ) : (
+            <img
+              className="header-logo-img"
+              src={empresa.logo}
+              alt={brandHidden ? '' : `${empresa.nombre} logo`}
+              style={{
+                height: 50, width: 'auto', objectFit: 'contain',
+                opacity: brandHidden ? 0 : 1,
+                transition: 'opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              }}
+              onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+          )}
         </div>
 
         {/* ── RIGHT: Notifications + Avatar ── */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, justifyContent: 'flex-end' }}>
+
+          {/* Tema claro / oscuro */}
+          <button
+            onClick={toggleTheme}
+            title={dark ? 'Modo claro' : 'Modo oscuro'}
+            style={{
+              display: 'flex', alignItems: 'center', padding: '7px 10px', borderRadius: 10,
+              border: `1px solid ${colores.acento}55`, cursor: 'pointer', background: `${colores.acento}12`,
+              color: colores.secundario,
+            }}
+          >
+            {dark ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+
+          {/* Idioma ES / EN */}
+          <button
+            onClick={switchLang}
+            title={isEn ? 'Cambiar a Español' : 'Switch to English'}
+            className="notranslate"
+            translate="no"
+            style={{
+              padding: '7px 11px', borderRadius: 10, border: `1px solid ${colores.acento}55`, cursor: 'pointer',
+              fontFamily: 'inherit', background: `${colores.acento}12`, color: colores.secundario,
+              fontSize: 12.5, fontWeight: 700,
+            }}
+          >
+            {isEn ? 'EN → ES' : 'ES → EN'}
+          </button>
 
           {/* Comando Central */}
           <button
@@ -364,7 +415,7 @@ export const Header: React.FC<HeaderProps> = ({
                         className="hdr-notif-item"
                         onClick={() => marcarLeida(notif.id)}
                         style={{
-                          background: notif.leida ? 'transparent' : `${colores.fondoTerciario}60`,
+                          background: notif.leida ? 'transparent' : 'var(--surface-2)',
                         }}
                       >
                         {/* Icon badge */}
@@ -397,7 +448,7 @@ export const Header: React.FC<HeaderProps> = ({
                           <p style={{ margin: '0 0 4px', fontSize: 11.5, color: colores.textoOscuro, lineHeight: 1.4 }}>
                             {notif.mensaje}
                           </p>
-                          <span style={{ fontSize: 10.5, color: '#9CA3AF' }}>
+                          <span style={{ fontSize: 10.5, color: 'var(--text-4)' }}>
                             {notif.tiempo}
                           </span>
                         </div>
@@ -456,7 +507,7 @@ export const Header: React.FC<HeaderProps> = ({
             {userMenuOpen && (
               <div style={{
                 position: 'absolute', right: 0, top: 'calc(100% + 10px)',
-                width: 250, background: '#fff', borderRadius: 14,
+                width: 250, background: 'var(--surface)', borderRadius: 14,
                 border: `1px solid ${colores.borde}`,
                 boxShadow: '0 12px 36px rgba(0,0,0,0.12)',
                 overflow: 'hidden', zIndex: 100,

@@ -27,7 +27,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         style={{
           fontSize: 15,
           fontWeight: 600,
-          color: '#111827',
+          color: 'var(--text)',
           margin: 0,
           letterSpacing: '-0.2px',
         }}
@@ -35,7 +35,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         {title}
       </h2>
       {subtitle && (
-        <p style={{ fontSize: 12, color: '#9CA3AF', margin: '3px 0 0 0', fontWeight: 400 }}>
+        <p style={{ fontSize: 12, color: 'var(--text-4)', margin: '3px 0 0 0', fontWeight: 400 }}>
           {subtitle}
         </p>
       )}

@@ -64,10 +64,10 @@ export const PlagasEnfermedades: React.FC = () => {
     <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
         @keyframes pe-fadein { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none} }
-        .pe-filter{padding:7px 14px;border-radius:20px;border:1px solid #E5E7EB;background:#fff;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;font-family:inherit;color:#6B7280;}
+        .pe-filter{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:#fff;font-size:12px;font-weight:500;cursor:pointer;transition:all .18s;font-family:inherit;color:var(--text-3);}
         .pe-filter:hover{border-color:rgba(82,183,136,.4);color:#2D6A4F;}
         .pe-filter.active{background:linear-gradient(135deg,#1A3C2E,#2D6A4F);border-color:transparent;color:#fff;font-weight:600;}
-        .pe-card{background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:20px 22px;transition:all .2s;cursor:pointer;}
+        .pe-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:all .2s;cursor:pointer;}
         .pe-card:hover{border-color:rgba(82,183,136,.3);box-shadow:0 6px 20px rgba(0,0,0,.06);transform:translateY(-2px);}
         @media(max-width:767px){.pe-stats{flex-direction:column!important;}.pe-grid{grid-template-columns:1fr!important;}}
         @media(min-width:768px)and(max-width:1279px){.pe-grid{grid-template-columns:repeat(2,1fr)!important;}}
@@ -102,13 +102,13 @@ export const PlagasEnfermedades: React.FC = () => {
         ].map(s=>{
           const I=s.icon;
           return(
-            <div key={s.label} style={{flex:1,background:'#fff',border:'1px solid #E5E7EB',borderRadius:14,padding:'16px 18px',display:'flex',alignItems:'center',gap:12}}>
+            <div key={s.label} style={{flex:1,background:'var(--surface)',border:'1px solid var(--border)',borderRadius:14,padding:'16px 18px',display:'flex',alignItems:'center',gap:12}}>
               <div style={{width:40,height:40,borderRadius:10,background:`${s.color}10`,border:`1px solid ${s.color}20`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
                 <I size={18} color={s.color}/>
               </div>
               <div>
-                <div style={{fontSize:22,fontWeight:700,color:'#111827',lineHeight:1}}>{s.value}</div>
-                <div style={{fontSize:11,color:'#6B7280',marginTop:2}}>{s.label}</div>
+                <div style={{fontSize:22,fontWeight:700,color:'var(--text)',lineHeight:1}}>{s.value}</div>
+                <div style={{fontSize:11,color:'var(--text-3)',marginTop:2}}>{s.label}</div>
               </div>
             </div>
           );
@@ -134,17 +134,17 @@ export const PlagasEnfermedades: React.FC = () => {
               onMouseEnter={()=>setHoveredId(inc.id)} onMouseLeave={()=>setHoveredId(null)}>
               <div style={{display:'flex',alignItems:'flex-start',justifyContent:'space-between',marginBottom:10}}>
                 <div>
-                  <span style={{fontSize:10,fontWeight:700,color:'#9CA3AF',letterSpacing:'.08em'}}>{inc.id}</span>
-                  <h3 style={{fontSize:14.5,fontWeight:700,color:'#111827',margin:'4px 0 0',lineHeight:1.3}}>{inc.plaga}</h3>
+                  <span style={{fontSize:10,fontWeight:700,color:'var(--text-4)',letterSpacing:'.08em'}}>{inc.id}</span>
+                  <h3 style={{fontSize:14.5,fontWeight:700,color:'var(--text)',margin:'4px 0 0',lineHeight:1.3}}>{inc.plaga}</h3>
                 </div>
                 <span style={{padding:'3px 10px',borderRadius:20,background:sev.bg,color:sev.color,fontSize:10,fontWeight:700,letterSpacing:'.06em',whiteSpace:'nowrap' as const}}>
                   {sev.label}
                 </span>
               </div>
 
-              <p style={{fontSize:12,color:'#6B7280',lineHeight:1.5,margin:'0 0 12px'}}>{inc.descripcion}</p>
+              <p style={{fontSize:12,color:'var(--text-3)',lineHeight:1.5,margin:'0 0 12px'}}>{inc.descripcion}</p>
 
-              <div style={{display:'flex',flexWrap:'wrap' as const,gap:10,marginBottom:12,fontSize:11,color:'#9CA3AF'}}>
+              <div style={{display:'flex',flexWrap:'wrap' as const,gap:10,marginBottom:12,fontSize:11,color:'var(--text-4)'}}>
                 <span style={{display:'flex',alignItems:'center',gap:4}}><MapPin size={11}/>{inc.lote}</span>
                 <span style={{display:'flex',alignItems:'center',gap:4}}><Calendar size={11}/>{inc.detectedDate}</span>
                 <span style={{display:'flex',alignItems:'center',gap:4}}>
@@ -155,10 +155,10 @@ export const PlagasEnfermedades: React.FC = () => {
                 </span>
               </div>
 
-              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',paddingTop:10,borderTop:'1px solid #F3F4F6'}}>
+              <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',paddingTop:10,borderTop:'1px solid var(--surface-3)'}}>
                 <div style={{display:'flex',alignItems:'center',gap:8,fontSize:11.5}}>
-                  <span style={{fontWeight:600,color:'#374151'}}>{inc.responsable}</span>
-                  <span style={{color:'#9CA3AF'}}>·</span>
+                  <span style={{fontWeight:600,color:'var(--text-2)'}}>{inc.responsable}</span>
+                  <span style={{color:'var(--text-4)'}}>·</span>
                   <span style={{color:'#52B788',fontWeight:600,fontSize:10.5}}>{inc.protocolo}</span>
                 </div>
                 <div style={{display:'flex',gap:6}}>
@@ -167,8 +167,8 @@ export const PlagasEnfermedades: React.FC = () => {
                       <Camera size={12} color="#3B82F6"/>
                     </span>
                   )}
-                  <span style={{width:26,height:26,borderRadius:6,background:hoveredId===inc.id?'#1A3C2E':'#F3F4F6',display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s'}}>
-                    <ChevronRight size={12} color={hoveredId===inc.id?'#fff':'#9CA3AF'}/>
+                  <span style={{width:26,height:26,borderRadius:6,background:hoveredId===inc.id?'#1A3C2E':'var(--surface-3)',display:'flex',alignItems:'center',justifyContent:'center',transition:'all .2s'}}>
+                    <ChevronRight size={12} color={hoveredId===inc.id?'#fff':'var(--text-4)'}/>
                   </span>
                 </div>
               </div>

@@ -16,12 +16,23 @@ html, body, #root {
   overflow: hidden;
 }
 
+/* ── Temas ── */
+:root {
+  --bg:#F7F9F8; --surface:#FFFFFF; --surface-2:#EEF4F1; --surface-3:#F3F4F6; --accent-soft:#E8F4EE;
+  --text:#111827; --text-2:#374151; --text-3:#6B7280; --text-4:#9CA3AF; --border:#E5E7EB;
+}
+:root[data-theme="dark"] {
+  --bg:#0B1F16; --surface:#12291E; --surface-2:#183526; --surface-3:#163023; --accent-soft:#1D3F2E;
+  --text:#F1F5F3; --text-2:#D1DDD7; --text-3:#9FB5AB; --text-4:#7E968B; --border:#24402F;
+  color-scheme: dark;
+}
+
 body {
   font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #F7F9F8;
-  color: #111827;
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 button {

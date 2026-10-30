@@ -78,10 +78,10 @@ export const CamposRanchos: React.FC = () => {
     <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
       <style>{`
         @keyframes cr-fadein { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none} }
-        .cr-ranch{background:#fff;border:1px solid #E5E7EB;border-radius:16px;overflow:hidden;transition:all .2s;cursor:pointer;}
+        .cr-ranch{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .2s;cursor:pointer;}
         .cr-ranch:hover{border-color:rgba(82,183,136,.3);box-shadow:0 6px 20px rgba(0,0,0,.06);}
-        .cr-lote{background:#F9FAFB;border:1px solid #E5E7EB;border-radius:10px;padding:14px 16px;transition:all .18s;}
-        .cr-lote:hover{background:#EEF4F1;border-color:rgba(82,183,136,.25);}
+        .cr-lote{background:var(--surface-3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;transition:all .18s;}
+        .cr-lote:hover{background:var(--surface-2);border-color:rgba(82,183,136,.25);}
         @media(max-width:767px){.cr-kpis{flex-direction:column!important;}.cr-grid{grid-template-columns:1fr!important;}}
       `}</style>
 
@@ -112,13 +112,13 @@ export const CamposRanchos: React.FC = () => {
           {label:'Lotes Activos',value:String(totalLotes),icon:Layers,color:'#F59E0B'},
           {label:'Plantas Totales',value:totalPlantas.toLocaleString(),icon:Sprout,color:'#8B5CF6'},
         ].map(k=>{const I=k.icon;return(
-          <div key={k.label} style={{flex:1,background:'#fff',border:'1px solid #E5E7EB',borderRadius:14,padding:'16px 18px',display:'flex',alignItems:'center',gap:12}}>
+          <div key={k.label} style={{flex:1,background:'var(--surface)',border:'1px solid var(--border)',borderRadius:14,padding:'16px 18px',display:'flex',alignItems:'center',gap:12}}>
             <div style={{width:40,height:40,borderRadius:10,background:`${k.color}10`,border:`1px solid ${k.color}20`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0}}>
               <I size={18} color={k.color}/>
             </div>
             <div>
-              <div style={{fontSize:20,fontWeight:700,color:'#111827',lineHeight:1}}>{k.value}</div>
-              <div style={{fontSize:11,color:'#6B7280',marginTop:2}}>{k.label}</div>
+              <div style={{fontSize:20,fontWeight:700,color:'var(--text)',lineHeight:1}}>{k.value}</div>
+              <div style={{fontSize:11,color:'var(--text-3)',marginTop:2}}>{k.label}</div>
             </div>
           </div>
         );})}
@@ -141,19 +141,19 @@ export const CamposRanchos: React.FC = () => {
                       <MapPin size={22} color="#52B788"/>
                     </div>
                     <div>
-                      <h2 style={{fontSize:18,fontWeight:700,color:'#111827',margin:'0 0 2px'}}>{ranch.nombre}</h2>
-                      <div style={{fontSize:12,color:'#6B7280',display:'flex',alignItems:'center',gap:6}}>
+                      <h2 style={{fontSize:18,fontWeight:700,color:'var(--text)',margin:'0 0 2px'}}>{ranch.nombre}</h2>
+                      <div style={{fontSize:12,color:'var(--text-3)',display:'flex',alignItems:'center',gap:6}}>
                         <MapPin size={11}/>{ranch.ubicacion}
                         <span style={{color:'#D1D5DB'}}>·</span>
                         {ranch.altitud}
                       </div>
                     </div>
                   </div>
-                  <ChevronRight size={16} color="#9CA3AF" style={{transition:'transform .2s',transform:isOpen?'rotate(90deg)':'none'}}/>
+                  <ChevronRight size={16} color="var(--text-4)" style={{transition:'transform .2s',transform:isOpen?'rotate(90deg)':'none'}}/>
                 </div>
 
                 {/* Ranch meta */}
-                <div style={{display:'flex',gap:16,marginBottom:isOpen?16:0,fontSize:12,color:'#6B7280',flexWrap:'wrap' as const}}>
+                <div style={{display:'flex',gap:16,marginBottom:isOpen?16:0,fontSize:12,color:'var(--text-3)',flexWrap:'wrap' as const}}>
                   <span style={{display:'flex',alignItems:'center',gap:4}}><Ruler size={12} color="#3B82F6"/>{ranch.superficie}</span>
                   <span style={{display:'flex',alignItems:'center',gap:4}}><Layers size={12} color="#F59E0B"/>{ranch.lotes.length} lotes</span>
                   <span style={{display:'flex',alignItems:'center',gap:4}}><User size={12} color="#8B5CF6"/>{ranch.responsable}</span>
@@ -169,23 +169,23 @@ export const CamposRanchos: React.FC = () => {
 
                 {/* Expanded: lotes */}
                 {isOpen&&(
-                  <div style={{borderTop:'1px solid #E5E7EB',paddingTop:16,animation:'cr-fadein .25s ease'}}>
-                    <h3 style={{fontSize:12,fontWeight:700,color:'#9CA3AF',letterSpacing:'.08em',textTransform:'uppercase' as const,marginBottom:10}}>Lotes del Rancho</h3>
+                  <div style={{borderTop:'1px solid var(--border)',paddingTop:16,animation:'cr-fadein .25s ease'}}>
+                    <h3 style={{fontSize:12,fontWeight:700,color:'var(--text-4)',letterSpacing:'.08em',textTransform:'uppercase' as const,marginBottom:10}}>Lotes del Rancho</h3>
                     <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:10}}>
                       {ranch.lotes.map(lote=>(
                         <div key={lote.id} className="cr-lote">
                           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
-                            <div style={{fontSize:14,fontWeight:700,color:'#111827'}}>{lote.nombre}</div>
+                            <div style={{fontSize:14,fontWeight:700,color:'var(--text)'}}>{lote.nombre}</div>
                             <span style={{fontSize:10.5,fontWeight:600,color:'#52B788',padding:'2px 8px',borderRadius:6,background:'rgba(82,183,136,0.08)'}}>
                               {lote.etapa}
                             </span>
                           </div>
-                          <div style={{display:'flex',gap:12,fontSize:11.5,color:'#6B7280'}}>
+                          <div style={{display:'flex',gap:12,fontSize:11.5,color:'var(--text-3)'}}>
                             <span>{lote.superficie}</span>
                             <span>{lote.variedad}</span>
                             <span>{lote.plantas.toLocaleString()} plantas</span>
                           </div>
-                          <div style={{fontSize:11,color:'#9CA3AF',marginTop:6}}>{lote.responsable}</div>
+                          <div style={{fontSize:11,color:'var(--text-4)',marginTop:6}}>{lote.responsable}</div>
                         </div>
                       ))}
                     </div>
